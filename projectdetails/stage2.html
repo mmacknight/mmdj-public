@@ -1,0 +1,332 @@
+<html>
+   <head>
+      <title>Multi-Member DJ</title>
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <style>
+         table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+         }
+      </style>
+   </head>
+   <body style="font-family: Calibri;">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+       <a class="navbar-brand" href='index.html' style="color: white; cursor: pointer"><b>MMDJ</b></a>
+       <button class="navbar-toggler" type="button" data-toggle="dropdown" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+           <span class="navbar-toggler-icon"></span>
+       </button>
+       <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+          <ul class="navbar-nav mr-auto mt-2 mt-xs-0">
+            <li class="nav-item">
+              <a class="nav-link" href='index.html'>Stage 1 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href='stage2.html'>Stage 2</a>
+            </li>
+            <li class="nav-item">
+             <a class="nav-link" href='http://db.cse.nd.edu/cse30246/mmdj'>Project Demo</a>
+            </li>
+          </ul>
+       </div>
+
+      </nav>
+      <div style="padding-top: 1.5%; padding-left: 3%; padding-right: 3%;">
+         <h1>Development Plan</h1>
+         <hr style="border-width: 2px;">
+         <h2>Relational schema</h2>
+         <pre style="padding-left: 2%">
+
+events (
+      eventID	INT			primary key,	// unique code for each event
+      userid		VARCHAR(20),			// for host
+      name		CHAR(20), 				// name for event (by host)
+      description	CHAR(100), 				// desc for event (by host)
+      population	INT, 					// # of people at event
+      currentSong	INT,					// song currently playing
+      isActive	BOOL					// is event now or in past
+);
+
+S = { eventID →, name, description, population, currentSongID }
+
+
+queuedSongs (
+	eventID	INT			primary key,
+	order		INT			primary key,	// index of song in queue
+	songID		INT,					// unique ID for each song
+	popularity	INT,					// number of upvotes for song
+	playability	BOOL					// has song been “boo-ed” off
+);
+
+S = { eventID, order → songID, popularity, playability }
+
+songs (
+	songID		INT			primary key,
+	title		VARCHAR(30),
+	artist		VARCHAR(30),
+	genre		VARCHAR(3),
+	danceability	REAL,					// 0-100%
+	loudness	REAL,					// -52.5 to 3.74
+	totalPlays	INT				// popularity of song on our app
+);
+
+S = { songID → songID, title, artist, genre
+
+users (
+	userID		INT		primary key,
+	username	CHAR(20)	unique,
+	password 	CHAR(20)
+);
+
+S = { userID → username, password, username -> userID, password }
+
+tokens (
+	userID		INT 		primary key,	// User provided token
+	type		VARCHAR(20),		// Spotify, Apple Music?, Soundcloud?
+	value		CHAR(100)			// the token itself
+);
+
+S = { userID → username, password, username -> userID, password }
+
+Note: These 3 relations for the relationships will likely not be separate tables because they give no additional information from the entity set relations. They’re listed here as a formality:
+
+manages (
+	username	VARCHAR(20)	primary key,
+	eventID	INT			primary key,
+);
+
+S =  { username, eventID → username, eventID }
+
+associatedWith (
+	eventID	INT			primary key,
+	order		INT			primary key
+);
+
+S = { eventID, order → eventID, order }
+
+includes (
+	eventID	INT			primary key,
+	order		INT			primary key,
+   songID	INT			primary key
+);
+
+S = { eventID, order, songID → eventID, order, songID }
+         </pre>
+
+         <h2>Project Details</h2>
+         <h5>Tech Stack</h5>
+         <p>We will use Angular with Material Bootstrap styling for the frontend to create a functional and visually appealing user interface. For the backend database calls we will use PHP scripts to access the MySQL database. We will run our application on the db.cse.nd.edu machine and use the MySQL database on the machine.</p>
+
+         <h5>Where & how will we get data</h5>
+         <p>For our application, data will largely be coming from a kaggle dataset (<a href="https://www.kaggle.com/zaheenhamidani/ultimate-spotify-tracks-db">https://www.kaggle.com/zaheenhamidani/ultimate-spotify-tracks-db</a>) containing information about over 230,000 songs. Information includes song name, artist, and metrics like danceability, popularity, genre, etc. Because it is limiting to only use data provided in this dataset, we will also be utilizing Spotify’s Search API to fill in gaps in our database. This will allow users to search for any song, and we will add search results from the API into our database. Because our original dataset contains information gathered using Spotify’s API, the data will be compatible. Furthermore, searches utilizing Spotify’s API will be quick and seamless, as our application is already registered and linked with Spotify.</p>
+
+         <h5>Division among group members</h5>
+         <p>As we move forward with Development, Morgan and Mitch will work largely with front-end code, while Dom and James will work with the back-end integration. However, all project members have expressed a desire to work with our full tech stack, so there will be periods of overlap. All group members will divide up work and proceed with the following goals and timeline.</p>
+
+         <h2>Project Timeline w/ milestones Basic Functionality (to be done by Nov. 5th for Stage3)</h2>
+         <table style="width: 80%; margin: 2% 10% 2% 10%;">
+            <tr>
+               <th>
+               Functionality
+               </th>
+               <th>
+               Backend Date
+               </th>
+               <th>
+               Backend Responsibility
+               </th>
+               <th>
+               Frontend Date
+               </th>
+               <th>
+               Frontend Responsibility
+               </th>
+            </tr>
+            <tr>
+               <td>
+               Display search query results in a table on webpage
+               </td>
+               <td>
+               11/03
+               </td>
+               <td>
+               Dom/James
+               </td>
+               <td>
+               11/03
+               </td>
+               <td>
+               Morgan/Mitch
+               </td>
+            </tr>
+            <tr>
+               <td>
+               Allow a guest user to “attend” an event
+               </td>
+               <td>
+               10/25
+               </td>
+               <td>
+               Dom/James
+               </td>
+               <td>
+               10/25
+               </td>
+               <td>
+               Morgan/Mitch
+               </td>
+            </tr>
+            <tr>
+               <td>
+               Allow a user on a different device to add a song to the queue
+               </td>
+               <td>
+               10/27
+               </td>
+               <td>
+               Dom/James
+               </td>
+               <td>
+               10/27
+               </td>
+               <td>
+               Morgan/Mitch
+               </td>
+            </tr>
+            <tr>
+               <td>
+               Allow the host to add songs to the queue
+               </td>
+               <td>
+               10/25
+               </td>
+               <td>
+               Dom/James
+               </td>
+               <td>
+               10/25
+               </td>
+               <td>
+               Morgan/Mitch
+               </td>
+            </tr>
+            <tr>
+               <td>
+               Allow the host to change song order
+               </td>
+               <td>
+               11/03
+               </td>
+               <td>
+               Dom/James
+               </td>
+               <td>
+               11/03
+               </td>
+               <td>
+               Morgan/Mitch
+               </td>
+            </tr>
+            <tr>
+               <td>
+               Create login with Spotify / Get Spotify token
+               </td>
+               <td>
+               10/20
+               </td>
+               <td>
+               Dom/James
+               </td>
+               <td>
+               10/20
+               </td>
+               <td>
+               Morgan/Mitch
+               </td>
+            </tr>
+            <tr>
+               <td>
+               Get Spotify web playback working
+               </td>
+               <td>
+               10/20
+               </td>
+               <td>
+               Dom/James
+               </td>
+               <td>
+               10/20
+               </td>
+               <td>
+               Morgan/Mitch
+               </td>
+            </tr>
+            <tr>
+               <td>
+               Create MYSQL tables
+               </td>
+               <td>
+               10/10
+               </td>
+               <td>
+               Dom/James
+               </td>
+               <td>
+               10/10
+               </td>
+               <td>
+               Morgan/Mitch
+               </td>
+            </tr>
+            <tr>
+               <td>
+               Load Tables with initial Data
+               </td>
+               <td>
+               10/10
+               </td>
+               <td>
+               Dom/James
+               </td>
+               <td>
+               10/10
+               </td>
+               <td>
+               Morgan/Mitch
+               </td>
+            </tr>
+            <tr>
+               <td>
+               Create shared music queue event through URL manipulation
+               </td>
+               <td>
+               11/03
+               </td>
+               <td>
+               Dom/James
+               </td>
+               <td>
+               11/03
+               </td>
+               <td>
+               Morgan/Mitch
+               </td>
+            </tr>
+         </table>
+
+         <h5><b>Advanced Functionality (work on post Stage 3. At this point we’ll have a better idea of what to prioritize)</b></h5>
+         <h5>Planned Features</h5>
+         <ul>
+            <li>Allow guests to thumbs up or down songs</li>
+            <li>Songs Table</li>
+            <li>Total Song Plays</li>
+            <li>Total time spent on Song</li>
+            <li>Total  thumbs up / down</li>
+            <li>Times searched for</li>
+            <li>Make Pretty</li>
+            <li>Allow users to email/text/share event URL to friends</li>
+      </div>
+
+   </body>

@@ -1,0 +1,90 @@
+<html>
+   <head>
+      <title>Multi-Member DJ</title>
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+   </head>
+   <body style="font-family: Calibri;">
+
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href='index.html' style="color: white; cursor: pointer"><b>MMDJ</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="dropdown" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+           <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+          <ul class="navbar-nav mr-auto mt-2 mt-xs-0">
+            <li class="nav-item active">
+              <a class="nav-link" href='index.html'>Stage 1<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href='stage2.html'>Stage 2</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href='http://db.cse.nd.edu/cse30246/mmdj'>Project Demo</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div style="padding-top: 1.5%; padding-left: 3%; padding-right: 3%;">
+         <h1>Multi-Member DJ</h1>
+         <h3>Project Members</h3>
+         <b>M</b>organ Ludwig<br>
+         <b>M</b>itchell MacKnight<br>
+         <b>D</b>ominic Bozzo<br>
+         <b>J</b>ames Philhower<br>
+         <h2>Description</h2>
+         <p>We will create an interactive queue that multiple users can access. In this queue, the host user will play music from the queue. Songs can be added to the queue from Spotify and possibly SoundCloud, or Youtube.<p>
+         <h2>Usefulness</h2>
+         <p>By allowing hosts to create events with queues that individuals can add songs to, we will be eliminating numerous pain points for groups of people who enjoy a shared-music environment. You will no longer need to search for “who is on AUX” or ask for a song to be played. You can simply add it to the event queue! The use cases for this application range from hosting social gatherings to group study sessions, road trips, and many more.<p>
+         <p>Currently, subscription-based music providers like Spotify and Apple Music allow users to create collaborative playlists, which allow multiple people to contribute to a song list at a predetermined time. However, it does not provide the functionality for an interactive queue, which allows numerous users to add songs to a playlist and decide upon the order in which they are played in real-time. Our service differs from these platforms and adds functionality that users have been requesting since 2012.</p>
+         <p>Another popular application, Rave, exists to provide similar functionality to ours, but Rave tailors to streaming videos. Partnered with YouTube and Netflix, Rave allows you to create group viewings where a host can manage suggestions from people on what to play next. Our system will be specifically for listening to music and will differ from Rave in that any user who “registers” to the event can add to the queue.</p>
+         <h2>Realness</h2>
+         <p>We will use a <a href="https://www.kaggle.com/zaheenhamidani/ultimate-spotify-tracks-db">kaggle database of 232,000+ songs</a> which includes the song title, artist, and many interesting metrics of the song. This will be the biggest source of data. Other data will be added when users host and event and people add songs to a virtual queue. Data will be able to be queried by genre and more.</p>
+         <h2>Description of Functionality (Basic and Advanced)</h2>
+         <p>Description of the functionality that you plan to offer. This is where you talk about how to meet the functionality requirements. There are two types of functions you need to offer: Make clear what the features are, and explain why you think it is cool to have them. If you are unclear, please check the project overview lecture or talk to TA.</p>
+         <h3>Basic Features</h3>
+         <ul>
+            <li>Users can create events and close them when the event is over</li>
+            <li>When an event is created, a queue table is created to hold songs in the “queue”</li>
+            <li>Users can add songs to the queue</li>
+            <li>Songs will be removed from the queue after they are played</li>
+         </ul>
+         <h3>Advanced Features (Potential)</h3>
+         <p>We have many advanced features for now and might change/expand them as we progress in the project</p>
+         <h4>Feature:</h4>
+         <p>Allow multiple different users to add to a single song queue</p>
+         <h4>Reason:</h4>
+         <p>One person can’t hog the aux</p>
+         <p>You can add songs without the social pressure of asking the music master to play the song</p>
+         <h4>Feature:</h4>
+         <p>Allow songs to be queued from multiple different platforms (i.e. Spotify, Youtube, Soundcloud)</p>
+         <h4>Reason:</h4>
+         <p>Some songs are only one one platform, especially if it is a remix</p>
+         <p>Users could already have an account on any of these platforms</p>
+         <h4>Feature:</h4>
+         <p>Skip and rearrange songs based on votes</p>
+         <h4>Reason:</h4>
+         <p>Allows for control of the mob</p>
+         <h4>Feature:</h4>
+         <p>Allow the host of the event to decide if explicit songs can be played</p>
+
+         <h4>Reason:</h4>
+         <p>Allows our host to have some control over the content</p>
+         <h4>Feature:</h4>
+         <p>Limit a song if it’s already been played at the event within the past X minutes</p>
+         <h4>Reason:</h4>
+         <p>Avoid repeat songs!</p>
+         <h2>Assumptions for ER Diagram</h2>
+         <ol>
+            <li>We were initially planning on having q_eventID be a temporary table, but since we will not be covering that in this class, we will use one table called eventqueues that will hold the same info as q_eventID but for all events. Because of this change, eventID will also be a key of this relation.
+   		 <li>Users can only host 0-1 events at any given time</li>
+            <li>Guests do not need an account to </li>
+            <li>A song can be in multiple queues and one song could be in the queue multiple times</li>
+         </ol>
+         <img src="./multiMemberDJ_ER.png" style="width: 90%; text-align: center">
+      </div>
+   </body>
+
+</html>

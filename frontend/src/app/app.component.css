@@ -1,0 +1,11 @@
+.class1 {
+   text-align: center;
+   height: 100%;
+   padding-top: 25%;
+   padding-bottom: 25%;
+   background-color: teal;
+   font-size: 5vw;
+   color: lightgray;
+   -webkit-text-stroke-width: 0.2vw;
+   -webkit-text-stroke-color: gray;
+}
