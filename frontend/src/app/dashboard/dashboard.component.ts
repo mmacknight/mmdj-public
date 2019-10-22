@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
+import { Policy } from '../policy';
 
 @Component({
   selector: 'app-dashboard',
