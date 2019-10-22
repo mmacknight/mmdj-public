@@ -8,7 +8,7 @@ import { Observable } from  'rxjs';
 })
 
 export class ApiService {
-  PHP_API_SERVER = "http://127.0.0.1:8080/cse30246/mmdj/backend";
+  PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/mmdj/backend";
   constructor(private httpClient: HttpClient) {}
 
   readPolicies(): Observable<Policy[]>{
