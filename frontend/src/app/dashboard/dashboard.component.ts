@@ -29,15 +29,16 @@ export  class  DashboardComponent  implements  OnInit {
       form.value.id = this.selectedPolicy.id;
       this.apiService.updatePolicy(form.value).subscribe((policy: Policy)=>{
         console.log("Policy updated" , policy);
+        this.readPolicies();
       });
     }
     else{
 
       this.apiService.createPolicy(form.value).subscribe((policy: Policy)=>{
         console.log("Policy created, ", policy);
+        this.readPolicies();
       });
     }
-    this.readPolicies();
   }
 
   selectPolicy(policy: Policy){
@@ -47,7 +48,7 @@ export  class  DashboardComponent  implements  OnInit {
   deletePolicy(id){
     this.apiService.deletePolicy(id).subscribe((policy: Policy)=>{
       console.log("Policy deleted, ", policy);
+      this.readPolicies();
     });
-    this.readPolicies();
   }
 }
