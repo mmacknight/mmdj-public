@@ -14,6 +14,10 @@ export  class  DashboardComponent  implements  OnInit {
   constructor(private apiService: ApiService) { }
 
   ngOnInit() {
+    this.readPolicies();
+  }
+
+  readPolicies() {
     this.apiService.readPolicies().subscribe((policies: Policy[])=>{
       this.policies = policies;
       console.log(this.policies);
@@ -33,7 +37,7 @@ export  class  DashboardComponent  implements  OnInit {
         console.log("Policy created, ", policy);
       });
     }
-
+    this.readPolicies();
   }
 
   selectPolicy(policy: Policy){
@@ -44,5 +48,6 @@ export  class  DashboardComponent  implements  OnInit {
     this.apiService.deletePolicy(id).subscribe((policy: Policy)=>{
       console.log("Policy deleted, ", policy);
     });
+    this.readPolicies();
   }
 }
