@@ -11,28 +11,28 @@ if(isset($postdata) && !empty($postdata))
 
 
   // Validate.
-  if(trim($request->number) === '' || (float)$request->amount < 0)
+  if(trim($request->username) === '' || trim($request->password) === '')
   {
     return http_response_code(400);
   }
 
   // Sanitize.
-  $number = mysqli_real_escape_string($con, trim($request->number));
-  $amount = mysqli_real_escape_string($con, (int)$request->amount);
+  $username = mysqli_real_escape_string($con, trim($request->username));
+  $password = mysqli_real_escape_string($con, trim($request->password));
 
 
   // Create.
-  $sql = "INSERT INTO `policies`(`id`,`number`,`amount`) VALUES (null,'{$number}','{$amount}')";
+  $sql = "INSERT INTO `users`(`username`,`password`) VALUES ('{$username}','{$password}')";
 
   if(mysqli_query($con,$sql))
   {
     http_response_code(201);
-    $policy = [
-      'number' => $number,
-      'amount' => $amount,
-      'id'    => mysqli_insert_id($con)
+    $user = [
+      'username' => $username,
+      'password' => $password,
+      'user_id'    => mysqli_insert_id($con)
     ];
-    echo json_encode($policy);
+    echo json_encode($user);
   }
   else
   {
