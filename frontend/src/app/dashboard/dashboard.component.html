@@ -1,33 +1,33 @@
-<h1>Insurance Policy Management</h1>
+<h1>Users</h1>
 <div>
 
   <table border='1' width='100%' style='border-collapse: collapse;'>
     <tr>
       <th>ID</th>
-      <th>Policy Number</th>
-      <th>Policy Amount</th>
+      <th>Username</th>
+      <th>Password</th>
       <th>Operations</th>
 
     </tr>
 
-    <tr *ngFor="let policy of policies">
-      <td>{{ policy.id }}</td>
-      <td>{{ policy.number }}</td>
-      <td>{{ policy.amount }}</td>
+    <tr *ngFor="let user of users">
+      <td>{{ user.user_id }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.password }}</td>
       <td>
-        <button (click)="deletePolicy(policy.id)">Delete</button>
-        <button (click)="selectPolicy(policy)">Update</button>
+        <button (click)="deleteUser(user.user_id)">Delete</button>
+        <button (click)="selectUser(user)">Update</button>
       </td>
     </tr>
   </table>
   <br>
   <form #f = "ngForm">
-    <label>Number</label>
-    <input type="text" name="number" [(ngModel)] = "selectedPolicy.number">
+    <label>Username</label>
+    <input type="text" name="username" [(ngModel)] = "selectedUser.username">
     <br>
-    <label>Amount</label>
-    <input type="text" name="amount" [(ngModel)] = "selectedPolicy.amount">
+    <label>Password</label>
+    <input type="text" name="password" [(ngModel)] = "selectedUser.password">
     <br>
-    <input type="button" (click)="createOrUpdatePolicy(f)" value="Create or Update Policy">
+    <input type="button" (click)="createOrUpdateUser(f)" value="Create or Update User">
   </form>
 </div>
