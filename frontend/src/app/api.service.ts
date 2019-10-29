@@ -29,19 +29,19 @@ export class ApiService {
   }
 
   readUsers(): Observable<User[]>{
-    return this.httpClient.get<User[]>(`${this.PHP_API_SERVER}/api/read.php`);
+    return this.httpClient.get<User[]>(`${this.PHP_API_SERVER}/api/readUser.php`);
   }
 
   createUser(user: User): Observable<User>{
-    return this.httpClient.post<User>(`${this.PHP_API_SERVER}/api/create.php`, user);
+    return this.httpClient.post<User>(`${this.PHP_API_SERVER}/api/createUser.php`, user);
   }
 
   updateUser(user: User){
-    return this.httpClient.put<User>(`${this.PHP_API_SERVER}/api/update.php`, user);
+    return this.httpClient.put<User>(`${this.PHP_API_SERVER}/api/updateUser.php`, user);
   }
 
   deleteUser(id: number){
-    return this.httpClient.delete<User>(`${this.PHP_API_SERVER}/api/delete.php/?id=${id}`);
+    return this.httpClient.delete<User>(`${this.PHP_API_SERVER}/api/deleteUser.php/?id=${id}`);
   }
 
 
