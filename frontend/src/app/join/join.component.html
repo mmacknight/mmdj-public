@@ -1,0 +1,10 @@
+<div class="example-container">
+  <h1>Enter Event Code to Join a Party</h1>
+
+  <form class="form-container text-center" [formGroup]="joinForm" (ngSubmit)="joinParty()">
+    <mat-form-field>
+      <input matInput formControlName="eventID" placeholder="">
+    </mat-form-field>
+    <button class="btn btn-primary" type="submit">Join Party!</button>
+  </form>
+</div>

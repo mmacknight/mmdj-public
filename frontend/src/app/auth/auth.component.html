@@ -1,0 +1,30 @@
+<div class="example-container">
+
+  <h1>Login to start a party</h1>
+
+  <button class="btn btn-primary buttons" (click)="onLoginClick()">Login</button>
+  <button class="btn btn-primary buttons" (click)="onRegisterClick()">Register</button>
+
+  <form *ngIf="loginClicked" class="form-container text-center" [formGroup]="loginForm" (ngSubmit)="login()">
+    <mat-form-field>
+      <input matInput formControlName="username" placeholder="Username">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput formControlName="password" placeholder="Password">
+    </mat-form-field>
+    <button class="btn btn-primary" type="submit">Login</button>
+  </form>
+
+  <form *ngIf="registerClicked" class="form-container text-center" [formGroup]="registerForm" (ngSubmit)="register()">
+    <mat-form-field>
+      <input matInput formControlName="username" placeholder="Username">
+      <mat-hint *ngIf="invalid">Choose a new username</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput formControlName="password" placeholder="Password">
+    </mat-form-field>
+    <button class="btn btn-primary" type="submit">Create an Account</button>
+  </form>
+</div>
