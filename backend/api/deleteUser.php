@@ -10,8 +10,8 @@ if(!$id)
   return http_response_code(400);
 }
 
-// Delete.
-$sql = "DELETE FROM `users` WHERE `user_id` ='{$id}' LIMIT 1";
+// Delete
+$sql = "DELETE FROM {$table}+`s` WHERE {$table}+`_id` ='{$id}' LIMIT 1";
 
 if(mysqli_query($con, $sql))
 {

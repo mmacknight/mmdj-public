@@ -7,20 +7,29 @@ $postdata = file_get_contents("php://input");
 if(isset($postdata) && !empty($postdata))
 {
   // Extract the data.
-  $request = json_decode($postdata);
+  $class_object = json_decode($postdata)[0];
+  
 
-  // Validate.
-  if ((int)$request->id < 1 || trim($request->username) == '' || (float)$request->password < 0) {
-    return http_response_code(400);
+  $things_to_update = [];
+  
+  $table = null;
+
+  $id = null;
+
+  foreach($class_object as $key => $value) {
+      $secure_value = mysqli_real_escape_string($con, $value);
+      $temp_string = "`".$key."`=" . $secure_value;
+      array_push($things_to_update, $temp_string);
+      if (strpos($key, "id")){
+        $table = $key."s";
+        $id = $value;
+      }
   }
-
-  // Sanitize.
-  $id    = mysqli_real_escape_string($con, (int)$request->id);
-  $username = mysqli_real_escape_string($con, trim($request->username));
-  $password = mysqli_real_escape_string($con, trim($request->password));
+  
+  $update_string = implode(",", $things_to_update);
 
   // Update.
-  $sql = "UPDATE `users` SET `username`='$username',`password`='$password' WHERE `user_id` = '{$id}' LIMIT 1";
+  $sql = "UPDATE `users` SET {$update_string} WHERE ${table} = '{$id}' LIMIT 1";
 
   if(mysqli_query($con, $sql))
   {

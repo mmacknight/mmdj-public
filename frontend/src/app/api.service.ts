@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from  'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { throwError as observableThrowError, Observable } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 // Class Imports
 import { Policy } from "@classes/policy";
@@ -119,6 +120,7 @@ constructor(private httpClient: HttpClient) {}
 
     // queuedSongs Table
 
+<<<<<<< HEAD
     // songs Table
         post_Song(song: Song){
             return this.httpClient.post<Song>(`${this.PHP_API_SERVER}/api/post_Song.php`, song);
@@ -175,4 +177,41 @@ constructor(private httpClient: HttpClient) {}
         delete_User(user_id: number){
             return this.httpClient.delete<User>(`${this.PHP_API_SERVER}/api/delete_single_item.php/?id=${user_id}&?table="user"`);
         }
+=======
+  readPolicies(): Observable<Policy[]>{
+    return this.httpClient.get<Policy[]>(`${this.PHP_API_SERVER}/api/read.php`).pipe(catchError(this.errorHandler));
+  }
+
+  createPolicy(policy: Policy): Observable<Policy>{
+    return this.httpClient.post<Policy>(`${this.PHP_API_SERVER}/api/create.php`, policy).pipe(catchError(this.errorHandler));
+  }
+
+  updatePolicy(policy: Policy){
+    return this.httpClient.put<Policy>(`${this.PHP_API_SERVER}/api/update.php`, policy).pipe(catchError(this.errorHandler));
+  }
+
+  deletePolicy(id: number){
+    return this.httpClient.delete<Policy>(`${this.PHP_API_SERVER}/api/delete.php/?id=${id}`).pipe(catchError(this.errorHandler));
+  }
+
+  readUsers(): Observable<User[]>{
+    return this.httpClient.get<User[]>(`${this.PHP_API_SERVER}/api/readUser.php`).pipe(catchError(this.errorHandler));
+  }
+
+  createUser(user: User): Observable<User>{
+    return this.httpClient.post<User>(`${this.PHP_API_SERVER}/api/createUser.php`, user).pipe(catchError(this.errorHandler));
+  }
+
+  updateUser(user: User){
+    return this.httpClient.put<User>(`${this.PHP_API_SERVER}/api/updateUser.php`, user).pipe(catchError(this.errorHandler));
+  }
+
+  deleteUser(id: number){
+    return this.httpClient.delete<User>(`${this.PHP_API_SERVER}/api/deleteUser.php/?id=${id}`).pipe(catchError(this.errorHandler));
+  }
+
+  errorHandler(error: HttpErrorResponse) {
+    return observableThrowError(error);
+  }
+>>>>>>> 457bc4d1c8e5bae742b8bafd6aa0250fe206a26b
 }

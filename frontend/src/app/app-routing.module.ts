@@ -2,10 +2,18 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { HomepageComponent } from './homepage/homepage.component';
+import { AuthComponent } from './auth/auth.component';
+import { JoinComponent } from './join/join.component';
+import { HostComponent } from './host/host.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent},
-  { path: 'dashboard', component: DashboardComponent }
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'login', component: AuthComponent },
+  { path: 'join', component: JoinComponent },
+  { path: 'host', component: HostComponent },
+  { path: '', component: HomepageComponent }
+
 ];
 
 @NgModule({
