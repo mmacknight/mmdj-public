@@ -18,6 +18,10 @@
       "es2018",
       "dom"
     ]
+    ,
+    "paths":{
+      "@classes/*":["src/app/Classes/*"]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

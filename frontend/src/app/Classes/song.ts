@@ -1,0 +1,20 @@
+export class  Song {
+    song_id: number = -1;
+	genre: string = null;
+	artist: string = null;
+	title: string = null;
+	track_id: string = null;
+	popularity: number = -1;    
+	danceability: number = -1;      
+	duration_ms: number = -1;    
+	energy: number = -1;      
+	instrumental: number = -1;      
+	music_key: string = null; 
+	liveness: number = -1;      
+	loudness: number = -1;      
+	mode: string = null;
+	speechiness: number = -1;      
+	tempo: number = -1;      
+	time_signature: string = null;
+	valence: number = -1;
+}
