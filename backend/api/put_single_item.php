@@ -7,7 +7,7 @@ $postdata = file_get_contents("php://input");
 if(isset($postdata) && !empty($postdata))
 {
   // Extract the data.
-  $class_object = json_decode($postdata)[0];
+  $class_object = json_decode($postdata);
   
 
   $things_to_update = [];
@@ -29,7 +29,7 @@ if(isset($postdata) && !empty($postdata))
   $update_string = implode(",", $things_to_update);
 
   // Update.
-  $sql = "UPDATE {$table} SET {$update_string} WHERE ${table} = '{$id}' LIMIT 1";
+  $sql = "UPDATE '{$table}' SET '{$update_string}' WHERE '{$table}' = '{$id}' LIMIT 1";
 
   if(mysqli_query($con, $sql))
   {
