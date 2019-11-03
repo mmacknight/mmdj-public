@@ -68,8 +68,14 @@ constructor(private httpClient: HttpClient) {}
             }
 
     // events Table
+        get_event(id: number){
+            return this.httpClient.get<User>(`${this.PHP_API_SERVER}/api/get_single_item.php/?id=${id}&?table="events"`);
+        }
 
     // queuedSongs Table
+        get_queuedSongs():Observable<QueuedSong[]>{
+            return this.httpClient.get<QueuedSong[]>(`${this.PHP_API_SERVER}/api/get_queuedSongs.php`);
+        }
 
     // songs Table
 
@@ -110,15 +116,25 @@ constructor(private httpClient: HttpClient) {}
             }
 
     // users Table
+            get_all_Users(): Observable<User[]>{
+                return this.httpClient.get<User[]>(`${this.PHP_API_SERVER}/api/get_all_users.php`);
+            }
+
+            get_user(id: number){
+                return this.httpClient.get<User>(`${this.PHP_API_SERVER}/api/get_single_item.php/?id=${id}&?table="users"`);
+            }
         
 // Post
 
     // events Table
-        post_Event(){
-            throw new Error("Method not implemented.");
+        post_Event(event: Event){
+            return this.httpClient.post<Event>(`${this.PHP_API_SERVER}/api/post_event.php`, event);
         }
 
     // queuedSongs Table
+        post_QueuedSong(queuedSong: QueuedSong){
+            return this.httpClient.post<Token>(`${this.PHP_API_SERVER}/api/post_queuedSong.php`, queuedSong);
+        }
 
     // songs Table
         post_Song(song: Song){
@@ -154,7 +170,9 @@ constructor(private httpClient: HttpClient) {}
     // tokens Table
 
     // users Table
-        put_User
+        put_User(user: User){
+            return this.httpClient.put<User>(`${this.PHP_API_SERVER}/api/put_user.php`, user);
+        }
 
 // Delete
 
