@@ -73,11 +73,17 @@ constructor(private httpClient: HttpClient) {}
         }
 
     // queuedSongs Table
-        get_queuedSongs():Observable<QueuedSong[]>{
-            return this.httpClient.get<QueuedSong[]>(`${this.PHP_API_SERVER}/api/get_queuedSongs.php`);
+        // get all songs in queue for an event, in order
+        get_queuedSongs(event_id: number):Observable<Song[]>{
+            return this.httpClient.get<Song[]>(`${this.PHP_API_SERVER}/api/get_queuedSongs.php/?id=${event_id}"`);
         }
 
     // songs Table
+
+        // for a search by name
+        get_songs(query: string){
+            return this.httpClient.get<Song>(`${this.PHP_API_SERVER}/api/get_songs.php/?query=${query}"`);
+        }
 
         // Search Bar
 
