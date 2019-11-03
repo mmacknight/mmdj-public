@@ -7,7 +7,7 @@ $postdata = file_get_contents("php://input");
 if(isset($postdata) && !empty($postdata))
 {
   // Extract the data.
-  $class_object = json_decode($postdata)[0];
+  $class_object = json_decode($postdata);
   
 
   $things_to_update = [];
