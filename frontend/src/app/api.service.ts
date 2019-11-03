@@ -104,7 +104,7 @@ constructor(private httpClient: HttpClient) {}
             }
 
     // tokens Table
-        
+
         //Spotify
 
             get_OriginalToken(){
@@ -123,7 +123,7 @@ constructor(private httpClient: HttpClient) {}
             get_user(username: string){
                 return this.httpClient.get<User>(`${this.PHP_API_SERVER}/api/get_single_user.php/?username=${username}&?table="users"`).pipe(catchError(this.errorHandler));
             }
-        
+
 // Post
 
     // events Table
@@ -142,7 +142,7 @@ constructor(private httpClient: HttpClient) {}
         }
 
     // tokens Table
-        
+
         post_Token(token: Token){
             return this.httpClient.post<Token>(`${this.PHP_API_SERVER}/api/post_Token.php`, token).pipe(catchError(this.errorHandler));
         }
@@ -150,7 +150,7 @@ constructor(private httpClient: HttpClient) {}
     // users Table
 
         post_User(user: User){
-            return this.httpClient.post<User>(`${this.PHP_API_SERVER}/api/post_User.php`, user).pipe(catchError(this.errorHandler));
+            return this.httpClient.post<User>(`${this.PHP_API_SERVER}/api/post_user.php`, user).pipe(catchError(this.errorHandler));
         }
 
 //Put

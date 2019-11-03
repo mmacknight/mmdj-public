@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from '../api.service';
-import { User } from '../user';
+import { User } from '@classes/user';
 
 @Component({
   selector: 'app-auth',
@@ -55,7 +55,7 @@ export class AuthComponent implements OnInit {
     this.user.user_id = '';
     this.user.username = this.registerForm.controls.username.value;
     this.user.password = this.registerForm.controls.password.value;
-    this.apiService.createUser(this.user).subscribe(
+    this.apiService.post_User(this.user).subscribe(
       user  => {
         console.log("User created, ", user)
         this.invalid = false
