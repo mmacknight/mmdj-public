@@ -29,7 +29,7 @@ if(isset($postdata) && !empty($postdata))
   $update_string = implode(",", $things_to_update);
 
   // Update.
-  $sql = "UPDATE {$table} SET {$update_string} WHERE ${table} = '{$id}' LIMIT 1";
+  $sql = "INSERT INTO {$table} SET {$update_string} WHERE ${table} = '{$id}'";
 
   if(mysqli_query($con, $sql))
   {
@@ -39,6 +39,5 @@ if(isset($postdata) && !empty($postdata))
   {
     return http_response_code(422);
   }
-
 }
 ?>
