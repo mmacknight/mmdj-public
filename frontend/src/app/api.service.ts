@@ -68,8 +68,14 @@ constructor(private httpClient: HttpClient) {}
             }
 
     // events Table
+        get_event(id: number){
+            return this.httpClient.get<User>(`${this.PHP_API_SERVER}/api/get_single_item.php/?id=${id}&?table="events"`);
+        }
 
     // queuedSongs Table
+        get_queuedSongs():Observable<QueuedSong[]>{
+            return this.httpClient.get<QueuedSong[]>(`${this.PHP_API_SERVER}/api/get_queuedSongs.php`);
+        }
 
     // songs Table
 
@@ -110,39 +116,48 @@ constructor(private httpClient: HttpClient) {}
             }
 
     // users Table
+            get_all_Users(): Observable<User[]>{
+                return this.httpClient.get<User[]>(`${this.PHP_API_SERVER}/api/get_all_users.php`);
+            }
+
+            get_user(id: number){
+                return this.httpClient.get<User>(`${this.PHP_API_SERVER}/api/get_single_item.php/?id=${id}&?table="users"`);
+            }
         
 // Post
 
     // events Table
-        post_Event(){
-            throw new Error("Method not implemented.");
+        post_Event(event: Event){
+            return this.httpClient.post<Event>(`${this.PHP_API_SERVER}/api/post_event.php`, event);
         }
 
     // queuedSongs Table
+        post_QueuedSong(queuedSong: QueuedSong){
+            return this.httpClient.post<Token>(`${this.PHP_API_SERVER}/api/post_queuedSong.php`, queuedSong);
+        }
 
-<<<<<<< HEAD
     // songs Table
         post_Song(song: Song){
-            return this.httpClient.post<Song>(`${this.PHP_API_SERVER}/api/post_Song.php`, song);
+            return this.httpClient.post<Song>(`${this.PHP_API_SERVER}/api/post_song.php`, song);
         }
 
     // tokens Table
         
         post_Token(token: Token){
-            return this.httpClient.post<Token>(`${this.PHP_API_SERVER}/api/post_Token.php`, token);
+            return this.httpClient.post<Token>(`${this.PHP_API_SERVER}/api/post_token.php`, token);
         }
 
     // users Table
 
         post_User(user: User){
-            return this.httpClient.post<User>(`${this.PHP_API_SERVER}/api/post_User.php`, user);
+            return this.httpClient.post<User>(`${this.PHP_API_SERVER}/api/post_user.php`, user);
         }
 
 //Put
 
     // events Table
         put_Event(event: Event){
-            return this.httpClient.put<Event>(`${this.PHP_API_SERVER}/api/put_Event.php`, event);
+            return this.httpClient.put<Event>(`${this.PHP_API_SERVER}/api/put_event.php`, event);
         }
     // queuedSongs Table
         put_QueuedSong(queuedSong: QueuedSong){
@@ -155,63 +170,28 @@ constructor(private httpClient: HttpClient) {}
     // tokens Table
 
     // users Table
-        put_User
+        put_User(user: User){
+            return this.httpClient.put<User>(`${this.PHP_API_SERVER}/api/put_user.php`, user);
+        }
 
 // Delete
 
     // events Table
         delete_Event(event_id: number){
-            return this.httpClient.delete<Event>(`${this.PHP_API_SERVER}/api/delete_single_item.php/?id=${event_id}&?table="event"`);
+            return this.httpClient.delete<Event>(`${this.PHP_API_SERVER}/api/delete_single_item.php/?id=${event_id}&?table="events"`);
         }
     // queuedSongs Table
         delete_QueuedSong(song_id: number){
-            return this.httpClient.delete<QueuedSong>(`${this.PHP_API_SERVER}/api/delete_single_item.php/?id=${song_id}&?table="queuedSong"`);
+            return this.httpClient.delete<QueuedSong>(`${this.PHP_API_SERVER}/api/delete_single_item.php/?id=${song_id}&?table="queuedSongs"`);
         }
     // songs Table
         delete_Song(song_id: number){
-            return this.httpClient.delete<Song>(`${this.PHP_API_SERVER}/api/delete_single_item.php/?id=${song_id}&?table="song"`);
+            return this.httpClient.delete<Song>(`${this.PHP_API_SERVER}/api/delete_single_item.php/?id=${song_id}&?table="songs"`);
         }
     // tokens Table
 
     // users Table
         delete_User(user_id: number){
-            return this.httpClient.delete<User>(`${this.PHP_API_SERVER}/api/delete_single_item.php/?id=${user_id}&?table="user"`);
+            return this.httpClient.delete<User>(`${this.PHP_API_SERVER}/api/delete_single_item.php/?id=${user_id}&?table="users"`);
         }
-=======
-  readPolicies(): Observable<Policy[]>{
-    return this.httpClient.get<Policy[]>(`${this.PHP_API_SERVER}/api/read.php`).pipe(catchError(this.errorHandler));
-  }
-
-  createPolicy(policy: Policy): Observable<Policy>{
-    return this.httpClient.post<Policy>(`${this.PHP_API_SERVER}/api/create.php`, policy).pipe(catchError(this.errorHandler));
-  }
-
-  updatePolicy(policy: Policy){
-    return this.httpClient.put<Policy>(`${this.PHP_API_SERVER}/api/update.php`, policy).pipe(catchError(this.errorHandler));
-  }
-
-  deletePolicy(id: number){
-    return this.httpClient.delete<Policy>(`${this.PHP_API_SERVER}/api/delete.php/?id=${id}`).pipe(catchError(this.errorHandler));
-  }
-
-  readUsers(): Observable<User[]>{
-    return this.httpClient.get<User[]>(`${this.PHP_API_SERVER}/api/readUser.php`).pipe(catchError(this.errorHandler));
-  }
-
-  createUser(user: User): Observable<User>{
-    return this.httpClient.post<User>(`${this.PHP_API_SERVER}/api/createUser.php`, user).pipe(catchError(this.errorHandler));
-  }
-
-  updateUser(user: User){
-    return this.httpClient.put<User>(`${this.PHP_API_SERVER}/api/updateUser.php`, user).pipe(catchError(this.errorHandler));
-  }
-
-  deleteUser(id: number){
-    return this.httpClient.delete<User>(`${this.PHP_API_SERVER}/api/deleteUser.php/?id=${id}`).pipe(catchError(this.errorHandler));
-  }
-
-  errorHandler(error: HttpErrorResponse) {
-    return observableThrowError(error);
-  }
->>>>>>> 457bc4d1c8e5bae742b8bafd6aa0250fe206a26b
 }
