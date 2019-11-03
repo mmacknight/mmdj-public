@@ -73,11 +73,17 @@ constructor(private httpClient: HttpClient) {}
         }
 
     // queuedSongs Table
-        get_queuedSongs():Observable<QueuedSong[]>{
-            return this.httpClient.get<QueuedSong[]>(`${this.PHP_API_SERVER}/api/get_queuedSongs.php`);
+        // get all songs in queue for an event, in order
+        get_queuedSongs(event_id: number):Observable<Song[]>{
+            return this.httpClient.get<Song[]>(`${this.PHP_API_SERVER}/api/get_queuedSongs.php/?id=${event_id}"`);
         }
 
     // songs Table
+
+        // for a search by name
+        get_songs(query: string){
+            return this.httpClient.get<Song>(`${this.PHP_API_SERVER}/api/get_songs.php/?query=${query}"`);
+        }
 
         // Search Bar
 
@@ -120,8 +126,8 @@ constructor(private httpClient: HttpClient) {}
                 return this.httpClient.get<User[]>(`${this.PHP_API_SERVER}/api/get_all_users.php`);
             }
 
-            get_user(username: string){
-                return this.httpClient.get<User>(`${this.PHP_API_SERVER}/api/get_single_user.php/?username=${username}&?table="users"`).pipe(catchError(this.errorHandler));
+            get_user(username: string, password: string){
+                return this.httpClient.get<User>(`${this.PHP_API_SERVER}/api/get_single_user.php/?username=${username}&?password=${password}&?table="users"`).pipe(catchError(this.errorHandler));
             }
         
 // Post
