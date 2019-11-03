@@ -22,6 +22,8 @@ if($result = mysqli_query($con,$sql))
     $users[$i]['password'] = $row['password'];
     $i++;
   }
+  echo json_encode($password);
+  echo json_encode($users);
 
   if ($users[0]['password'] !== $password) {
     // incorrect password, emit error
