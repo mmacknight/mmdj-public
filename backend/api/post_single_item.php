@@ -29,7 +29,7 @@ if(isset($postdata) && !empty($postdata))
   $update_string = implode(",", $things_to_update);
 
   // Update.
-  $sql = "INSERT INTO {$table} SET {$update_string} WHERE ${table} = '{$id}'";
+  $sql = "INSERT INTO {$table} SET {$update_string}";
 
   if(mysqli_query($con, $sql))
   {
