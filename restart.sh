@@ -10,5 +10,5 @@ rm favicon.ico
 rm index.html
 
 cp ./frontend/dist/frontend/* .
-chmod 775 *
-chmod 775 ./backend/api/*
+chmod 777 *
+chmod 777 ./backend/api/*
