@@ -52,7 +52,7 @@ export class AuthComponent implements OnInit {
 
   register() {
     this.user = new User();
-    this.user.user_id = '';
+    this.user.user_id = 0;
     this.user.username = this.registerForm.controls.username.value;
     this.user.password = this.registerForm.controls.password.value;
     this.apiService.post_User(this.user).subscribe(

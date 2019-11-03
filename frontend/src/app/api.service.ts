@@ -120,8 +120,8 @@ constructor(private httpClient: HttpClient) {}
                 return this.httpClient.get<User[]>(`${this.PHP_API_SERVER}/api/get_all_users.php`);
             }
 
-            get_user(username: string){
-                return this.httpClient.get<User>(`${this.PHP_API_SERVER}/api/get_single_user.php/?username=${username}&?table="users"`).pipe(catchError(this.errorHandler));
+            get_user(username: string, password: string){
+                return this.httpClient.get<User>(`${this.PHP_API_SERVER}/api/get_single_user.php/?username=${username}&?password=${password}&?table="users"`).pipe(catchError(this.errorHandler));
             }
 
 // Post
