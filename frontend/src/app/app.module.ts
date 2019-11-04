@@ -14,6 +14,9 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { AuthComponent } from './auth/auth.component';
 import { JoinComponent } from './join/join.component';
 import { HostComponent } from './host/host.component';
+import { PartyComponent } from './party/party.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon'
 
 
 @NgModule({
@@ -25,7 +28,8 @@ import { HostComponent } from './host/host.component';
     NavbarComponent,
     AuthComponent,
     JoinComponent,
-    HostComponent
+    HostComponent,
+    PartyComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +41,9 @@ import { HostComponent } from './host/host.component';
     FormsModule,
     ReactiveFormsModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTableModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

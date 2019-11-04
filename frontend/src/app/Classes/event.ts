@@ -1,6 +1,6 @@
 export class  Event {
     event_id: number = 0;
-    user_id: string = null;
+    user_id: string = null;   // username?
     event_name: string = null;
     description: string = null;
     current_song: number = 0;
