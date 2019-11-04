@@ -184,7 +184,7 @@ constructor(private httpClient: HttpClient) {}
 
     // events Table
         delete_Event(event_id: number){
-            return this.httpClient.delete<Event>(`${this.PHP_API_SERVER}/api/delete_single_item.php/?id=${event_id}&?table="event"`).pipe(catchError(this.errorHandler));
+            return this.httpClient.delete<Event>(`${this.PHP_API_SERVER}/api/delete_event.php/?id=${event_id}&?table="event"`).pipe(catchError(this.errorHandler));
         }
     // queuedSongs Table
         delete_QueuedSong(song_id: number){
@@ -198,7 +198,7 @@ constructor(private httpClient: HttpClient) {}
 
     // users Table
         delete_User(user_id: number){
-            return this.httpClient.delete<User>(`${this.PHP_API_SERVER}/api/delete_single_item.php/?id=${user_id}&?table="user"`).pipe(catchError(this.errorHandler));
+            return this.httpClient.delete<User>(`${this.PHP_API_SERVER}/api/deleteUser.php/?id=${user_id}&?table="users"`).pipe(catchError(this.errorHandler));
         }
 
   errorHandler(error: HttpErrorResponse) {
