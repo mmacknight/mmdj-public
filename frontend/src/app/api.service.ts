@@ -139,7 +139,7 @@ constructor(private httpClient: HttpClient) {}
 
     // queuedSongs Table
         post_QueuedSong(queuedSong: QueuedSong){
-            return this.httpClient.post<Token>(`${this.PHP_API_SERVER}/api/post_single_item.php`, queuedSong);
+            return this.httpClient.post<QueuedSong>(`${this.PHP_API_SERVER}/api/post_queuedSong.php/?table=queuedSongs`, queuedSong);
         }
 
     // songs Table
