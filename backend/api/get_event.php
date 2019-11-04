@@ -8,7 +8,7 @@ require 'database.php';
 $event_id = ($_GET['id'] !== null && (int)$_GET['id'] > 0)? mysqli_real_escape_string($con, (int)$_GET['id']) : false;
 
 $events = [];
-$sql = "SELECT event_id, user_id, event_name, description, current_song, is_active FROM events where '%{$event_id}%' = events.event_id";
+$sql = "SELECT event_id, user_id, event_name, description, current_song, is_active FROM events where events.event_id = {$event_id}";
 
 if($result = mysqli_query($con,$sql))
 {
