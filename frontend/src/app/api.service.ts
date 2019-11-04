@@ -69,7 +69,7 @@ constructor(private httpClient: HttpClient) {}
 
     // events Table
         get_event(id: number){
-            return this.httpClient.get<User>(`${this.PHP_API_SERVER}/api/get_event.php/?id=${id}"`);
+            return this.httpClient.get<Event>(`${this.PHP_API_SERVER}/api/get_event.php/?id=${id}"`);
         }
 
     // queuedSongs Table
@@ -134,7 +134,7 @@ constructor(private httpClient: HttpClient) {}
 
     // events Table
         post_Event(event: Event){
-            return this.httpClient.post<Event>(`${this.PHP_API_SERVER}/api/post_single_item.php`, event);
+            return this.httpClient.post<Event>(`${this.PHP_API_SERVER}/api/post_event.php/?table=events`, event);
         }
 
     // queuedSongs Table
