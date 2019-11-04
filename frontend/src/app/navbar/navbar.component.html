@@ -19,8 +19,11 @@
       </li>
     </ul>
     <ul class="navbar-nav navbar-right">
-      <li class="nav-item">
+      <li *ngIf="!currentUser" class="nav-item">
         <a class="nav-link" routerLink="login">Login</a>
+      </li>
+      <li *ngIf="currentUser" class="nav-item">
+        <a class="nav-link" (click)="logout()">{{currentUser.username}}</a>
       </li>
     </ul>
   </div>
