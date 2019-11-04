@@ -134,23 +134,23 @@ constructor(private httpClient: HttpClient) {}
 
     // events Table
         post_Event(event: Event){
-            return this.httpClient.post<Event>(`${this.PHP_API_SERVER}/api/post_event.php`, event);
+            return this.httpClient.post<Event>(`${this.PHP_API_SERVER}/api/post_single_item.php`, event);
         }
 
     // queuedSongs Table
         post_QueuedSong(queuedSong: QueuedSong){
-            return this.httpClient.post<Token>(`${this.PHP_API_SERVER}/api/post_queuedSong.php`, queuedSong);
+            return this.httpClient.post<Token>(`${this.PHP_API_SERVER}/api/post_single_item.php`, queuedSong);
         }
 
     // songs Table
         post_Song(song: Song){
-            return this.httpClient.post<Song>(`${this.PHP_API_SERVER}/api/post_Song.php`, song).pipe(catchError(this.errorHandler));
+            return this.httpClient.post<Song>(`${this.PHP_API_SERVER}/api/post_single_item.php`, song).pipe(catchError(this.errorHandler));
         }
 
     // tokens Table
 
         post_Token(token: Token){
-            return this.httpClient.post<Token>(`${this.PHP_API_SERVER}/api/post_Token.php`, token).pipe(catchError(this.errorHandler));
+            return this.httpClient.post<Token>(`${this.PHP_API_SERVER}/api/post_single_item.php`, token).pipe(catchError(this.errorHandler));
         }
 
     // users Table

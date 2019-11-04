@@ -3,6 +3,7 @@ require 'database.php';
 
 // Get the posted data.
 $postdata = file_get_contents("php://input");
+echo $postdata;
 
 if(isset($postdata) && !empty($postdata))
 {
