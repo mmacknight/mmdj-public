@@ -3,7 +3,8 @@ require 'database.php';
 
 // Get the posted data.
 $postdata = file_get_contents("php://input");
-echo $postdata;
+$password = ($_GET['table'] !== null )? mysqli_real_escape_string($con, trim($_GET['table'])) : false;
+echo $table;
 
 if(isset($postdata) && !empty($postdata))
 {
