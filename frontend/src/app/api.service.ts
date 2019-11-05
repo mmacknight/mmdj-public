@@ -72,6 +72,10 @@ constructor(private httpClient: HttpClient) {}
             return this.httpClient.get<Event>(`${this.PHP_API_SERVER}/api/get_event.php/?id=${id}"`).pipe(catchError(this.errorHandler));
         }
 
+        get_events_by_user(user_id: number){
+            return this.httpClient.get<Event>(`${this.PHP_API_SERVER}/api/get_events_by_user.php/?id=${user_id}"`).pipe(catchError(this.errorHandler));
+        }
+
     // queuedSongs Table
         // get all songs in queue for an event, in order
         get_queuedSongs(event_id: number):Observable<Song[]>{
