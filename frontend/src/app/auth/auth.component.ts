@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from '../api.service';
+import { UserService } from '../user.service';
 import { User } from '@classes/user';
 
 @Component({
@@ -18,8 +19,8 @@ export class AuthComponent implements OnInit {
   public user: User;
   public invalid: Boolean;
 
-  constructor(fb: FormBuilder, public apiService: ApiService) {
-    this.loginClicked = false;
+  constructor(fb: FormBuilder, public apiService: ApiService, public userService: UserService) {
+    this.loginClicked = true;
     this.registerClicked = false;
 
     this.loginForm = fb.group({
@@ -47,7 +48,17 @@ export class AuthComponent implements OnInit {
   }
 
   login() {
-
+    this.apiService.get_user(this.loginForm.controls.username.value, this.loginForm.controls.password.value).subscribe(
+      user  => {
+        console.log("Login, ", user)
+        this.userService.login(user)
+        this.invalid = false
+      },
+      error => {
+        this.invalid = true,
+        console.log(error)
+      }
+    )
   }
 
   register() {
@@ -61,8 +72,10 @@ export class AuthComponent implements OnInit {
         this.invalid = false
       },
       error => {
-        this.invalid = true,
-        console.log(error)
+        if ( error.status > 400) {
+          this.invalid = true,
+          console.log(error)
+        }
       }
     )
   }
