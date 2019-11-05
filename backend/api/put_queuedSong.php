@@ -30,10 +30,7 @@ if(isset($postdata) && !empty($postdata))
     http_response_code(201);
     $event = [
       'order_num'    => $order_num,
-      'event_id' => $event_id,
-      'queuedSongs_id' => $queuedSongs_id,
-      'popularity' => $popularity,
-      'playability' => $playability
+      'event_id' => $event_id
     ];
     echo json_encode($event);
   }
