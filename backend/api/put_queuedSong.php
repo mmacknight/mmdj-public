@@ -3,7 +3,7 @@ require 'database.php';
 
 // Get the posted data.
 $postdata = file_get_contents("php://input");
-$table = ($_GET['table'] !== null )? mysqli_real_escape_string($con, trim($_GET['table'])) : false;
+//$table = ($_GET['table'] !== null )? mysqli_real_escape_string($con, trim($_GET['table'])) : false;
 
 
 if(isset($postdata) && !empty($postdata))
@@ -13,25 +13,23 @@ if(isset($postdata) && !empty($postdata))
 
 
   // Validate. 
-  if(trim($request->event_id) === '' || trim($request->queuedSongs_id) === '' )
+  if(trim($request->event_id) === '' || trim($request->order_num) === '' )
   {
     return http_response_code(400);
   }
 
   // Sanitize.
   $event_id = mysqli_real_escape_string($con, trim($request->event_id));
-  $queuedSongs_id = mysqli_real_escape_string($con, trim($request->queuedSongs_id));
-  $popularity = mysqli_real_escape_string($con, trim($request->popularity));
-  $playability = mysqli_real_escape_string($con, trim($request->playability));
+  $order_num = mysqli_real_escape_string($con, trim($request->order_num));
 
   // Create.
-  $sql = "INSERT INTO `queuedSongs`(`event_id`,`queuedSongs_id`, `popularity`, `playability`) VALUES ('{$event_id}','{$queuedSongs_id}', '{$popularity}', '{$playability}')";
+  $sql = "UPDATE `queuedSongs` SET popularity = popularity +1 WHERE event_id = {$event_id} and order_num = {$order_num}";
 
   if(mysqli_query($con,$sql))
   {
     http_response_code(201);
     $event = [
-      'order_num'    => mysqli_insert_id($con),
+      'order_num'    => $order_num,
       'event_id' => $event_id,
       'queuedSongs_id' => $queuedSongs_id,
       'popularity' => $popularity,
