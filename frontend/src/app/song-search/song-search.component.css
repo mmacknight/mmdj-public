@@ -1,0 +1,17 @@
+.search-component {
+  overflow: visible;
+  height: 20%;
+  width: 100%;
+}
+
+mat-form-field {
+  width: 90%;
+}
+
+table {
+  width: 100%;
+}
+
+td {
+    cursor: pointer;
+}

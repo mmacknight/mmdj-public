@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Event } from '@classes/event';
 import { Song } from '@classes/song';
-
+import { QueuedSong } from '@classes/queuedSong';
+import { SongSearchService } from '../song-search.service';
+import { ApiService } from '../api.service';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-party',
@@ -10,38 +14,98 @@ import { Song } from '@classes/song';
 })
 export class PartyComponent implements OnInit {
   public event = new Event();
+  public queuedSong: QueuedSong;
   public queuedSongs = [];
   public s1 = new Song();
   public s2 = new Song();
   public displayedColumns = ['artist', 'title', 'vote'];
+  public results = [];
+  public id = '0';
 
-  constructor() { 
-    this.event.event_id = 0;
-    this.event.user_id = 'mitch';
-    this.event.event_name = 'dance party';
-    this.event.description = 'this is the dance party';
-    this.event.current_song = 2;
-    this.event.is_active = true;
-
-    this.s1.artist = 'Chainsmokers';
-    this.s1.song_id = 444;
-    this.s1.title = 'Closer';
-    this.queuedSongs.push(this.s1);
-
-
-    this.s2.artist = 'Taylor Swift';
-    this.s2.song_id = 500;
-    this.s2.title = 'Lover';
-    this.queuedSongs.push(this.s2);
-
-   
-    console.log(this.queuedSongs);
+  constructor(private songSearchService: SongSearchService, private apiService: ApiService, private router: Router, private route: ActivatedRoute) {
+    this.id = route.snapshot.paramMap.get('id');
+    this.apiService.get_event(parseInt(this.id)).subscribe(
+      data  => {
+        if (data) {
+          this.event = data[0];
+          console.log(data);
+          this.refresh();
+        }
+      },
+      error => {
+        if ( error.status >= 400) {
+          // this.invalid = true,
+          console.log(error)
+        }
+      }
+    )
+    // this.s1.artist = 'Chainsmokers';
+    // this.s1.song_id = 444;
+    // this.s1.title = 'Closer';
+    // this.queuedSongs.push(this.s1);
+    //
+    //
+    // this.s2.artist = 'Taylor Swift';
+    // this.s2.song_id = 500;
+    // this.s2.title = 'Lover';
+    // this.queuedSongs.push(this.s2);
 
   }
+
+  refresh() {
+    this.apiService.get_queuedSongs(this.event.event_id).subscribe(
+      data => {
+        this.queuedSongs = data;
+      },
+      error => {
+        if ( error.status >= 400) {
+          // this.invalid = true,
+          console.log(error)
+        }
+      }
+    )
+  }
+
+  upvote(order_num) {
+    this.queuedSong = new QueuedSong;
+    this.queuedSong.event_id = this.event.event_id;
+    this.queuedSong.order_num = order_num;
+    this.queuedSong.popularity = 1;
+    this.apiService.put_QueuedSong(this.queuedSong).subscribe(
+      data => {
+        this.refresh();
+      },
+      error => {
+        if ( error.status >= 400) {
+          // this.invalid = true,
+          console.log(error)
+        }
+      }
+    )
+  }
+
+  downvote(order_num) {
+    this.queuedSong = new QueuedSong;
+    this.queuedSong.event_id = this.event.event_id;
+    this.queuedSong.order_num = order_num;
+    this.queuedSong.popularity = -1;
+    this.apiService.put_QueuedSong(this.queuedSong).subscribe(
+      data => {
+        this.refresh();
+      },
+      error => {
+        if ( error.status >= 400) {
+          // this.invalid = true,
+          console.log(error)
+        }
+      }
+    )
+  }
+
 
   ngOnInit() {
 
-  
   }
+
 
 }

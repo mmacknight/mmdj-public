@@ -21,7 +21,7 @@ table {
   border-style: solid;
   border-color: #4285F4;
   margin: 0%;
-  width: 25%;
+  width: 100%;
   color: white;
   cursor: pointer;
   text-align: center;
@@ -29,4 +29,11 @@ table {
 .arrow-button:hover {
   background-color: white;
   color: #4285F4;
+}
+
+@media only screen and (max-width: 600px) {
+   .party-container {
+     width: 100%;
+     margin-left: 0%;
+   }
 }
