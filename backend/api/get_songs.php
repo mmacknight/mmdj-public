@@ -9,7 +9,7 @@ $query = ($_GET['query'] !== null )? mysqli_real_escape_string($con, trim($_GET[
 
 
 $songs = [];
-$sql = "SELECT song_id, title, artist, genre, duration_ms FROM songs where title like '%{$query}%'";
+$sql = "SELECT song_id, title, artist, genre, duration_ms FROM songs where title like '%{$query}%' limit 15";
 
 if($result = mysqli_query($con,$sql))
 {
