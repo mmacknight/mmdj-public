@@ -16,7 +16,8 @@ import { JoinComponent } from './join/join.component';
 import { HostComponent } from './host/host.component';
 import { PartyComponent } from './party/party.component';
 import { MatTableModule } from '@angular/material/table';
-import { MatIconModule } from '@angular/material/icon'
+import { MatIconModule } from '@angular/material/icon';
+import { SongSearchComponent } from './song-search/song-search.component'
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { MatIconModule } from '@angular/material/icon'
     AuthComponent,
     JoinComponent,
     HostComponent,
-    PartyComponent
+    PartyComponent,
+    SongSearchComponent
   ],
   imports: [
     BrowserModule,

@@ -69,20 +69,19 @@ constructor(private httpClient: HttpClient) {}
 
     // events Table
         get_event(id: number){
-            return this.httpClient.get<Event>(`${this.PHP_API_SERVER}/api/get_event.php/?id=${id}"`);
+            return this.httpClient.get<Event>(`${this.PHP_API_SERVER}/api/get_event.php/?id=${id}"`).pipe(catchError(this.errorHandler));
         }
 
     // queuedSongs Table
         // get all songs in queue for an event, in order
         get_queuedSongs(event_id: number):Observable<Song[]>{
-            return this.httpClient.get<Song[]>(`${this.PHP_API_SERVER}/api/get_queuedSongs.php/?id=${event_id}"`);
+            return this.httpClient.get<Song[]>(`${this.PHP_API_SERVER}/api/get_queuedSongs.php/?id=${event_id}"`).pipe(catchError(this.errorHandler));
         }
 
     // songs Table
-
         // for a search by name
-        get_songs(query: string){
-            return this.httpClient.get<Song>(`${this.PHP_API_SERVER}/api/get_songs.php/?query=${query}"`);
+        get_songs(query: string) {
+          return this.httpClient.get<Song[]>(`${this.PHP_API_SERVER}/api/get_songs.php/?query=${query}`).pipe(catchError(this.errorHandler));
         }
 
         // Search Bar
@@ -167,7 +166,7 @@ constructor(private httpClient: HttpClient) {}
         }
     // queuedSongs Table
         put_QueuedSong(queuedSong: QueuedSong){
-            return this.httpClient.put<User>(`${this.PHP_API_SERVER}/api/put_queuedSong.php`, queuedSong).pipe(catchError(this.errorHandler));
+            return this.httpClient.put<QueuedSong>(`${this.PHP_API_SERVER}/api/put_queuedSong.php`, queuedSong).pipe(catchError(this.errorHandler));
         }
     // songs Table
         put_Song(song: Song){

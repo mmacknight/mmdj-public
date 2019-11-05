@@ -2,8 +2,10 @@
 
   <h1>Login to start a party</h1>
 
-  <button class="btn btn-primary buttons" (click)="onLoginClick()">Login</button>
-  <button class="btn btn-primary buttons" (click)="onRegisterClick()">Register</button>
+  <div class="btn-group buttons">
+    <button class="btn buttons" [class.btn-primary]="!registerClicked" [class.btn-outline-primary]="registerClicked" (click)="onLoginClick()">Login</button>
+    <button class="btn buttons" [class.btn-primary]="registerClicked" [class.btn-outline-primary]="!registerClicked" (click)="onRegisterClick()">Register</button>
+  </div>
 
   <form *ngIf="loginClicked" class="form-container text-center" [formGroup]="loginForm" (ngSubmit)="login()">
     <mat-form-field>

@@ -9,12 +9,13 @@ import { HostComponent } from './host/host.component';
 import { PartyComponent } from './party/party.component';
 
 const routes: Routes = [
+  { path: '', component: HomepageComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: AuthComponent },
   { path: 'join', component: JoinComponent },
   { path: 'host', component: HostComponent },
-  { path: 'party', component: PartyComponent },
-  { path: '', component: HomepageComponent }
+  { path: 'party/:id', component: PartyComponent},
+  { path: '*', component: HomepageComponent}
 
 ];
 

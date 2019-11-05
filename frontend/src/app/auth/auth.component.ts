@@ -20,7 +20,7 @@ export class AuthComponent implements OnInit {
   public invalid: Boolean;
 
   constructor(fb: FormBuilder, public apiService: ApiService, public userService: UserService) {
-    this.loginClicked = false;
+    this.loginClicked = true;
     this.registerClicked = false;
 
     this.loginForm = fb.group({
@@ -72,8 +72,10 @@ export class AuthComponent implements OnInit {
         this.invalid = false
       },
       error => {
-        this.invalid = true,
-        console.log(error)
+        if ( error.status > 400) {
+          this.invalid = true,
+          console.log(error)
+        }
       }
     )
   }
