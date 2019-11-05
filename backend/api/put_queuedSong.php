@@ -21,9 +21,10 @@ if(isset($postdata) && !empty($postdata))
   // Sanitize.
   $event_id = mysqli_real_escape_string($con, trim($request->event_id));
   $order_num = mysqli_real_escape_string($con, trim($request->order_num));
+  $popularity = mysqli_real_escape_string($con, trim($request->popularity));
 
   // Create.
-  $sql = "UPDATE `queuedSongs` SET popularity = popularity +1 WHERE event_id = {$event_id} and order_num = {$order_num}";
+  $sql = "UPDATE `queuedSongs` SET popularity = popularity + {$popularity} WHERE event_id = {$event_id} and order_num = {$order_num}";
 
   if(mysqli_query($con,$sql))
   {
