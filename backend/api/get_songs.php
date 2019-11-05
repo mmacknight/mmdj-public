@@ -24,7 +24,6 @@ if($result = mysqli_query($con,$sql))
     $i++;
   }
   
-  echo json_encode($query);
   echo json_encode($songs);
   
   http_response_code(200);
