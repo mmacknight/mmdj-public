@@ -11,7 +11,7 @@ if(!$id)
 }
 
 // Delete
-$sql = "DELETE FROM users WHERE user_id ='{$id}' LIMIT 1";
+$sql = "DELETE FROM events WHERE event_id ='{$id}' LIMIT 1";
 
 if(mysqli_query($con, $sql))
 {
