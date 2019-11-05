@@ -12,3 +12,5 @@ rm index.html
 cp ./frontend/dist/frontend/* .
 chmod 777 *
 chmod 777 ./backend/api/*
+chmod 777 ./backend/*/*
+chmod 777 ./projectdetails/*
