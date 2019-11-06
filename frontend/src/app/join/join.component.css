@@ -17,3 +17,7 @@
 .form-container > * {
   width: 100%;
 }
+
+.hint {
+  color: red;
+}

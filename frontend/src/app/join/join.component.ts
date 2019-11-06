@@ -26,7 +26,23 @@ export class JoinComponent implements OnInit {
     joinParty() {
       this.apiService.get_event(this.joinForm.controls.eventID.value).subscribe(
         data  => {
-          this.router.navigate(['party',this.joinForm.controls.eventID.value])
+          this.apiService.get_event(parseInt(this.joinForm.controls.eventID.value)).subscribe(
+            data  => {
+              if (data.length) {
+                console.log(data);
+                this.invalid = false;
+                this.router.navigate(['party',this.joinForm.controls.eventID.value]);
+              } else {
+                this.invalid = true;
+              }
+            },
+            error => {
+              if ( error.status >= 400) {
+                this.invalid = true,
+                console.log(error)
+              }
+            }
+          )
         },
         error => {
           if ( error.status > 400) {

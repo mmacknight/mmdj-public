@@ -39,17 +39,6 @@ export class PartyComponent implements OnInit {
         }
       }
     )
-    // this.s1.artist = 'Chainsmokers';
-    // this.s1.song_id = 444;
-    // this.s1.title = 'Closer';
-    // this.queuedSongs.push(this.s1);
-    //
-    //
-    // this.s2.artist = 'Taylor Swift';
-    // this.s2.song_id = 500;
-    // this.s2.title = 'Lover';
-    // this.queuedSongs.push(this.s2);
-
   }
 
   refresh() {

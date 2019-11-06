@@ -3,7 +3,8 @@
 
   <form class="form-container text-center" [formGroup]="joinForm" (ngSubmit)="joinParty()">
     <mat-form-field>
-      <input matInput formControlName="eventID" placeholder="">
+      <input matInput formControlName="eventID" placeholder="Enter Event ID">
+      <mat-hint *ngIf="invalid">Cannot join party.</mat-hint>
     </mat-form-field>
     <button class="btn btn-primary" type="submit">Join Party!</button>
   </form>
