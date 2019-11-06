@@ -1,8 +1,8 @@
 <div class="search-component">
-  <h4><label for="search-box">Find Songs</label></h4>
+  <!-- <h4><label for="search-box">Find Songs</label></h4> -->
 
   <mat-form-field>
-    <input matInput #searchBox (input)="search(searchBox.value)" placeholder="Choose a Song">
+    <input matInput #searchBox (input)="search(searchBox.value)" placeholder="Add a song to the queue">
   </mat-form-field>
 
   <table *ngIf="searchBox.value" mat-table [dataSource]="songs$ | async" class="mat-elevation-z8">
