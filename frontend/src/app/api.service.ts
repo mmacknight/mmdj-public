@@ -69,12 +69,13 @@ constructor(private httpClient: HttpClient) {}
 
     // events Table
         get_event(id: number){
-            return this.httpClient.get<Event>(`${this.PHP_API_SERVER}/api/get_event.php/?id=${id}"`).pipe(catchError(this.errorHandler));
+            return this.httpClient.get<Event[]>(`${this.PHP_API_SERVER}/api/get_event.php/?id=${id}"`).pipe(catchError(this.errorHandler));
         }
 
         get_events_by_user(user_id: number){
-            return this.httpClient.get<Event>(`${this.PHP_API_SERVER}/api/get_events_by_user.php/?id=${user_id}"`).pipe(catchError(this.errorHandler));
+            return this.httpClient.get<Event[]>(`${this.PHP_API_SERVER}/api/get_events_by_user.php/?id=${user_id}"`).pipe(catchError(this.errorHandler));
         }
+
 
     // queuedSongs Table
         // get all songs in queue for an event, in order
@@ -93,9 +94,7 @@ constructor(private httpClient: HttpClient) {}
             gethelper_Searchbar_Artist(search: string){
                 throw new Error("Method not implemented.");
             }
-            gethelper_Searchbar_Albums(search: string){
-                throw new Error("Method not implemented.");
-            }
+
             gethelper_Searchbar_Songs(search: string){
                 return this.httpClient.get<Song[]>(`${this.PHP_API_SERVER}/api/gethelper_Searchbar_Songs.php/?search=${search}`).pipe(catchError(this.errorHandler));
             }

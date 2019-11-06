@@ -3,6 +3,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { ApiService } from '../api.service';
 import { UserService } from '../user.service';
 import { User } from '@classes/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -19,7 +20,7 @@ export class AuthComponent implements OnInit {
   public user: User;
   public invalid: Boolean;
 
-  constructor(fb: FormBuilder, public apiService: ApiService, public userService: UserService) {
+  constructor(fb: FormBuilder, public apiService: ApiService, public userService: UserService, public router: Router) {
     this.loginClicked = true;
     this.registerClicked = false;
 
@@ -52,6 +53,7 @@ export class AuthComponent implements OnInit {
     this.apiService.get_user(this.loginForm.controls.username.value, this.loginForm.controls.password.value).subscribe(
       user  => {
         console.log("Login, ", user)
+        this.router.navigate(['host']);
         this.userService.login(user)
         this.invalid = false
       },
@@ -69,7 +71,9 @@ export class AuthComponent implements OnInit {
     this.user.password = this.registerForm.controls.password.value;
     this.apiService.post_User(this.user).subscribe(
       user  => {
-        console.log("User created, ", user)
+        console.log("User created, ", user),
+        this.userService.login(user);
+        this.router.navigate(['host']);
         this.invalid = false
       },
       error => {
