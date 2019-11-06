@@ -1,6 +1,10 @@
+<button class="btn btn-primary end-party-button" (click)="onEndPartyClick()">End Party</button>
+
 <div class='party-container'>
     <h1>{{event.event_name}}</h1>
     <p>{{event.description | lowercase}}</p>
+   
+   
     <app-song-search [inp]="[event.event_id]" (myEvent)="refresh()"></app-song-search>
     <table mat-table [dataSource]="queuedSongs" class="mat-elevation-z8">
 
