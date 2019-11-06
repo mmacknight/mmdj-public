@@ -6,6 +6,7 @@ import { SongSearchService } from '../song-search.service';
 import { ApiService } from '../api.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
   selector: 'app-party',
@@ -21,13 +22,17 @@ export class PartyComponent implements OnInit {
   public displayedColumns = ['artist', 'title', 'vote'];
   public results = [];
   public id = '0';
+  
 
-  constructor(private songSearchService: SongSearchService, private apiService: ApiService, private router: Router, private route: ActivatedRoute) {
+  constructor(private songSearchService: SongSearchService, private apiService: ApiService, private router: Router, 
+    private route: ActivatedRoute, private snackBar: MatSnackBar) {
+  
     this.id = route.snapshot.paramMap.get('id');
     this.apiService.get_event(parseInt(this.id)).subscribe(
       data  => {
         if (data) {
           this.event = data[0];
+        
           console.log(data);
           this.refresh();
         }
@@ -91,9 +96,23 @@ export class PartyComponent implements OnInit {
     )
   }
 
-
   ngOnInit() {
 
+  }
+
+  onEndPartyClick(){
+
+    this.apiService.delete_Event(this.event.event_id).subscribe(
+      data => {
+        let snackBarRef = this.snackBar.open('Your event was successfully deleted', 'Start a new party');
+        snackBarRef.onAction().subscribe(() => {
+          this.router.navigate(['/host']);
+        });
+      },
+      error => {
+        console.log(error);
+      }
+    )
   }
 
 

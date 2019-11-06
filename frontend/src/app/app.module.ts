@@ -16,7 +16,9 @@ import { HostComponent } from './host/host.component';
 import { PartyComponent } from './party/party.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
-import { SongSearchComponent } from './song-search/song-search.component'
+import { SongSearchComponent } from './song-search/song-search.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 
 @NgModule({
@@ -43,7 +45,9 @@ import { SongSearchComponent } from './song-search/song-search.component'
     MatOptionModule,
     MatSelectModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+    // ToastrModule.forRoot(),
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

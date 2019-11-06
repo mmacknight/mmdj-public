@@ -39,6 +39,7 @@ export class AuthComponent implements OnInit {
   }
 
   onLoginClick() {
+    console.log("login");
     this.registerClicked = false;
     this.loginClicked = !this.loginClicked;
   }

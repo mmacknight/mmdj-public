@@ -76,6 +76,7 @@ constructor(private httpClient: HttpClient) {}
             return this.httpClient.get<Event[]>(`${this.PHP_API_SERVER}/api/get_events_by_user.php/?id=${user_id}"`).pipe(catchError(this.errorHandler));
         }
 
+
     // queuedSongs Table
         // get all songs in queue for an event, in order
         get_queuedSongs(event_id: number):Observable<Song[]>{
@@ -93,9 +94,7 @@ constructor(private httpClient: HttpClient) {}
             gethelper_Searchbar_Artist(search: string){
                 throw new Error("Method not implemented.");
             }
-            gethelper_Searchbar_Albums(search: string){
-                throw new Error("Method not implemented.");
-            }
+
             gethelper_Searchbar_Songs(search: string){
                 return this.httpClient.get<Song[]>(`${this.PHP_API_SERVER}/api/gethelper_Searchbar_Songs.php/?search=${search}`).pipe(catchError(this.errorHandler));
             }

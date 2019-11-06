@@ -37,3 +37,9 @@ table {
      margin-left: 0%;
    }
 }
+
+.end-party-button {
+  float: right;
+  margin-right: 10%;
+  margin-top: 2%;
+}
