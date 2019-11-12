@@ -13,5 +13,20 @@ table {
 }
 
 td {
+    width: 100%;
     cursor: pointer;
+    /* text-align: left; */
+}
+
+.youtube-td {
+  display: flex;
+}
+
+.youtube-title {
+  width: 70%;
+}
+
+img {
+  width: 25%;
+  margin-right: 5%;
 }

@@ -1,11 +1,15 @@
-<button class="btn btn-primary end-party-button" (click)="onEndPartyClick()">End Party</button>
+<app-current-song [inp]="[queuedSongs[0]]"></app-current-song>
 
-<div class='party-container'>
-    <h1>{{event.event_name}}</h1>
+<button class="btn btn-outline-danger end-party-button" (click)="onEndPartyClick()">End Party</button>
+
+<div class='party-container rounded'>
+    <h4>{{event.event_name}}</h4>
     <p>{{event.description | lowercase}}</p>
 
 
     <app-song-search [inp]="[event.event_id]" (myEvent)="refresh()"></app-song-search>
+
+
     <table mat-table [dataSource]="queuedSongs" class="mat-elevation-z8">
 
         <ng-container matColumnDef="artist">

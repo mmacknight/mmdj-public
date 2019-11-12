@@ -18,8 +18,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { SongSearchComponent } from './song-search/song-search.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
-
+import { CurrentSongComponent } from './current-song/current-song.component';
+import { YoutubePlayerComponent } from './youtube-player/youtube-player.component';
+import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     JoinComponent,
     HostComponent,
     PartyComponent,
-    SongSearchComponent
+    SongSearchComponent,
+    CurrentSongComponent,
+    YoutubePlayerComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatTableModule,
     MatIconModule,
     // ToastrModule.forRoot(),
-    MatSnackBarModule
+    MatSnackBarModule,
+    NgxYoutubePlayerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

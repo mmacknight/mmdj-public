@@ -6,7 +6,9 @@ import {
 import { SongSearchService } from '../song-search.service';
 import { ApiService } from '../api.service';
 import { Song } from '@classes/song';
+import { Youtube } from '@classes/youtube';
 import { QueuedSong } from '@classes/queuedSong';
+
 
 @Component({
   selector: 'app-song-search',
@@ -15,11 +17,18 @@ import { QueuedSong } from '@classes/queuedSong';
 })
 export class SongSearchComponent implements OnInit {
 
-  songs$: Observable<Song[]>;
-  private searchTerms = new Subject<string>();
   public event_id = 1;
   public qs: QueuedSong;
+
+  public searchOptions = [1, 0];
+
+  songs$: Observable<Song[]>;
+  private searchTerms = new Subject<string>();
   public displayedColumns = ['artist', 'title'];
+
+  youtubes$: Observable<Youtube[]>;
+  private searchTermsYoutube = new Subject<string>();
+  public displayedColumnsYoutube = ['title'];
 
   constructor(private songSearchService: SongSearchService, private apiService: ApiService) {  }
 
@@ -34,6 +43,10 @@ export class SongSearchComponent implements OnInit {
     this.searchTerms.next(term);
   }
 
+  searchYoutube(term: string): void {
+    this.searchTermsYoutube.next(term);
+  }
+
   ngOnInit(): void {
 
     this.songs$ = this.searchTerms.pipe(
@@ -45,6 +58,17 @@ export class SongSearchComponent implements OnInit {
 
       // switch to new search observable each time the term changes
       switchMap((term: string) => this.apiService.get_songs(term)),
+    );
+
+    this.youtubes$ = this.searchTermsYoutube.pipe(
+      // wait 300ms after each keystroke before considering the term
+      debounceTime(300),
+
+      // ignore new term if same as previous term
+      distinctUntilChanged(),
+
+      // switch to new search observable each time the term changes
+      switchMap((term: string) => this.songSearchService.searchYoutube(term)),
     );
   }
 
@@ -68,6 +92,12 @@ export class SongSearchComponent implements OnInit {
         }
       }
     )
+  }
+
+  onButtonClick(index) {
+    this.searchOptions = [0, 0];
+    this.searchOptions[index] = 1;
+
   }
 
 }
