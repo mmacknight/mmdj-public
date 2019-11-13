@@ -39,6 +39,7 @@ if(isset($postdata) && !empty($postdata) && $data->isValid){
     $update_string = implode(",", $columns_to_update);
 
     // Update.
+    //$sql = "UPDATE `{$table}s` SET {$update_string} WHERE event_id = 3 LIMIT 1";
     $sql = "UPDATE `{$table}s` SET {$update_string} WHERE {$table}_id = {$id} LIMIT 1";
 
     if(mysqli_query($con, $sql))
