@@ -6,6 +6,7 @@ import { Event } from '@classes/event';
 import { Router } from '@angular/router';
 import { User } from '@classes/user';
 
+
 @Component({
   selector: 'app-host',
   templateUrl: './host.component.html',
@@ -50,5 +51,6 @@ export class HostComponent implements OnInit {
       }
     )
   }
+
 
 }
