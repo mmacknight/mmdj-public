@@ -14,7 +14,7 @@ export class JoinComponent implements OnInit {
     public invalid = false;
 
     constructor(fb: FormBuilder, public apiService: ApiService, private router: Router) {
-
+      console.log(window);
       this.joinForm = fb.group({
         eventID: ['', Validators.required]
       });

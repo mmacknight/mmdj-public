@@ -18,6 +18,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { SongSearchComponent } from './song-search/song-search.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SpotifyComponent } from './spotify/spotify.component';
 
 
 
@@ -31,7 +32,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     JoinComponent,
     HostComponent,
     PartyComponent,
-    SongSearchComponent
+    SongSearchComponent,
+    SpotifyComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +51,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     // ToastrModule.forRoot(),
     MatSnackBarModule
   ],
-  providers: [],
+  providers: [
+    { provide: Window, useValue: window }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

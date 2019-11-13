@@ -50,6 +50,7 @@ export class PartyComponent implements OnInit {
     this.apiService.get_queuedSongs(this.event.event_id).subscribe(
       data => {
         this.queuedSongs = data;
+        console.log(this.queuedSongs);
       },
       error => {
         if ( error.status >= 400) {
