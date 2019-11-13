@@ -18,6 +18,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { SongSearchComponent } from './song-search/song-search.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SpotifyComponent } from './spotify/spotify.component';
 import { CurrentSongComponent } from './current-song/current-song.component';
 import { YoutubePlayerComponent } from './youtube-player/youtube-player.component';
 import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
@@ -33,6 +34,7 @@ import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
     HostComponent,
     PartyComponent,
     SongSearchComponent,
+    SpotifyComponent
     CurrentSongComponent,
     YoutubePlayerComponent
   ],
@@ -53,7 +55,9 @@ import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
     MatSnackBarModule,
     NgxYoutubePlayerModule
   ],
-  providers: [],
+  providers: [
+    { provide: Window, useValue: window }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
