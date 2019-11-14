@@ -1,5 +1,4 @@
 <app-current-song [inp]="[queuedSongs[0]]"></app-current-song>
-
 <button class="btn btn-outline-danger end-party-button" (click)="onEndPartyClick()">End Party</button>
 
 <div class='party-container rounded'>
@@ -7,10 +6,15 @@
     <p>{{event.description | lowercase}}</p>
 
 
-    <app-song-search [inp]="[event.event_id]" (myEvent)="refresh()"></app-song-search>
+    <app-song-search [inp]="[event.event_id]" (myEvent)="1"></app-song-search>
 
 
-    <table mat-table [dataSource]="queuedSongs" class="mat-elevation-z8">
+    <table mat-table [dataSource]="queuedSongs$ | async" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="score">
+          <th mat-header-cell *matHeaderCellDef> Score </th>
+          <td mat-cell *matCellDef="let element"> {{element.popularity}} </td>
+        </ng-container>
 
         <ng-container matColumnDef="artist">
           <th mat-header-cell *matHeaderCellDef> Artist </th>
@@ -25,11 +29,11 @@
         <ng-container matColumnDef="vote" >
             <th mat-header-cell *matHeaderCellDef> Vote </th>
             <td mat-cell *matCellDef="let element" class='buttons-right'>
-              <div class="arrow-button" (click)="upvote(element.order_num)">
-                <mat-icon aria-hidden="false">arrow_upwards</mat-icon>
+              <div class="arrow-button arrow-button-up" (click)="upvote(element.order_num)">
+                <mat-icon aria-hidden="false">add_circle</mat-icon>
               </div>
-              <div class="arrow-button" (click)="downvote(element.order_num)">
-                  <mat-icon aria-hidden="false">arrow_downwards</mat-icon>
+              <div class="arrow-button arrow-button-down" (click)="downvote(element.order_num)">
+                  <mat-icon aria-hidden="false">remove_circle</mat-icon>
               </div>
             </td>
         </ng-container>

@@ -26,7 +26,15 @@ td {
   width: 70%;
 }
 
-img {
+.youtube-td > img {
   width: 25%;
   margin-right: 5%;
+}
+
+.soundcloud {
+  text-align: left;
+}
+
+.soundcloud > img {
+  width: 100%;
 }

@@ -7,6 +7,7 @@ import { JoinComponent } from './join/join.component';
 import { HostComponent } from './host/host.component';
 import { PartyComponent } from './party/party.component';
 import { SpotifyComponent } from './spotify/spotify.component';
+import { SoundcloudComponent } from './soundcloud/soundcloud.component';
 
 const routes: Routes = [
   { path: '', component: HomepageComponent },
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'host', component: HostComponent },
   { path: 'party/:id', component: PartyComponent},
   { path: '*', component: HomepageComponent},
-  { path: 'spotify', component: SpotifyComponent }
+  { path: 'spotify', component: SpotifyComponent },
+  { path: 'soundcloud', component: SoundcloudComponent }
 
 ];
 

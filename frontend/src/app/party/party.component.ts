@@ -7,6 +7,10 @@ import { ApiService } from '../api.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { Observable, interval  } from 'rxjs';
+import {
+   debounceTime, distinctUntilChanged, switchMap
+ } from 'rxjs/operators';
 
 @Component({
   selector: 'app-party',
@@ -17,24 +21,23 @@ export class PartyComponent implements OnInit {
   public event = new Event();
   public queuedSong: QueuedSong;
   public queuedSongs = [];
-  public s1 = new Song();
-  public s2 = new Song();
-  public displayedColumns = ['artist', 'title', 'vote'];
+  public displayedColumns = ['score', 'artist', 'title', 'vote'];
   public results = [];
   public id = '0';
-  
+  public queuedSongs$: Observable<Song[]>;
 
-  constructor(private songSearchService: SongSearchService, private apiService: ApiService, private router: Router, 
+
+  constructor(private songSearchService: SongSearchService, private apiService: ApiService, private router: Router,
     private route: ActivatedRoute, private snackBar: MatSnackBar) {
-  
+
     this.id = route.snapshot.paramMap.get('id');
     this.apiService.get_event(parseInt(this.id)).subscribe(
       data  => {
         if (data) {
           this.event = data[0];
-        
+
           console.log(data);
-          this.refresh();
+          // this.refresh();
         }
       },
       error => {
@@ -46,20 +49,20 @@ export class PartyComponent implements OnInit {
     )
   }
 
-  refresh() {
-    this.apiService.get_queuedSongs(this.event.event_id).subscribe(
-      data => {
-        this.queuedSongs = data;
-        console.log(this.queuedSongs);
-      },
-      error => {
-        if ( error.status >= 400) {
-          // this.invalid = true,
-          console.log(error)
-        }
-      }
-    )
-  }
+  // refresh() {
+  //   this.apiService.get_queuedSongs(this.event.event_id).subscribe(
+  //     data => {
+  //       this.queuedSongs = data;
+  //       console.log(this.queuedSongs);
+  //     },
+  //     error => {
+  //       if ( error.status >= 400) {
+  //         // this.invalid = true,
+  //         console.log(error)
+  //       }
+  //     }
+  //   )
+  // }
 
   upvote(order_num) {
     this.queuedSong = new QueuedSong;
@@ -68,7 +71,7 @@ export class PartyComponent implements OnInit {
     this.queuedSong.popularity = 1;
     this.apiService.put_QueuedSong(this.queuedSong).subscribe(
       data => {
-        this.refresh();
+        // this.refresh();
       },
       error => {
         if ( error.status >= 400) {
@@ -86,7 +89,7 @@ export class PartyComponent implements OnInit {
     this.queuedSong.popularity = -1;
     this.apiService.put_QueuedSong(this.queuedSong).subscribe(
       data => {
-        this.refresh();
+        // this.refresh();
       },
       error => {
         if ( error.status >= 400) {
@@ -98,7 +101,7 @@ export class PartyComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.queuedSongs$ = interval(1000).pipe(switchMap(() => this.apiService.get_queuedSongs(this.event.event_id)));
   }
 
   onEndPartyClick(){
