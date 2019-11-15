@@ -29,10 +29,10 @@
         <ng-container matColumnDef="vote" >
             <th mat-header-cell *matHeaderCellDef> Vote </th>
             <td mat-cell *matCellDef="let element" class='buttons-right'>
-              <div class="arrow-button arrow-button-up" (click)="upvote(element.order_num)">
+              <div class="arrow-button arrow-button-up" [class.arrow-button-up-voted]="userVotes[element.order_num] == 1" (click)="upvote(element.order_num, element.song_id)">
                 <mat-icon aria-hidden="false">add_circle</mat-icon>
               </div>
-              <div class="arrow-button arrow-button-down" (click)="downvote(element.order_num)">
+              <div class="arrow-button arrow-button-down" [class.arrow-button-down-voted]="userVotes[element.order_num] == -1" (click)="downvote(element.order_num, element.song_id)">
                   <mat-icon aria-hidden="false">remove_circle</mat-icon>
               </div>
             </td>

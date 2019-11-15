@@ -7,9 +7,8 @@
   </div>
 
   <div *ngIf="searchOptions[0]">
-    <mat-form-field>
-      <input matInput #searchBox (input)="search(searchBox.value)" placeholder="Add a song to the queue">
-    </mat-form-field>
+
+      <input class="input-field" [class.input-field-active]="searchBox.value" #searchBox (input)="search(searchBox.value)" placeholder="Add a song to the queue">
 
     <table *ngIf="searchBox.value" mat-table [dataSource]="songs$ | async" class="mat-elevation-z8">
       <ng-container matColumnDef="artist">
@@ -28,24 +27,23 @@
   </div>
 
   <div *ngIf="searchOptions[1]">
-    <mat-form-field>
-      <input matInput #searchBox (input)="searchSoundcloud(searchBox.value)" placeholder="Add a song to the queue">
-    </mat-form-field>
 
-    <table *ngIf="searchBox.value" class="soundcloud" mat-table [dataSource]="soundcloud$ | async" class="mat-elevation-z8">
+    <input class="input-field" [class.input-field-active]="searchBoxSoundcloud.value" #searchBoxSoundcloud (input)="searchSoundcloud(searchBoxSoundcloud.value)" placeholder="Add a song to the queue">
+
+    <table *ngIf="searchBoxSoundcloud.value" class="soundcloud" mat-table [dataSource]="soundcloud$ | async" class="mat-elevation-z8">
       <ng-container matColumnDef="artwork">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td  style="padding:0" mat-cell *matCellDef="let element" (click)="addSong(element.song_id)" (click)="searchBox.value = ''"><img src={{element.artwork_url}}></td>
+        <td  style="padding:0" mat-cell *matCellDef="let element" (click)="addSong(element.song_id)" (click)="searchBoxSoundcloud.value = ''"><img src={{element.artwork_url}}></td>
       </ng-container>
 
       <ng-container matColumnDef="artist">
         <th mat-header-cell *matHeaderCellDef> Artist </th>
-        <td  mat-cell *matCellDef="let element" (click)="addSong(element.song_id)" (click)="searchBox.value = ''"> {{element.user.username}} </td>
+        <td  mat-cell *matCellDef="let element" style="padding-left: 0" (click)="addSong(element.song_id)" (click)="searchBoxSoundcloud.value = ''"> {{element.user.username}} </td>
       </ng-container>
 
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef> Title </th>
-        <td mat-cell *matCellDef="let element" (click)="addSong(element.song_id)" (click)="searchBox.value = ''"> {{element.title}} </td>
+        <td mat-cell *matCellDef="let element" (click)="addSong(element.song_id)" (click)="searchBoxSoundcloud.value = ''"> {{element.title}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -54,9 +52,8 @@
   </div>
 
   <div *ngIf="searchOptions[2]">
-    <mat-form-field>
-      <input matInput #searchBoxYoutube (input)="searchYoutube(searchBoxYoutube.value)" placeholder="Add a song to the queue">
-    </mat-form-field>
+
+      <input class="input-field" [class.input-field-active]="searchBoxYoutube.value" #searchBoxYoutube (input)="searchYoutube(searchBoxYoutube.value)" placeholder="Add a song to the queue">
 
     <table *ngIf="searchBoxYoutube.value" mat-table [dataSource]="youtubes$ | async" class="mat-elevation-z8">
       <ng-container matColumnDef="title">

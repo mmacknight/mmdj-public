@@ -36,15 +36,7 @@ export class SongSearchComponent implements OnInit {
   public displayedColumnsYoutube = ['title'];
   public s: Soundcloud[];
 
-  constructor(private songSearchService: SongSearchService, private apiService: ApiService) {
-    this.songSearchService.searchSoundcloud('kanye').subscribe(
-      data => {
-        this.s = data;
-        console.log(this.s);
-      }
-    );
-
-    }
+  constructor(private songSearchService: SongSearchService, private apiService: ApiService) {  }
 
 
   @Input()
@@ -125,7 +117,6 @@ export class SongSearchComponent implements OnInit {
   onButtonClick(index) {
     this.searchOptions = [0, 0, 0];
     this.searchOptions[index] = 1;
-
   }
 
 }

@@ -16,6 +16,7 @@ if(isset($postdata) && !empty($postdata))
   $values = [];
 
   foreach($class_object as $key => $value) {
+
       $secure_key = mysqli_real_escape_string($con, $key);
       $secure_value = mysqli_real_escape_string($con, $value);
 
@@ -27,7 +28,7 @@ if(isset($postdata) && !empty($postdata))
   $values = "(".implode(",", $values).")";
 
   // Update.
-$sql = "INSERT INTO `{$table}s` {$columns} VALUES {$values}";
+  $sql = "INSERT INTO `{$table}s` {$columns} VALUES {$values}";
 
   if(mysqli_query($con, $sql))
   {

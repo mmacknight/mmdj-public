@@ -4,14 +4,14 @@ require 'database.php';
 // Get the posted data.
 $postdata = file_get_contents("php://input");
 
+// echo $postdata;
 if(isset($postdata) && !empty($postdata))
 {
   // Extract the data.
   $class_object = json_decode($postdata);
-  
 
   $things_to_update = [];
-  
+
   $table = null;
 
   $id = null;
@@ -25,7 +25,6 @@ if(isset($postdata) && !empty($postdata))
         $id = $value;
       }
   }
-  
   $update_string = implode(",", $things_to_update);
 
   // Update.

@@ -10,6 +10,7 @@ import { QueuedSong } from "@classes/queuedSong";
 import { Song } from "@classes/song";
 import { Token } from "@classes/token";
 import { User } from "@classes/user";
+import { Vote } from "@classes/vote";
 
 @Injectable({
     providedIn: 'root'
@@ -89,6 +90,7 @@ constructor(private httpClient: HttpClient) {}
           return this.httpClient.get<Song[]>(`${this.PHP_API_SERVER}/api/get_songs.php/?query=${query}`).pipe(catchError(this.errorHandler));
         }
 
+
         // Search Bar
 
             gethelper_Searchbar_Artist(search: string){
@@ -110,6 +112,13 @@ constructor(private httpClient: HttpClient) {}
             get_PlayableSong(){
                 throw new Error("Method not implemented.");
             }
+
+        // Play Song
+            get_user_votes(user_id: number, event_id: number){
+              return this.httpClient.get(`${this.PHP_API_SERVER}/api/get_votes_single_user.php/?user_id=${user_id}&event_id=${event_id}`).pipe(catchError(this.errorHandler));
+
+            }
+
 
     // tokens Table
 
@@ -149,6 +158,9 @@ constructor(private httpClient: HttpClient) {}
             return this.httpClient.post<Song>(`${this.PHP_API_SERVER}/api/post_single_item.php`, song).pipe(catchError(this.errorHandler));
         }
 
+        post_vote(vote: Vote){
+            return this.httpClient.post<Vote>(`${this.PHP_API_SERVER}/api/post_working.php/?table=vote`, vote).pipe(catchError(this.errorHandler));
+        }
     // tokens Table
 
         post_Token(token: Token){
@@ -180,6 +192,9 @@ constructor(private httpClient: HttpClient) {}
     // users Table
         put_User(user: User){
             return this.httpClient.put<User>(`${this.PHP_API_SERVER}/api/put_user.php`, user);
+        }
+        put_vote(vote: Vote){
+            return this.httpClient.put<Vote>(`${this.PHP_API_SERVER}/api/put_vote.php`,vote).pipe(catchError(this.errorHandler));
         }
 
 // Delete

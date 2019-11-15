@@ -34,7 +34,17 @@ table {
   color: #00C851;
 }
 
+.arrow-button-up-voted {
+  /* background-color: white; */
+  color: #00C851;
+}
+
 .arrow-button-down:hover {
+  /* background-color: white; */
+  color: #ff4444;
+}
+
+.arrow-button-down-voted {
   /* background-color: white; */
   color: #ff4444;
 }
