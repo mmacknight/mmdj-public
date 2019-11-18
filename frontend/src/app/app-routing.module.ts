@@ -10,7 +10,7 @@ import { SpotifyComponent } from './spotify/spotify.component';
 import { SoundcloudComponent } from './soundcloud/soundcloud.component';
 
 const routes: Routes = [
-  { path: '', component: HomepageComponent },
+  { path: '', component: AuthComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: AuthComponent },
   { path: 'join', component: JoinComponent },

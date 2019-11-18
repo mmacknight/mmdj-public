@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-spotify',
@@ -8,14 +8,20 @@ import { Component, OnInit } from '@angular/core';
 
 export class SpotifyComponent implements OnInit {
   public token: string;
+  public track_id: string;
 
+
+  @Input()
+  set inp(input) {
+     this.track_id = input;
+  }
 
   ngOnInit(){
 
 
   }
   constructor() {
-    this.token ='BQCLOPGtDtQxNKUbVR2ysNgJbASjqH368tYERX6j5RM9Upw2kk5H5S8IRAVAU0fatZb_rRxBYybTrhoBNjZUF9_Tdj99y27p3dujwSaTjkFYI-BzuEJeMgceWzsF-Tpc6DdwHFQG5Cwyuh1qoLwWP8Z5-iZ0uhOX8f4vO_Vo8iCVZl5u635hobg';
+    this.token ='BQB8bQygWhAsDbJePwzcUVAAzgYqp8mEmNsymyCC6SWl3zh9axovXfsD1nPNriC4V1y0OQIs6oCL_kBHCvNZPGA9yCG3BkhEaN6uUVCqnlXCvZCWicb-XNJD_I-wvwpP3zORv-yWm_ZYOJMBoPLAGNFBBxTwhbM0';
 
     window.onSpotifyWebPlaybackSDKReady = () => {
 
@@ -40,8 +46,8 @@ export class SpotifyComponent implements OnInit {
 
         //player.connect();
 
-
-        this.play(device_id);
+        this.play(device_id, this.track_id);
+        //this.play(device_id, '0jdny0dhgjUwoIp5GkqEaA');
       });
 
       // Not Ready
@@ -62,8 +68,9 @@ export class SpotifyComponent implements OnInit {
 
   }
 
-  play(device_id: any) {
-    var spotify_uri:string = 'spotify:track:0jdny0dhgjUwoIp5GkqEaA';
+  play(device_id: any, current_track: string) {
+    var spotify_uri:string = 'spotify:track:' + current_track;
+    //var spotify_uri:string = 'spotify:track:0jdny0dhgjUwoIp5GkqEaA';
     fetch(`https://api.spotify.com/v1/me/player/play?device_id=${device_id}`, {
         method: 'PUT',
          body: JSON.stringify({ uris: [spotify_uri] }),

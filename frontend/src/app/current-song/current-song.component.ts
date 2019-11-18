@@ -10,16 +10,20 @@ import { QueuedSong } from '@classes/queuedSong'
 export class CurrentSongComponent implements OnInit {
 
   public song: Song;
+  public track_id: string;
+  public platform: string;
 
-  @Input()
-  set inp(input) {
-    this.song = input[0];
-    console.log(this.song);
-  }
-
-  constructor() { }
+  constructor() {
+    this.song = new Song();
+    this.track_id = '0jdny0dhgjUwoIp5GkqEaA';  // from GetCurrentSong
+    this.platform = 'spotify';
+    this.song.title = 'Praying';
+    this.song.artist = 'Kesha';
+   }
 
   ngOnInit() {
   }
+
+
 
 }

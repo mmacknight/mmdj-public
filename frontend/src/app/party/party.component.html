@@ -1,12 +1,13 @@
-<app-current-song [inp]="[queuedSongs[0]]"></app-current-song>
-<button class="btn btn-outline-danger end-party-button" (click)="onEndPartyClick()">End Party</button>
+<app-current-song></app-current-song>
+<button class="btn btn-outline-danger end-party-button" (click)="onEndPartyClick()" *ngIf="event.user_id==user.user_id">End Party</button>
 
 <div class='party-container rounded'>
     <h4>{{event.event_name}}</h4>
+    <h6>Party Code: {{event.event_id}}</h6>
     <p>{{event.description | lowercase}}</p>
 
 
-    <app-song-search [inp]="[event.event_id]" (myEvent)="1"></app-song-search>
+    <app-song-search (myEvent)="1"></app-song-search>
 
 
     <table mat-table [dataSource]="queuedSongs$ | async" class="mat-elevation-z8">
