@@ -116,7 +116,7 @@ export class PartyComponent implements OnInit {
       },
       error => {
         if ( error.status >= 400) {
-          // this.invalid = true,
+          
           console.log(error)
         }
       }

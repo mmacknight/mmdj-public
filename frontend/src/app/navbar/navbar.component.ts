@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { UserService } from '../user.service';
 import { User } from '@classes/user';
 import { Router } from '@angular/router';
@@ -26,6 +26,8 @@ export class NavbarComponent implements OnInit {
   logout() {
     this.currentUser = null;
     this.userService.logout();
+
+    this.callParent();
   }
 
   findParty() {
@@ -46,6 +48,11 @@ export class NavbarComponent implements OnInit {
     } else {
       this.router.navigate(['join']);
     }
+  }
+
+  @Output() myEvent = new EventEmitter<string>();
+  callParent() {
+    this.myEvent.emit('eventDesc');
   }
 
 }

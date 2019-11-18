@@ -36,7 +36,14 @@ export class SongSearchComponent implements OnInit {
   public displayedColumnsYoutube = ['title'];
   public s: Soundcloud[];
 
-  constructor(private songSearchService: SongSearchService, private apiService: ApiService) {  }
+  constructor(private songSearchService: SongSearchService, private apiService: ApiService) { 
+    this.songSearchService.searchSpotify('kesha').subscribe(
+      data => {
+        console.log('here');
+        console.log(data);
+      }
+    )
+   }
 
 
   @Input()
