@@ -9,17 +9,16 @@ import { Component, OnInit } from '@angular/core';
 export class SpotifyComponent implements OnInit {
   public token: string;
 
-  
+
   ngOnInit(){
-    
-    
+
+
   }
   constructor() {
-    this.token ='BQDvIt19I-_0z5HMGWsAYeJy6-8203R2fK5lzXzantl3YWtcPgvc3Z8hAoIitQ1qUNwtH8FbRuDGyCIGa9Y__LzkCDIUP-zNr9V1uLAOxssGtRsx3zL1NiSAeVt5EH2_mTQ8iCI1dGvKSqCpcU4y5SCBhoUGsCgq';
-
+    this.token ='BQCLOPGtDtQxNKUbVR2ysNgJbASjqH368tYERX6j5RM9Upw2kk5H5S8IRAVAU0fatZb_rRxBYybTrhoBNjZUF9_Tdj99y27p3dujwSaTjkFYI-BzuEJeMgceWzsF-Tpc6DdwHFQG5Cwyuh1qoLwWP8Z5-iZ0uhOX8f4vO_Vo8iCVZl5u635hobg';
 
     window.onSpotifyWebPlaybackSDKReady = () => {
-      
+
       const player = new Spotify.Player({
         name: 'Web Playback SDK Quick Start Player',
         getOAuthToken: cb => { cb(this.token); }
@@ -40,8 +39,8 @@ export class SpotifyComponent implements OnInit {
 
 
         //player.connect();
-      
-      
+
+
         this.play(device_id);
       });
 
@@ -51,12 +50,12 @@ export class SpotifyComponent implements OnInit {
       });
 
       player.connect();
-      
 
-      
-      
+
+
+
     };
-   
+
     // Play a specified track on the Web Playback SDK's device ID
 
 
@@ -74,8 +73,8 @@ export class SpotifyComponent implements OnInit {
          }
         });
   }
-  
 
-  
+
+
 
 }

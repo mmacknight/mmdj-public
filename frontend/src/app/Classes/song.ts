@@ -17,5 +17,5 @@ export class  Song {
 	tempo: number = -1;
 	time_signature: string = null;
 	valence: number = -1;
-  order_num: number = 0;
+  order_num: number = -1;
 }
