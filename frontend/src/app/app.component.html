@@ -1,6 +1,4 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<app-navbar></app-navbar>
-<router-outlet></router-outlet>
-<!-- <div class="class1">
-   <b>MMDJ coming soon...</b>
-</div> -->
+<app-navbar *ngIf="user" (myEvent)="logout()"></app-navbar>
+<div class="body">
+  <router-outlet></router-outlet>
+<div>

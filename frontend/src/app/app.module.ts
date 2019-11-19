@@ -18,8 +18,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { SongSearchComponent } from './song-search/song-search.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
-
+import { SpotifyComponent } from './spotify/spotify.component';
+import { CurrentSongComponent } from './current-song/current-song.component';
+import { YoutubePlayerComponent } from './youtube-player/youtube-player.component';
+import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
+import { SoundcloudComponent } from './soundcloud/soundcloud.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     JoinComponent,
     HostComponent,
     PartyComponent,
-    SongSearchComponent
+    SongSearchComponent,
+    SpotifyComponent,
+    CurrentSongComponent,
+    YoutubePlayerComponent,
+    SoundcloudComponent
   ],
   imports: [
     BrowserModule,
@@ -47,9 +54,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatTableModule,
     MatIconModule,
     // ToastrModule.forRoot(),
-    MatSnackBarModule
+    MatSnackBarModule,
+    NgxYoutubePlayerModule
   ],
-  providers: [],
+  providers: [
+    { provide: Window, useValue: window }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,6 @@
 <div class="example-container">
 
-  <h1>Login to start a party</h1>
+  <h1>Welcome to MMDJ</h1>
 
   <div class="btn-group buttons">
     <button class="btn buttons" [class.btn-primary]="!registerClicked" [class.btn-outline-primary]="registerClicked" (click)="onLoginClick()">Login</button>
@@ -14,7 +14,7 @@
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput formControlName="password" placeholder="Password">
+      <input matInput formControlName="password" type="password" placeholder="Password">
     </mat-form-field>
     <button class="btn btn-primary" type="submit">Login</button>
   </form>
@@ -26,7 +26,7 @@
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput formControlName="password" placeholder="Password">
+      <input matInput formControlName="password" type="password" placeholder="Password">
     </mat-form-field>
     <button class="btn btn-primary" type="submit">Create an Account</button>
   </form>

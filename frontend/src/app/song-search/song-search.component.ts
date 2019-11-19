@@ -6,7 +6,10 @@ import {
 import { SongSearchService } from '../song-search.service';
 import { ApiService } from '../api.service';
 import { Song } from '@classes/song';
+import { Youtube } from '@classes/youtube';
+import { Soundcloud } from '@classes/soundcloud';
 import { QueuedSong } from '@classes/queuedSong';
+
 
 @Component({
   selector: 'app-song-search',
@@ -15,13 +18,32 @@ import { QueuedSong } from '@classes/queuedSong';
 })
 export class SongSearchComponent implements OnInit {
 
-  songs$: Observable<Song[]>;
-  private searchTerms = new Subject<string>();
   public event_id = 1;
   public qs: QueuedSong;
+
+  public searchOptions = [1, 0, 0];
+
+  public songs$: Observable<Song[]>;
+  private searchTerms = new Subject<string>();
   public displayedColumns = ['artist', 'title'];
 
-  constructor(private songSearchService: SongSearchService, private apiService: ApiService) {  }
+  public soundcloud$: Observable<Soundcloud[]>;
+  private searchTermsSoundcloud = new Subject<string>();
+  public displayedColumnsSoundcloud = ['artwork', 'artist','title'];
+
+  public youtubes$: Observable<Youtube[]>;
+  private searchTermsYoutube = new Subject<string>();
+  public displayedColumnsYoutube = ['title'];
+  public s: Soundcloud[];
+
+  constructor(private songSearchService: SongSearchService, private apiService: ApiService) { 
+    this.songSearchService.searchSpotify('kesha').subscribe(
+      data => {
+        console.log('here');
+        console.log(data);
+      }
+    )
+   }
 
 
   @Input()
@@ -32,6 +54,14 @@ export class SongSearchComponent implements OnInit {
   // Push a search term into the observable stream.
   search(term: string): void {
     this.searchTerms.next(term);
+  }
+
+  searchYoutube(term: string): void {
+    this.searchTermsYoutube.next(term);
+  }
+
+  searchSoundcloud(term: string): void {
+    this.searchTermsSoundcloud.next(term);
   }
 
   ngOnInit(): void {
@@ -45,6 +75,27 @@ export class SongSearchComponent implements OnInit {
 
       // switch to new search observable each time the term changes
       switchMap((term: string) => this.apiService.get_songs(term)),
+    );
+
+    this.soundcloud$ = this.searchTermsSoundcloud.pipe(
+      // wait 300ms after each keystroke before considering the term
+      debounceTime(300),
+
+      // ignore new term if same as previous term
+      distinctUntilChanged(),
+      // switch to new search observable each time the term changes
+      switchMap((term: string) => this.songSearchService.searchSoundcloud(term)),
+    );
+
+    this.youtubes$ = this.searchTermsYoutube.pipe(
+      // wait 300ms after each keystroke before considering the term
+      debounceTime(300),
+
+      // ignore new term if same as previous term
+      distinctUntilChanged(),
+
+      // switch to new search observable each time the term changes
+      switchMap((term: string) => this.songSearchService.searchYoutube(term)),
     );
   }
 
@@ -68,6 +119,11 @@ export class SongSearchComponent implements OnInit {
         }
       }
     )
+  }
+
+  onButtonClick(index) {
+    this.searchOptions = [0, 0, 0];
+    this.searchOptions[index] = 1;
   }
 
 }

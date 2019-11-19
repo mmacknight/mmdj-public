@@ -21,8 +21,12 @@
     "@angular/platform-browser": "~8.2.0",
     "@angular/platform-browser-dynamic": "~8.2.0",
     "@angular/router": "~8.2.0",
+    "@types/jquery": "^3.3.31",
+    "@angular/youtube-player": "^8.2.3",
+    "angular-youtube-player": "^1.0.3",
     "hammerjs": "^2.0.8",
     "ionicons": "^4.6.3",
+    "ngx-youtube-player": "^7.1.1",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"

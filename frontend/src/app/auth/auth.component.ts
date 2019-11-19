@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from '../api.service';
 import { UserService } from '../user.service';
@@ -12,17 +12,18 @@ import { Router } from '@angular/router';
 })
 export class AuthComponent implements OnInit {
 
-
   public loginForm: FormGroup;
   public loginClicked: Boolean;
   public registerForm: FormGroup;
   public registerClicked: Boolean;
   public user: User;
   public invalid: Boolean;
+  public nextPage: string; 
 
   constructor(fb: FormBuilder, public apiService: ApiService, public userService: UserService, public router: Router) {
     this.loginClicked = true;
     this.registerClicked = false;
+    this.nextPage = 'join';
 
     this.loginForm = fb.group({
       username: '',
@@ -36,6 +37,7 @@ export class AuthComponent implements OnInit {
   }
 
   ngOnInit() {
+    
   }
 
   onLoginClick() {
@@ -53,7 +55,7 @@ export class AuthComponent implements OnInit {
     this.apiService.get_user(this.loginForm.controls.username.value, this.loginForm.controls.password.value).subscribe(
       user  => {
         console.log("Login, ", user)
-        this.router.navigate(['host']);
+        this.router.navigate([this.nextPage]);
         this.userService.login(user)
         this.invalid = false
       },
@@ -73,7 +75,7 @@ export class AuthComponent implements OnInit {
       user  => {
         console.log("User created, ", user),
         this.userService.login(user);
-        this.router.navigate(['host']);
+        this.router.navigate([this.nextPage]);
         this.invalid = false
       },
       error => {
@@ -83,6 +85,16 @@ export class AuthComponent implements OnInit {
         }
       }
     )
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event?) {
+    if (window.innerWidth > 600) {
+      this.nextPage = 'host';
+    }
+    else {
+      this.nextPage = 'join';
+    }
   }
 
 }

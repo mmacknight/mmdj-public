@@ -4,6 +4,22 @@
   width: 100%;
 }
 
+.input-field {
+  width: 95%;
+  border-radius: 15px;
+  margin-top: 2%;
+  margin-bottom: 4%;
+  border: 0;
+  padding: 1% 3% 1% 3%;
+  background-color: gainsboro;
+  color: black;
+  outline: 0;
+}
+
+.input-field-active {
+  background-color: whitesmoke;
+}
+
 mat-form-field {
   width: 90%;
 }
@@ -13,5 +29,28 @@ table {
 }
 
 td {
+    width: 100%;
     cursor: pointer;
+    /* text-align: left; */
+}
+
+.youtube-td {
+  display: flex;
+}
+
+.youtube-title {
+  width: 70%;
+}
+
+.youtube-td > img {
+  width: 25%;
+  margin-right: 5%;
+}
+
+.soundcloud {
+  text-align: left;
+}
+
+.soundcloud > img {
+  width: 100%;
 }

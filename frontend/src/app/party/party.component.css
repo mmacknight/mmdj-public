@@ -1,8 +1,10 @@
 .party-container {
     width: 50%;
     margin-left: 25%;
+    margin-top: 70%;
     text-align: center;
-
+    background-color: white;
+    padding-top: 2%;
   }
 
 table {
@@ -17,18 +19,34 @@ table {
 }
 
 .arrow-button {
-  background-color: #4285F4;
-  border-style: solid;
-  border-color: #4285F4;
+  /* background-color: #4285F4; */
+  /* border-style: solid; */
+  /* border-color: #4285F4; */
   margin: 0%;
   width: 100%;
-  color: white;
+  color: #4285F4;
   cursor: pointer;
   text-align: center;
 }
-.arrow-button:hover {
-  background-color: white;
-  color: #4285F4;
+
+.arrow-button-up:hover {
+  /* background-color: white; */
+  color: #00C851;
+}
+
+.arrow-button-up-voted {
+  /* background-color: white; */
+  color: #00C851;
+}
+
+.arrow-button-down:hover {
+  /* background-color: white; */
+  color: #ff4444;
+}
+
+.arrow-button-down-voted {
+  /* background-color: white; */
+  color: #ff4444;
 }
 
 @media only screen and (max-width: 600px) {
@@ -40,6 +58,5 @@ table {
 
 .end-party-button {
   float: right;
-  margin-right: 10%;
-  margin-top: 2%;
+  border: 0;
 }

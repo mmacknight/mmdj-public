@@ -22,10 +22,12 @@ if($result = mysqli_query($con,$sql))
     $songs[$i]['platform'] = $row['platform'];
     $songs[$i]['title'] = $row['title'];
     $songs[$i]['artist'] = $row['artist'];
+
     $songs[$i]['artwork'] = $row['artwork'];
     //$songs[$i]['genre'] = $row['genre'];
     $songs[$i]['duration'] = $row['duration'];
     $songs[$i]['order_num'] = $row['order_num'];
+
     $songs[$i]['popularity'] = $row['qpop'];
     $songs[$i]['playability'] = $row['playability'];
     //$songs[$i]['track_id'] = $row['track_id'];
@@ -44,12 +46,12 @@ if($result = mysqli_query($con,$sql))
     $i++;
   }
 
-  
+
   echo json_encode($songs);
-  
+
   http_response_code(200);
-  
-  
+
+
 }
 else
 {
