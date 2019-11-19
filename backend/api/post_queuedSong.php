@@ -3,7 +3,6 @@ require 'database.php';
 
 // Get the posted data.
 $postdata = file_get_contents("php://input");
-$table = ($_GET['table'] !== null )? mysqli_real_escape_string($con, trim($_GET['table'])) : false;
 
 
 if(isset($postdata) && !empty($postdata))
@@ -23,9 +22,11 @@ if(isset($postdata) && !empty($postdata))
   $queuedSongs_id = mysqli_real_escape_string($con, trim($request->queuedSongs_id));
   $popularity = mysqli_real_escape_string($con, trim($request->popularity));
   $playability = mysqli_real_escape_string($con, trim($request->playability));
+  $song_id = mysqli_real_escape_string($con, trim($request->song_id));
+  $platform = mysqli_real_escape_string($con, trim($request->platform));
 
   // Create.
-  $sql = "INSERT INTO `queuedSongs`(`event_id`,`queuedSongs_id`, `popularity`, `playability`) VALUES ('{$event_id}','{$queuedSongs_id}', '{$popularity}', '{$playability}')";
+  $sql = "INSERT INTO `queuedSongs`(`event_id`,`queuedSongs_id`, `popularity`, `playability`, `song_id`, `platform`) VALUES ('{$event_id}','{$queuedSongs_id}', '{$popularity}', '{$playability}', '{$song_id}', '{$platform}')";
 
   if(mysqli_query($con,$sql))
   {
@@ -35,7 +36,9 @@ if(isset($postdata) && !empty($postdata))
       'event_id' => $event_id,
       'queuedSongs_id' => $queuedSongs_id,
       'popularity' => $popularity,
-      'playability' => $playability
+      'playability' => $playability,
+      'song_id' => $song_id,
+      'platform' => $platform
     ];
     echo json_encode($event);
   }
