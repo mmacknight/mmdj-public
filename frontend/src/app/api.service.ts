@@ -78,7 +78,7 @@ constructor(private httpClient: HttpClient) {}
         }
 
         get_event_current_song(event_id: number){
-            return this.httpClient.get<Event[]>(`${this.PHP_API_SERVER}/api/get_event_current_song.php/?id=${event_id}"`).pipe(catchError(this.errorHandler));
+            return this.httpClient.get<Song>(`${this.PHP_API_SERVER}/api/get_event_current_song.php/?id=${event_id}"`).pipe(catchError(this.errorHandler));
         }
 
 
@@ -92,6 +92,10 @@ constructor(private httpClient: HttpClient) {}
         // for a search by name
         get_songs(query: string) {
           return this.httpClient.get<Song[]>(`${this.PHP_API_SERVER}/api/get_songs.php/?query=${query}`).pipe(catchError(this.errorHandler));
+        }
+
+        get_song(song_id: string, platform: string){
+            return this.httpClient.get<Song>(`${this.PHP_API_SERVER}/api/get_song.php/?song_id=${song_id}&platform=${platform}`).pipe(catchError(this.errorHandler));
         }
 
 
@@ -182,6 +186,9 @@ constructor(private httpClient: HttpClient) {}
     // events Table
         put_Event(event: Event){
             return this.httpClient.put<Event>(`${this.PHP_API_SERVER}/api/put_Event.php`, event).pipe(catchError(this.errorHandler));
+        }
+        put_current_song(event_id: number, order_num: number){
+            return this.httpClient.put(`${this.PHP_API_SERVER}/api/put_current_song.php`, {"event_id": event_id, "order_num": order_num}).pipe(catchError(this.errorHandler));
         }
     // queuedSongs Table
         put_QueuedSong(queuedSong: QueuedSong){

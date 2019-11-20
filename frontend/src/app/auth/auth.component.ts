@@ -23,7 +23,7 @@ export class AuthComponent implements OnInit {
   constructor(fb: FormBuilder, public apiService: ApiService, public userService: UserService, public router: Router) {
     this.loginClicked = true;
     this.registerClicked = false;
-    this.nextPage = 'join';
+    this.nextPage = window.innerWidth > 600 ? 'host': 'join';
 
     this.loginForm = fb.group({
       username: '',
