@@ -40,7 +40,7 @@ export class SongSearchService {
   searchSpotify(search_term) {
     const headers = {
       headers: {
-        'Authorization': 'Bearer BQB8bQygWhAsDbJePwzcUVAAzgYqp8mEmNsymyCC6SWl3zh9axovXfsD1nPNriC4V1y0OQIs6oCL_kBHCvNZPGA9yCG3BkhEaN6uUVCqnlXCvZCWicb-XNJD_I-wvwpP3zORv-yWm_ZYOJMBoPLAGNFBBxTwhbM0'
+        'Authorization': 'Bearer BQCu5LbY5wTE2fwBBY_cSBKLR4BMTA5LO2rWlo_8hTElONPf4l0T2UAMF461AEM3IN8i5HfbN7et7VSNyEcChaI_tJsRR86lfpsbrdeBLviYitwhPSI91R_IfrG__wRUk9Bh9f1ZFWPiCm6bp1UWbOHlkfhFEdmV'
       }
     }
     return this.httpClient.get(`${this.SPOTIFY_API}?q=${search_term}&type=track`, headers).pipe(catchError(this.errorHandler));

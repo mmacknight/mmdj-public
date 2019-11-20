@@ -77,6 +77,10 @@ constructor(private httpClient: HttpClient) {}
             return this.httpClient.get<Event[]>(`${this.PHP_API_SERVER}/api/get_events_by_user.php/?id=${user_id}"`).pipe(catchError(this.errorHandler));
         }
 
+        get_event_current_song(event_id: number){
+            return this.httpClient.get<Song>(`${this.PHP_API_SERVER}/api/get_event_current_song.php/?id=${event_id}"`).pipe(catchError(this.errorHandler));
+        }
+
 
     // queuedSongs Table
         // get all songs in queue for an event, in order
@@ -88,6 +92,10 @@ constructor(private httpClient: HttpClient) {}
         // for a search by name
         get_songs(query: string) {
           return this.httpClient.get<Song[]>(`${this.PHP_API_SERVER}/api/get_songs.php/?query=${query}`).pipe(catchError(this.errorHandler));
+        }
+
+        get_song(song_id: string, platform: string){
+            return this.httpClient.get<Song>(`${this.PHP_API_SERVER}/api/get_song.php/?song_id=${song_id}&platform=${platform}`).pipe(catchError(this.errorHandler));
         }
 
 
@@ -155,7 +163,7 @@ constructor(private httpClient: HttpClient) {}
 
     // songs Table
         post_Song(song: Song){
-            return this.httpClient.post<Song>(`${this.PHP_API_SERVER}/api/post_single_item.php`, song).pipe(catchError(this.errorHandler));
+            return this.httpClient.post<Song>(`${this.PHP_API_SERVER}/api/post_song.php/`, song).pipe(catchError(this.errorHandler));
         }
 
         post_vote(vote: Vote){
@@ -178,6 +186,9 @@ constructor(private httpClient: HttpClient) {}
     // events Table
         put_Event(event: Event){
             return this.httpClient.put<Event>(`${this.PHP_API_SERVER}/api/put_Event.php`, event).pipe(catchError(this.errorHandler));
+        }
+        put_current_song(event_id: number, order_num: number){
+            return this.httpClient.put(`${this.PHP_API_SERVER}/api/put_current_song.php`, {"event_id": event_id, "order_num": order_num}).pipe(catchError(this.errorHandler));
         }
     // queuedSongs Table
         put_QueuedSong(queuedSong: QueuedSong){

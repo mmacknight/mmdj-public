@@ -78,7 +78,7 @@ export class PartyComponent implements OnInit {
           var vote = data[i];
           this.userVotes[vote.order_num] = vote.vote;
         }
-        console.log(this.userVotes);
+        //console.log(this.userVotes);
       },
       error => {
         if ( error.status >= 400) {
