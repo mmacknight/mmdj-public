@@ -21,9 +21,10 @@ if(isset($postdata) && !empty($postdata))
   $vote = mysqli_real_escape_string($con, trim($request->vote));
   $song_id = mysqli_real_escape_string($con, trim($request->song_id));
   $order_num = mysqli_real_escape_string($con, trim($request->order_num));
+  $platform = mysqli_real_escape_string($con, trim($request->platform));
 
   // Create.
-  $sql = "UPDATE votes SET vote = {$vote} WHERE user_id = {$user_id} AND event_id = {$event_id} AND song_id = {$song_id} AND order_num = {$order_num}";
+  $sql = "UPDATE votes SET vote = {$vote} WHERE user_id = {$user_id} AND event_id = {$event_id} AND song_id = {$song_id} AND order_num = {$order_num} AND platform = {$platform}";
 
   if(mysqli_query($con,$sql))
   {
