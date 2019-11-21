@@ -88,7 +88,7 @@ export class PartyComponent implements OnInit {
     )
   }
 
-  upvote(order_num, song_id) {
+  upvote(order_num, song_id, platform) {
     this.queuedSong = new QueuedSong;
     this.queuedSong.event_id = this.event.event_id;
     this.queuedSong.order_num = order_num;
@@ -100,7 +100,8 @@ export class PartyComponent implements OnInit {
         vote.user_id = this.user.user_id;
         vote.event_id = this.event.event_id;
         vote.vote = order_num in this.userVotes && this.userVotes[order_num] == 1 ? 0 : 1;
-        vote.song_id = parseInt(song_id);
+        vote.song_id = song_id;
+        vote.platform = platform;
         vote.order_num = parseInt(order_num);
         if (order_num in this.userVotes) {
           this.apiService.put_vote(vote).subscribe(
@@ -116,14 +117,14 @@ export class PartyComponent implements OnInit {
       },
       error => {
         if ( error.status >= 400) {
-          
+
           console.log(error)
         }
       }
     )
   }
 
-  downvote(order_num, song_id) {
+  downvote(order_num, song_id, platform) {
     this.queuedSong = new QueuedSong;
     this.queuedSong.event_id = this.event.event_id;
     this.queuedSong.order_num = order_num;
@@ -135,8 +136,10 @@ export class PartyComponent implements OnInit {
         vote.user_id = this.user.user_id;
         vote.event_id = this.event.event_id;
         vote.vote = order_num in this.userVotes && this.userVotes[order_num] == -1 ? 0 : -1;
-        vote.song_id = parseInt(song_id);
+        vote.song_id = song_id;
+        vote.platform = platform;
         vote.order_num = parseInt(order_num);
+        console.log(vote);
         if (order_num in this.userVotes) {
           this.apiService.put_vote(vote).subscribe(
             data => this.refreshVotes(),
