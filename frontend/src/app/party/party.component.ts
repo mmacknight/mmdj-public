@@ -15,6 +15,8 @@ import {
    debounceTime, distinctUntilChanged, switchMap
  } from 'rxjs/operators';
 
+import { TokenService } from '../token.service';
+
 @Component({
   selector: 'app-party',
   templateUrl: './party.component.html',
@@ -32,12 +34,13 @@ export class PartyComponent implements OnInit {
   public user: User;
 
   constructor(private songSearchService: SongSearchService, private apiService: ApiService, private router: Router,
-    private route: ActivatedRoute, private snackBar: MatSnackBar, private userService: UserService) {
+    private route: ActivatedRoute, private snackBar: MatSnackBar, private userService: UserService, private tokenService: TokenService) {
 
     this.id = route.snapshot.paramMap.get('id');
     this.userService.currentUser.subscribe(
       user => user ? this.user = user : this.router.navigate([''])
     );
+
     this.apiService.get_event(parseInt(this.id)).subscribe(
       data  => {
         if (data) {
@@ -178,6 +181,10 @@ export class PartyComponent implements OnInit {
         console.log(error);
       }
     )
+  }
+
+  loginSpotify() {
+      this.tokenService.getSpotifyToken(String(this.event.event_id));
   }
 
 

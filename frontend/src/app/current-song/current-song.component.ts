@@ -52,11 +52,13 @@ export class CurrentSongComponent implements OnInit {
   skipSong(){
     this.apiService.get_queuedSongs(this.event_id).subscribe(
       data => {
-        this.apiService.put_current_song(this.event_id, data[0]['order_num']).subscribe(
-          data => {
-            this.setCurrentSong();
-          }
-        )
+        if (data[0]) {
+          this.apiService.put_current_song(this.event_id, data[0]['order_num']).subscribe(
+            data => {
+              this.setCurrentSong();
+            }
+          )
+        }
       }
     )
 

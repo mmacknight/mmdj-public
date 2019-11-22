@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Song } from '@classes/song';
+import { TokenService } from '../token.service';
 
 // import '@types/spotify-web-playback-sdk';
 // import * as Spotify from '@classes/index.d';
@@ -33,9 +34,10 @@ export class SpotifyComponent implements OnInit {
   }
 
 
-  constructor() {
-    this.token ='BQAhJURC7v7ljkdPB5WekpkLo5uAtXKMJ-JoNvuggoL6KS22cIVAIvEQXtuXOLb7TIydNGLtjfuFQgVIjUUtlWjDI5ld4Dg-NSQW1gTEXRiN2tD2djG_p1qtwYU_QmNkejATsJ3BsGoSp9QgKXd5atOc2dQcHqtKriPXkRAT0bU42754tCJMzdI';
-
+  constructor(private tokenService: TokenService) {
+    this.tokenService.token.subscribe(
+      token => this.token = token
+    )
     window['onSpotifyWebPlaybackSDKReady'] = () => {
       const player = new Spotify.Player({
         name: 'Web Playback SDK Quick Start Player',

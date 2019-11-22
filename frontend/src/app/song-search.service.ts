@@ -37,13 +37,16 @@ export class SongSearchService {
     return this.httpClient.get<Soundcloud[]>(`${this.SOUNDCLOUD_API}&q=${search_term}`).pipe(catchError(this.errorHandler));
   }
 
-  searchSpotify(search_term) {
+  searchSpotify(search_term, token) {
+
     const headers = {
       headers: {
-        'Authorization': 'Bearer BQAhJURC7v7ljkdPB5WekpkLo5uAtXKMJ-JoNvuggoL6KS22cIVAIvEQXtuXOLb7TIydNGLtjfuFQgVIjUUtlWjDI5ld4Dg-NSQW1gTEXRiN2tD2djG_p1qtwYU_QmNkejATsJ3BsGoSp9QgKXd5atOc2dQcHqtKriPXkRAT0bU42754tCJMzdI'
+        'Authorization': `Bearer ${token}`
       }
     }
+
     return this.httpClient.get(`${this.SPOTIFY_API}?q=${search_term}&type=track`, headers).pipe(catchError(this.errorHandler));
+
   }
 
   errorHandler(error: HttpErrorResponse) {

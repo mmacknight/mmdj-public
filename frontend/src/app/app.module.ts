@@ -23,6 +23,7 @@ import { CurrentSongComponent } from './current-song/current-song.component';
 import { YoutubePlayerComponent } from './youtube-player/youtube-player.component';
 import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
 import { SoundcloudComponent } from './soundcloud/soundcloud.component';
+import { CallbackComponent } from './callback/callback.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { SoundcloudComponent } from './soundcloud/soundcloud.component';
     SpotifyComponent,
     CurrentSongComponent,
     YoutubePlayerComponent,
-    SoundcloudComponent
+    SoundcloudComponent,
+    CallbackComponent
   ],
   imports: [
     BrowserModule,

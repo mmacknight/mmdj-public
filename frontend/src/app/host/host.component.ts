@@ -6,7 +6,6 @@ import { Event } from '@classes/event';
 import { Router } from '@angular/router';
 import { User } from '@classes/user';
 
-
 @Component({
   selector: 'app-host',
   templateUrl: './host.component.html',
@@ -19,6 +18,7 @@ export class HostComponent implements OnInit {
   public event: Event;
 
   constructor(fb: FormBuilder, public apiService: ApiService, public userService: UserService, private router: Router) {
+
     this.partyForm = fb.group({
       name: '',
       description: '',

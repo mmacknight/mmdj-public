@@ -9,7 +9,6 @@
   <div *ngIf="searchOptions[0]">
 
       <input class="input-field" [class.input-field-active]="searchBox.value" #searchBox (keyup)="search_spotify(searchBox.value)" placeholder="Add a song to the queue">
-
     <table *ngIf="searchBox.value" mat-table [dataSource]="songs" class="mat-elevation-z8">
       <ng-container matColumnDef="artist">
         <th mat-header-cell *matHeaderCellDef> Artist </th>
