@@ -1,11 +1,10 @@
-<div class="current-song">
-
+<div class="current-song" [style.z-index]="width > 600 ? -1 : 1">
   <!-- <app-youtube-player></app-youtube-player> -->
   <app-spotify [inp]="song" (myEvent)='skipSong()'></app-spotify>
-  <div class="song">
-    <h4>{{song.title}}</h4>
-    <h5>{{song.artist}}</h5>
-    <!-- <img src={{song.artwork}}> -->
-    <button (click)='skipSong()'>SKIP</button>
+  <div class="song" [style.padding-top]="song_padding" [style.padding-bottom]="song_padding">
+    <div *ngIf="width > 600 || song_padding != '0%'" class="normal">{{song.title}}<br>{{song.artist}}</div>
+    <div *ngIf="width <= 600 && song_padding == '0%'"class="banner">{{song.title}} - {{song.artist}}</div>
+    <!-- <p>{{window.pageYoffset}}</p> -->
   </div>
 </div>
+<button (click)='skipSong()' style="float: left">SKIP</button>

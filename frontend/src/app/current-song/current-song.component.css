@@ -1,7 +1,7 @@
 .current-song {
   width: 100%;
   position: fixed;
-  top: 50px;
+  top: 0px;
   z-index: -1;
   background-color: black;
   color: white;
@@ -12,4 +12,14 @@
   padding-top: 20%;
   padding-bottom: 20%;
   width: 100%;
+}
+
+.normal {
+  font-size: 3.5vw;
+}
+
+.banner {
+  font-size: 3.25vw;
+  padding-top: 3%;
+  padding-bottom: 3%;
 }

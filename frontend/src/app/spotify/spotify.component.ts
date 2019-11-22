@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Song } from '@classes/song';
 
+// import '@types/spotify-web-playback-sdk';
+// import * as Spotify from '@classes/index.d';
+
 @Component({
   selector: 'app-spotify',
   templateUrl: './spotify.component.html',
@@ -19,7 +22,7 @@ export class SpotifyComponent implements OnInit {
      this.track_id = input['song_id'];
      this.song = input;
      console.log("track_id", this.track_id);
-    
+
       if(this.track_id && this.device_id ){
         this.play(this.device_id, this.track_id);
     }
@@ -31,10 +34,9 @@ export class SpotifyComponent implements OnInit {
 
 
   constructor() {
-    this.token ='BQCu5LbY5wTE2fwBBY_cSBKLR4BMTA5LO2rWlo_8hTElONPf4l0T2UAMF461AEM3IN8i5HfbN7et7VSNyEcChaI_tJsRR86lfpsbrdeBLviYitwhPSI91R_IfrG__wRUk9Bh9f1ZFWPiCm6bp1UWbOHlkfhFEdmV';
+    this.token ='BQAhJURC7v7ljkdPB5WekpkLo5uAtXKMJ-JoNvuggoL6KS22cIVAIvEQXtuXOLb7TIydNGLtjfuFQgVIjUUtlWjDI5ld4Dg-NSQW1gTEXRiN2tD2djG_p1qtwYU_QmNkejATsJ3BsGoSp9QgKXd5atOc2dQcHqtKriPXkRAT0bU42754tCJMzdI';
 
-    window.onSpotifyWebPlaybackSDKReady = () => {
-
+    window['onSpotifyWebPlaybackSDKReady'] = () => {
       const player = new Spotify.Player({
         name: 'Web Playback SDK Quick Start Player',
         getOAuthToken: cb => { cb(this.token); }
@@ -47,12 +49,12 @@ export class SpotifyComponent implements OnInit {
       player.addListener('playback_error', ({ message }) => { console.error(message); });
 
       // Playback status updates
-      player.addListener('player_state_changed', state => { 
-        console.log(state)
-        // if (this.song.duration && (state.duration >= this.song.duration)){
-        //   this.callParent();
-        // }
-      });
+      player.addListener('player_state_changed', state => {
+        console.log(state);
+        if (this.song.duration && ((state.position >= this.song.duration) || (state.position == 0 && state.paused)) ) {
+          this.callParent();
+        }
+     });
 
       // Ready
       player.addListener('ready', ({ device_id }) => {

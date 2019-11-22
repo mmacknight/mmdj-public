@@ -4,4 +4,5 @@ export class  Vote {
     vote:  number = 0;
     song_id:  number = 0;
     order_num:  number = 0;
+    platform: string = null;
 }

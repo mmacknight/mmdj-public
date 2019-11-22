@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { Song } from '@classes/song';
 import { QueuedSong } from '@classes/queuedSong';
 import { ApiService } from '../api.service';
@@ -14,21 +14,27 @@ export class CurrentSongComponent implements OnInit {
   public track_id: string;
   public platform: string;
   public event_id: number;
+  width: number;
+  yoffset: number;
+  song_padding: string;
 
   @Input()
   set inp(input) {
      this.event_id = input;
-    if(this.event_id){ 
+    if(this.event_id){
       this.setCurrentSong();
      }
   }
 
   constructor(private apiService: ApiService) {
-    
+    this.width = window.innerWidth;
+    this.yoffset = window.pageYOffset;
+    this.song_padding = this.width <= 600 ? String(Math.max(20-100*this.yoffset/window.innerHeight,0))+'%' : '20%'
+
    }
 
   ngOnInit() {
-   
+
   }
 
   setCurrentSong(){
@@ -39,7 +45,7 @@ export class CurrentSongComponent implements OnInit {
         this.platform = this.song.platform
       },
       error => console.log(error)
-    )   
+    )
 
   }
 
@@ -56,6 +62,13 @@ export class CurrentSongComponent implements OnInit {
 
   }
 
+
+  @HostListener('window:scroll', ['$event'])
+  onResize(event?) {
+    this.width = window.innerWidth;
+    this.yoffset = window.pageYOffset;
+    this.song_padding = this.width <= 600 ? String(Math.max(20-100*this.yoffset/window.innerHeight,0))+'%' : '20%'
+  }
 
 
 }

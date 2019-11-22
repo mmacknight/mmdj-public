@@ -10,7 +10,7 @@ if(isset($postdata) && !empty($postdata))
   $request = json_decode($postdata);
 
   // Validate.
-  if(trim($request->user_id) === '' || trim($request->event_id) === '' || trim($request->vote) === '' || trim($request->song_id) === ''  || trim($request->order_num) === '' )
+  if(trim($request->user_id) === '' || trim($request->event_id) === '' || trim($request->vote) === '' || trim($request->song_id) === ''  || trim($request->order_num) === '' || trim($request->platform) === '')
   {
     return http_response_code(400);
   }
@@ -24,7 +24,7 @@ if(isset($postdata) && !empty($postdata))
   $platform = mysqli_real_escape_string($con, trim($request->platform));
 
   // Create.
-  $sql = "UPDATE votes SET vote = {$vote} WHERE user_id = {$user_id} AND event_id = {$event_id} AND song_id = {$song_id} AND order_num = {$order_num} AND platform = {$platform}";
+  $sql = "UPDATE votes SET vote = {$vote} WHERE user_id = {$user_id} AND event_id = {$event_id} AND song_id = '{$song_id}' AND order_num = {$order_num} AND platform = '{$platform}'";
 
   if(mysqli_query($con,$sql))
   {
