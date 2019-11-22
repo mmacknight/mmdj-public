@@ -8,6 +8,7 @@ import { HostComponent } from './host/host.component';
 import { PartyComponent } from './party/party.component';
 import { SpotifyComponent } from './spotify/spotify.component';
 import { SoundcloudComponent } from './soundcloud/soundcloud.component';
+import { CallbackComponent } from './callback/callback.component';
 
 const routes: Routes = [
   { path: '', component: AuthComponent },
@@ -18,7 +19,8 @@ const routes: Routes = [
   { path: 'party/:id', component: PartyComponent},
   { path: '*', component: HomepageComponent},
   { path: 'spotify', component: SpotifyComponent },
-  { path: 'soundcloud', component: SoundcloudComponent }
+  { path: 'soundcloud', component: SoundcloudComponent },
+  { path: 'callback', component: CallbackComponent }
 
 ];
 

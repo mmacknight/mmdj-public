@@ -5,6 +5,7 @@ import {
  } from 'rxjs/operators';
 import { SongSearchService } from '../song-search.service';
 import { ApiService } from '../api.service';
+import { TokenService } from '../token.service';
 import { Song } from '@classes/song';
 import { Youtube } from '@classes/youtube';
 import { Soundcloud } from '@classes/soundcloud';
@@ -38,7 +39,7 @@ export class SongSearchComponent implements OnInit {
   public displayedColumnsYoutube = ['title'];
   public s: Soundcloud[];
 
-  constructor(private songSearchService: SongSearchService, private apiService: ApiService) { 
+  constructor(private songSearchService: SongSearchService, private apiService: ApiService, private tokenService: TokenService) {
     // this.songSearchService.searchSpotify('kesha').subscribe(
     //   data => {
     //     console.log('here');
@@ -132,9 +133,9 @@ export class SongSearchComponent implements OnInit {
 
     )
 
-    
-    
-    
+
+
+
 
   }
 
@@ -144,7 +145,7 @@ export class SongSearchComponent implements OnInit {
     console.log(this.event_id);
     this.qs.song_id = id;
     this.qs.platform = platform;
-    
+
     this.apiService.post_QueuedSong(this.qs).subscribe(
       data => {
         this.callParent();
@@ -157,10 +158,10 @@ export class SongSearchComponent implements OnInit {
       }
     )
   }
-  
-  
-  
-  
+
+
+
+
   onButtonClick(index) {
     this.searchOptions = [0, 0, 0];
     this.searchOptions[index] = 1;
@@ -169,28 +170,32 @@ export class SongSearchComponent implements OnInit {
 
   search_spotify(search_term: string){
     if (search_term){
-      this.songSearchService.searchSpotify(search_term).subscribe(
-        data => {
-          this.songs = [];
-          for(var item in data['tracks']['items']){  
-            var mySong = new Song();
-            mySong.artist = data['tracks']['items'][item]['artists'][0]['name'];
-            mySong.platform = 'spotify';
-            mySong.title = data['tracks']['items'][item]['name'];
-            mySong.song_id = data['tracks']['items'][item]['id'];
-            mySong.duration = data['tracks']['items'][item]['duration_ms'];
-            if ('images' in data['tracks']['items'][item]['album']){
-              if (0 in data['tracks']['items'][item]['album']['images'] ){
-                if ('url' in data['tracks']['items'][item]['album']['images'][0]){
-                  mySong.artwork = data['tracks']['items'][item]['album']['images'][0]['url'];
+      this.tokenService.token.subscribe(
+        token => {
+          this.songSearchService.searchSpotify(search_term,token).subscribe(
+            data => {
+              this.songs = [];
+              for(var item in data['tracks']['items']){
+                var mySong = new Song();
+                mySong.artist = data['tracks']['items'][item]['artists'][0]['name'];
+                mySong.platform = 'spotify';
+                mySong.title = data['tracks']['items'][item]['name'];
+                mySong.song_id = data['tracks']['items'][item]['id'];
+                mySong.duration = data['tracks']['items'][item]['duration_ms'];
+                if ('images' in data['tracks']['items'][item]['album']){
+                  if (0 in data['tracks']['items'][item]['album']['images'] ){
+                    if ('url' in data['tracks']['items'][item]['album']['images'][0]){
+                      mySong.artwork = data['tracks']['items'][item]['album']['images'][0]['url'];
+                    }
+                  }
                 }
+                this.songs.push(mySong);
               }
+            },
+            error => {
+              console.log(error)
             }
-            this.songs.push(mySong);  
-          }
-        },
-        error => {
-          console.log(error)
+          )
         }
       )
     }
