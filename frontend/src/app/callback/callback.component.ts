@@ -9,7 +9,7 @@ import { TokenService } from '../token.service';
 })
 export class CallbackComponent implements OnInit {
 
-  constructor(private router: Router, private tokenService: TokenService) {
+  constructor(public router: Router, private tokenService: TokenService) {
     // this.route.queryParams.subscribe(
     //   data => console.log(data)
     // )
