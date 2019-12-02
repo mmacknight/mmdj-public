@@ -1,11 +1,11 @@
-<div class="current-song">
-
+<div class="current-song" >
   <!-- <app-youtube-player></app-youtube-player> -->
-  <app-spotify [inp]="song" (myEvent)='skipSong()'></app-spotify>
+  <app-spotify *ngIf="device_id" [inp]="[song, device_id]" (myEvent)='skipSong()'></app-spotify>
   <div class="song">
     <h4>{{song.title}}</h4>
     <h5>{{song.artist}}</h5>
     <!-- <img src={{song.artwork}}> -->
-    <button (click)='skipSong()'>SKIP</button>
+    <!-- <button (click)='skipSong()'>SKIP</button> -->
   </div>
 </div>
+<button (click)='skipSong()'>SKIP</button>

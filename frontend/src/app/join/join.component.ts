@@ -22,7 +22,6 @@ export class JoinComponent implements OnInit {
 
     ngOnInit() {}
 
-
     joinParty() {
       this.apiService.get_event(this.joinForm.controls.eventID.value).subscribe(
         data  => {

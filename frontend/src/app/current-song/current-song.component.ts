@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Song } from '@classes/song';
 import { QueuedSong } from '@classes/queuedSong';
 import { ApiService } from '../api.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-current-song',
@@ -14,6 +15,7 @@ export class CurrentSongComponent implements OnInit {
   public track_id: string;
   public platform: string;
   public event_id: number;
+  public device_id: any = '';
 
   @Input()
   set inp(input) {
@@ -23,24 +25,26 @@ export class CurrentSongComponent implements OnInit {
      }
   }
 
-  constructor(private apiService: ApiService) {
-    
+  constructor(private apiService: ApiService, private userService: UserService) {
+    this.userService.device_id.subscribe(
+      device_id => this.device_id = device_id
+    )
    }
 
   ngOnInit() {
-   
   }
 
   setCurrentSong(){
     this.apiService.get_event_current_song(this.event_id).subscribe(
       data => {
-        this.song = data,
-        this.track_id = this.song.song_id,
-        this.platform = this.song.platform
+        if (data){
+          this.song = data;
+          this.track_id = this.song.song_id;
+          this.platform = this.song.platform;
+        }
       },
       error => console.log(error)
     )   
-
   }
 
   skipSong(){
