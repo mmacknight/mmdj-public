@@ -22,4 +22,5 @@ function connect()
 }
 
 $con = connect();
+$var = 13;
 ?>
