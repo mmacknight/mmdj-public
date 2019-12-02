@@ -17,8 +17,8 @@ import { Vote } from "@classes/vote";
 })
 
 export class ApiService {
-//PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/mmdj/backend/api";
-PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/tutorial/dom";
+PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/mmdj/backend/api";
+// PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/tutorial/dom";
 constructor(private httpClient: HttpClient) {}
 
 
