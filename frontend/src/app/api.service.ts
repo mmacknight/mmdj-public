@@ -139,6 +139,10 @@ constructor(private httpClient: HttpClient) {}
 
             }
 
+            refresh_token(user_id: number){
+                return this.httpClient.get<Token[]>(`${this.PHP_API_SERVER}/refresh_user.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
+
+            }
 
     // users Table
             get_all_Users(): Observable<User[]>{
