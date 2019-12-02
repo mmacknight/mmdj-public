@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, Input } from '@angular/core';
 
 @Component({
   selector: 'app-youtube-player',
@@ -7,12 +7,18 @@ import { Component, OnInit, HostListener } from '@angular/core';
 })
 export class YoutubePlayerComponent implements OnInit {
 
-  id = 'FM7MFYoylVs';
+
+
+  public id: number;
   private player;
   private ytEvent;
   public width;
   public height;
 
+  @Input()
+  set inp(input) {
+    this.id = input;
+  }
   constructor() {
     this.onResize();
   }

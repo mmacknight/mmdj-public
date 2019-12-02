@@ -27,21 +27,20 @@
   <div *ngIf="searchOptions[1]">
 
     <input class="input-field" [class.input-field-active]="searchBoxSoundcloud.value" #searchBoxSoundcloud (input)="searchSoundcloud(searchBoxSoundcloud.value)" placeholder="Add a song to the queue">
-
     <table *ngIf="searchBoxSoundcloud.value" class="soundcloud" mat-table [dataSource]="soundcloud$ | async" class="mat-elevation-z8">
       <ng-container matColumnDef="artwork">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td  style="padding:0" mat-cell *matCellDef="let element" (click)="addSong(element.song_id)" (click)="searchBoxSoundcloud.value = ''"><img src={{element.artwork_url}}></td>
+        <td  style="padding:0" mat-cell *matCellDef="let element" (click)="addSong(convertSoundcloud(element))" (click)="searchBoxSoundcloud.value = ''"><img src={{element.artwork_url}}></td>
       </ng-container>
 
       <ng-container matColumnDef="artist">
         <th mat-header-cell *matHeaderCellDef> Artist </th>
-        <td  mat-cell *matCellDef="let element" style="padding-left: 0" (click)="addSong(element.song_id)" (click)="searchBoxSoundcloud.value = ''"> {{element.user.username}} </td>
+        <td  mat-cell *matCellDef="let element" style="padding-left: 0" (click)="addSong(convertSoundcloud(element))" (click)="searchBoxSoundcloud.value = ''"> {{element.user.username}} </td>
       </ng-container>
 
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef> Title </th>
-        <td mat-cell *matCellDef="let element" (click)="addSong(element.song_id)" (click)="searchBoxSoundcloud.value = ''"> {{element.title}} </td>
+        <td mat-cell *matCellDef="let element" (click)="addSong(convertSoundcloud(element))" (click)="searchBoxSoundcloud.value = ''"> {{element.title}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -56,7 +55,7 @@
     <table *ngIf="searchBoxYoutube.value" mat-table [dataSource]="youtubes$ | async" class="mat-elevation-z8">
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef> Title </th>
-        <td class="youtube-td" style="padding-left: 0" mat-cell *matCellDef="let element" (click)="addSong(element.song_id)" (click)="searchBoxYoutube.value = ''"> <img *ngIf="element.thumb" src={{element.thumb}}> <img *ngIf="!element.thumb" src="assets/media/youtube.png"> <div class="youtube-title">{{element.title}}</div> </td>
+        <td class="youtube-td" style="padding-left: 0" mat-cell *matCellDef="let element" (click)="addSong(convertYoutube(element))" (click)="searchBoxYoutube.value = ''"> <img *ngIf="element.artwork" src={{element.artwork}}> <img *ngIf="!element.artwork" src="assets/media/youtube.png"> <div class="youtube-title">{{element.title}}</div> </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumnsYoutube"></tr>
