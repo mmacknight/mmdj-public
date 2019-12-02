@@ -11,11 +11,11 @@ export class TokenService {
   CLIENT_ID = "c7d322da32444b989421f7cc942c64a3";
   REDIRECT_URI = "http://localhost:4200/callback";
 
-  private tokenSubject: BehaviorSubject<String>;
-  public token: Observable<String>;
+  private tokenSubject: BehaviorSubject<string>;
+  public token: Observable<string>;
 
   constructor() {
-    this.tokenSubject = new BehaviorSubject<String>(localStorage.getItem('token'));
+    this.tokenSubject = new BehaviorSubject<string>(localStorage.getItem('token'));
     this.token = this.tokenSubject.asObservable();
   }
 
@@ -28,7 +28,7 @@ export class TokenService {
   }
 
 
-  public get tokenValue(): String {
+  public get tokenValue(): string {
       return this.tokenSubject.value;
   }
 

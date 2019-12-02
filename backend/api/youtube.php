@@ -31,17 +31,18 @@ foreach ($html->find('div.yt-lockup') as $videoDiv) {
         // get title attribute
         $videoTitle = $videoDetails->title;
         // get href attribute
-        $videoUrl = 'https://youtube.com' . $videoDetails->href;
+        $videoUrl = $videoDetails->href;
 
+        $videoDuration = $videoDiv->find('span.video-time',0)->plaintext;
         // push to a list of videos
         $href = $videoDetails->href;
-
         // echo $href;
         if ($href && $href[1] === 'w') {
           $videos[] = [
             'title' => $videoTitle,
             'url' => $videoUrl,
-            'thumb' => $img
+            'duration' => $videoDuration,
+            'artwork' => $img,
           ];
         }
 

@@ -159,6 +159,32 @@ export class SongSearchComponent implements OnInit {
     )
   }
 
+  convertYoutube(youtube: Youtube) {
+    var y_song = new Song();
+
+    y_song.title = youtube.title;
+    y_song.artist = '';
+    y_song.artwork = youtube.artwork.split('?')[0];
+    y_song.song_id = youtube.url.split('v=')[1].split(';')[0];
+    y_song.platform = 'youtube';
+    y_song.duration = 0;
+
+    return y_song;
+  }
+
+  convertSoundcloud(soundcloud: Soundcloud) {
+    var s_song = new Song();
+    console.log(soundcloud)
+    s_song.title = soundcloud.title;
+    s_song.artist = soundcloud.user.username;
+    s_song.song_id = String(soundcloud.id);
+    s_song.artwork = soundcloud.artwork_url;
+    s_song.platform = 'soundcloud';
+    s_song.duration = soundcloud.duration;
+
+    return s_song;
+  }
+
 
 
 

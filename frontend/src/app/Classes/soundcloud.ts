@@ -1,7 +1,8 @@
 export class Soundcloud {
-    id: number = -1;
+    id: string = null;
     artwork_url: string = null;
     title: string = null;
+  	duration: number = -1;
     user: {
       username: string;
     }

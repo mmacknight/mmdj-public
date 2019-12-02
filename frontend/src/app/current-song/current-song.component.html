@@ -1,9 +1,13 @@
 <div class="current-song" [style.z-index]="width > 600 ? -1 : 1">
   <!-- <app-youtube-player></app-youtube-player> -->
   <app-spotify [inp]="song" (myEvent)='skipSong()'></app-spotify>
+  <app-soundcloud *ngIf="song.platform == 'soundcloud'" [inp]="song.song_id"></app-soundcloud>
+  <app-youtube-player *ngIf="song.platform == 'youtube'" [inp]="song.song_id"></app-youtube-player>
+
   <div class="song" [style.padding-top]="song_padding" [style.padding-bottom]="song_padding">
     <div *ngIf="width > 600 || song_padding != '0%'" class="normal">{{song.title}}<br>{{song.artist}}</div>
     <div *ngIf="width <= 600 && song_padding == '0%'"class="banner">{{song.title}} - {{song.artist}}</div>
+    {{song.platform}}
     <!-- <p>{{window.pageYoffset}}</p> -->
   </div>
 </div>

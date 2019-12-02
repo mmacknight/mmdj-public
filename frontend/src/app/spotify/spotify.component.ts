@@ -35,16 +35,19 @@ export class SpotifyComponent implements OnInit {
 
 
   constructor(private tokenService: TokenService) {
+    console.log("heerre");
     this.tokenService.token.subscribe(
       token => this.token = token
     )
     window['onSpotifyWebPlaybackSDKReady'] = () => {
+    // window.onSpotifyWebPlaybackSDKReady = () => {
       const player = new Spotify.Player({
         name: 'Web Playback SDK Quick Start Player',
         getOAuthToken: cb => { cb(this.token); }
       });
 
       // Error handling
+      
       player.addListener('initialization_error', ({ message }) => { console.error(message); });
       player.addListener('authentication_error', ({ message }) => { console.error(message); });
       player.addListener('account_error', ({ message }) => { console.error(message); });
@@ -63,13 +66,14 @@ export class SpotifyComponent implements OnInit {
         console.log('Ready with Device ID', device_id);
         this.device_id = device_id;
         console.log('here', this.device_id);
+        console.log("HEEEY");
 
 
         //player.connect();
         while (!this.track_id){
 
         }
-
+        console.log("heere2");
         this.play(device_id, this.track_id);
         //this.play(device_id, '0jdny0dhgjUwoIp5GkqEaA');
       });
@@ -81,11 +85,12 @@ export class SpotifyComponent implements OnInit {
 
       player.connect();
 
-
     };
 
     // Play a specified track on the Web Playback SDK's device ID
-
+    console.log("HIIIHH");
+    console.log(this.device_id);
+    console.log(window);
 
 
   }

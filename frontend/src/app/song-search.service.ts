@@ -14,7 +14,7 @@ export class SongSearchService {
   ITUNES_API = 'https://itunes.apple.com/search?term=';
   PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/mmdj/backend/api";
   YOUTUBE_API = `${this.PHP_API_SERVER}/youtube.php`;
-  CLIENT_ID = 'BeGVhOrGmfboy1LtiHTQF6Ejpt9ULJCI';
+  CLIENT_ID = 'UW9ajvMgVdMMW3cdeBi8lPfN6dvOVGji';
   SOUNDCLOUD_API = `https://api.soundcloud.com/tracks/?client_id=${this.CLIENT_ID}`;
   SPOTIFY_API = `https://api.spotify.com/v1/search`;
 
