@@ -2,6 +2,7 @@ import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { Song } from '@classes/song';
 import { QueuedSong } from '@classes/queuedSong';
 import { ApiService } from '../api.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-current-song',
@@ -14,6 +15,7 @@ export class CurrentSongComponent implements OnInit {
   public track_id: string;
   public platform: string;
   public event_id: number;
+  public device_id: String;
   width: number;
   yoffset: number;
   song_padding: string;
@@ -26,7 +28,10 @@ export class CurrentSongComponent implements OnInit {
      }
   }
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService, private userService: UserService) {
+    this.userService.device_id.subscribe(
+      device_id => this.device_id = device_id
+    )
     this.width = window.innerWidth;
     this.yoffset = window.pageYOffset;
     this.song_padding = this.width <= 600 ? String(Math.max(20-100*this.yoffset/window.innerHeight,0))+'%' : '20%'

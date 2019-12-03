@@ -24,6 +24,7 @@ import { YoutubePlayerComponent } from './youtube-player/youtube-player.componen
 import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
 import { SoundcloudComponent } from './soundcloud/soundcloud.component';
 import { CallbackComponent } from './callback/callback.component';
+import { MobileNavbarComponent } from './mobile-navbar/mobile-navbar.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { CallbackComponent } from './callback/callback.component';
     CurrentSongComponent,
     YoutubePlayerComponent,
     SoundcloudComponent,
-    CallbackComponent
+    CallbackComponent,
+    MobileNavbarComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,5 @@
 <!-- <app-navbar *ngIf="user" (myEvent)="logout()"></app-navbar> -->
 <div class="body">
+  <button *ngIf="no_spotify" class="btn btn-success" (click)="authenticate()">Connect to Spoitfy</button>
   <router-outlet></router-outlet>
 <div>

@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <app-navbar *ngIf=\"user\" (myEvent)=\"logout()\"></app-navbar> -->\r\n<div class=\"body\">\r\n  <router-outlet></router-outlet>\r\n<div>\r\n"
+module.exports = "<!-- <app-navbar *ngIf=\"user\" (myEvent)=\"logout()\"></app-navbar> -->\r\n<div class=\"body\">\r\n  <button *ngIf=\"no_spotify\" class=\"btn btn-success\" (click)=\"authenticate()\">Connect to Spoitfy</button>\r\n  <router-outlet></router-outlet>\r\n<div>\r\n"
 
 /***/ }),
 
@@ -63,7 +63,7 @@ module.exports = "<p>callback works!</p>\r\n<p>{{this.router.url.split('#')[1]}}
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"current-song\" [style.z-index]=\"width > 600 ? -1 : 1\">\r\n  <!-- <app-youtube-player></app-youtube-player> -->\r\n  <!-- <app-spotify [inp]=\"song\" (myEvent)='skipSong()'></app-spotify> -->\r\n  <div class=\"song\" [style.padding-top]=\"song_padding\" [style.padding-bottom]=\"song_padding\">\r\n    <div *ngIf=\"width > 600 || song_padding != '0%'\" class=\"normal\">{{song.title}}<br>{{song.artist}}</div>\r\n    <div *ngIf=\"width <= 600 && song_padding == '0%'\"class=\"banner\">{{song.title}} - {{song.artist}}</div>\r\n    <!-- <p>{{window.pageYoffset}}</p> -->\r\n  </div>\r\n</div>\r\n<button (click)='skipSong()' style=\"float: left\">SKIP</button>\r\n"
+module.exports = "<div *ngIf=\"song.song_id\" class=\"current-song\" [style.backgroundImage]=\"'url('+ song.artwork +')'\" [style.z-index]=\"width > 600 ? -1 : 1\">\r\n  <!-- <app-youtube-player></app-youtube-player> -->\r\n  <app-spotify *ngIf=\"song.platform == 'spotify' && device_id\" [inp]=\"[song, device_id]\" (myEvent)='skipSong()'></app-spotify>\r\n  <app-soundcloud *ngIf=\"song.platform == 'soundcloud'\" [inp]=\"song.song_id\"></app-soundcloud>\r\n  <app-youtube-player *ngIf=\"song.platform == 'youtube'\" [inp]=\"song.song_id\"></app-youtube-player>\r\n\r\n  <div class=\"song\" [style.padding-top]=\"song_padding\" [style.padding-bottom]=\"song_padding\">\r\n\r\n    <!-- <div class=\"img-container\">\r\n      <img src={{song.artwork}} class=\"artwork\">\r\n    </div> -->\r\n    <div *ngIf=\"width > 600 || song_padding != '0%'\" class=\"normal\">\r\n      <div class=\"text-normal\">\r\n        <b>{{song.title}}<br>{{song.artist}}</b>\r\n      </div>\r\n    </div>\r\n    <div *ngIf=\"width <= 600 && song_padding == '0%'\" class=\"banner\">\r\n      <img *ngIf=\"song.platform == 'spotify'\" class=\"icon\" src=\"assets/media/spotify.png\">\r\n      <img *ngIf=\"song.platform == 'soundcloud'\" class=\"icon\" src=\"assets/media/soundcloud.png\">\r\n      <img *ngIf=\"song.platform == 'youtube'\" class=\"icon\" src=\"assets/media/youtube.png\">\r\n      <div class=\"text-banner\">\r\n        {{song.title}} - {{song.artist}}\r\n      </div>\r\n      <mat-icon (click)='skipSong()'>skip_next</mat-icon>\r\n    </div>\r\n\r\n    <!-- <p>{{window.pageYoffset}}</p> -->\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -111,6 +111,17 @@ module.exports = "<div class=\"example-container\">\r\n\r\n  <form class=\"form-
 
 /***/ }),
 
+/***/ "./node_modules/raw-loader/index.js!./src/app/mobile-navbar/mobile-navbar.component.html":
+/*!**************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/mobile-navbar/mobile-navbar.component.html ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"mobile-navbar\">\n  <div class=\"section\" [class.active]=\"display[0]\" (click)=\"toggleValue(0)\"><mat-icon aria-hidden=\"false\">queue_music</mat-icon></div>\n  <div class=\"section\" [class.active]=\"display[1]\" (click)=\"toggleValue(1)\"><mat-icon aria-hidden=\"false\">info</mat-icon></div>\n  <div class=\"section\" [class.active]=\"display[2]\" (click)=\"toggleValue(2)\"><mat-icon aria-hidden=\"false\">account_circle</mat-icon></div>\n</div>\n"
+
+/***/ }),
+
 /***/ "./node_modules/raw-loader/index.js!./src/app/navbar/navbar.component.html":
 /*!************************************************************************!*\
   !*** ./node_modules/raw-loader!./src/app/navbar/navbar.component.html ***!
@@ -129,7 +140,7 @@ module.exports = "<nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\r\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-current-song [inp]=event.event_id></app-current-song>\r\n<button class=\"btn btn-outline-danger end-party-button\" (click)=\"onEndPartyClick()\" *ngIf=\"event.user_id==user.user_id\">End Party</button>\r\n\r\n<div class='party-container rounded'>\r\n    <h4>{{event.event_name}}</h4>\r\n    <h6>Party Code: {{event.event_id}}</h6>\r\n    <p>{{event.description | lowercase}}</p>\r\n    <button class=\"btn btn-primary\" (click)=\"loginSpotify()\">Refresh Spotify token</button>\r\n\r\n    <app-song-search [inp]=event.event_id></app-song-search>\r\n\r\n    <table mat-table [dataSource]=\"queuedSongs$ | async\" class=\"mat-elevation-z8\">\r\n\r\n        <ng-container matColumnDef=\"score\">\r\n          <th mat-header-cell *matHeaderCellDef> Score </th>\r\n          <td mat-cell *matCellDef=\"let element\"> {{element.popularity}} </td>\r\n        </ng-container>\r\n\r\n        <ng-container matColumnDef=\"artist\">\r\n          <th mat-header-cell *matHeaderCellDef> Artist </th>\r\n          <td mat-cell *matCellDef=\"let element\"> {{element.artist}} </td>\r\n        </ng-container>\r\n\r\n        <ng-container matColumnDef=\"title\">\r\n          <th mat-header-cell *matHeaderCellDef> Title </th>\r\n          <td mat-cell *matCellDef=\"let element\"> {{element.title}} </td>\r\n        </ng-container>\r\n\r\n        <ng-container matColumnDef=\"vote\" >\r\n            <th mat-header-cell *matHeaderCellDef> Vote </th>\r\n            <td mat-cell *matCellDef=\"let element\" class='buttons-right'>\r\n              <div class=\"arrow-button arrow-button-up\" [class.arrow-button-up-voted]=\"userVotes[element.order_num] == 1\" (click)=\"upvote(element.order_num, element.song_id, element.platform)\">\r\n                <mat-icon aria-hidden=\"false\">add_circle</mat-icon>\r\n              </div>\r\n              <div class=\"arrow-button arrow-button-down\" [class.arrow-button-down-voted]=\"userVotes[element.order_num] == -1\" (click)=\"downvote(element.order_num, element.song_id, element.platform)\">\r\n                  <mat-icon aria-hidden=\"false\">remove_circle</mat-icon>\r\n              </div>\r\n            </td>\r\n        </ng-container>\r\n\r\n        <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n        <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\r\n      </table>\r\n</div>\r\n"
+module.exports = "<app-current-song [inp]=event.event_id></app-current-song>\r\n<button class=\"btn btn-outline-danger end-party-button\" (click)=\"onEndPartyClick()\" *ngIf=\"event.user_id==user.user_id\">End Party</button>\r\n\r\n<div class='party-container rounded'>\r\n    <div *ngIf=\"display[1]\" class=\"party-info\">\r\n      <h4>{{event.event_name}}</h4>\r\n      <h6>Party Code: {{event.event_id}}</h6>\r\n      <p>{{event.description | lowercase}}</p>\r\n      <!-- <button class=\"btn btn-primary\" (click)=\"loginSpotify()\">Refresh Spotify token</button> -->\r\n\r\n      <app-song-search [inp]=event.event_id></app-song-search>\r\n    </div>\r\n\r\n    <div *ngIf=\"display[0]\" class=\"queue\">\r\n      <table mat-table [dataSource]=\"queuedSongs$ | async\" class=\"mat-elevation-z8\">\r\n\r\n          <ng-container matColumnDef=\"score\">\r\n            <th mat-header-cell *matHeaderCellDef> Score </th>\r\n            <td mat-cell *matCellDef=\"let element\"> {{element.popularity}} </td>\r\n          </ng-container>\r\n\r\n          <ng-container matColumnDef=\"artist\">\r\n            <th mat-header-cell *matHeaderCellDef> Artist </th>\r\n            <td mat-cell *matCellDef=\"let element\"> {{element.artist}} </td>\r\n          </ng-container>\r\n\r\n          <ng-container matColumnDef=\"title\">\r\n            <th mat-header-cell *matHeaderCellDef> Title </th>\r\n            <td mat-cell *matCellDef=\"let element\"> {{element.title}} </td>\r\n          </ng-container>\r\n\r\n          <ng-container matColumnDef=\"vote\" >\r\n              <th mat-header-cell *matHeaderCellDef> Vote </th>\r\n              <td mat-cell *matCellDef=\"let element\" class='buttons-right'>\r\n                <div class=\"arrow-button arrow-button-up\" [class.arrow-button-up-voted]=\"userVotes[element.order_num] == 1\" (click)=\"upvote(element.order_num, element.song_id, element.platform)\">\r\n                  <mat-icon aria-hidden=\"false\">add_circle</mat-icon>\r\n                </div>\r\n                <div class=\"arrow-button arrow-button-down\" [class.arrow-button-down-voted]=\"userVotes[element.order_num] == -1\" (click)=\"downvote(element.order_num, element.song_id, element.platform)\">\r\n                    <mat-icon aria-hidden=\"false\">remove_circle</mat-icon>\r\n                </div>\r\n              </td>\r\n          </ng-container>\r\n\r\n          <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n          <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\r\n        </table>\r\n      </div>\r\n      <div *ngIf=\"display[2]\" class=\"account\">\r\n        {{user.username}}\r\n      </div>\r\n</div>\r\n<app-mobile-navbar [inp]=\"display\" (toggle)=\"toggleDisplay($event)\"></app-mobile-navbar>\r\n"
 
 /***/ }),
 
@@ -140,7 +151,7 @@ module.exports = "<app-current-song [inp]=event.event_id></app-current-song>\r\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"search-component\">\r\n  <!-- <h4><label for=\"search-box\">Find Songs</label></h4> -->\r\n  <div class=\"btn-group buttons\">\r\n    <button class=\"btn buttons\" [class.btn-primary]=\"searchOptions[0]\" [class.btn-outline-primary]=\"!searchOptions[0]\" (click)=\"onButtonClick(0)\">Spotify</button>\r\n    <button class=\"btn buttons\" [class.btn-primary]=\"searchOptions[1]\" [class.btn-outline-primary]=\"!searchOptions[1]\" (click)=\"onButtonClick(1)\">Soundcloud</button>\r\n    <button class=\"btn buttons\" [class.btn-primary]=\"searchOptions[2]\" [class.btn-outline-primary]=\"!searchOptions[2]\" (click)=\"onButtonClick(2)\">Youtube</button>\r\n  </div>\r\n\r\n  <div *ngIf=\"searchOptions[0]\">\r\n\r\n      <input class=\"input-field\" [class.input-field-active]=\"searchBox.value\" #searchBox (keyup)=\"search_spotify(searchBox.value)\" placeholder=\"Add a song to the queue\">\r\n    <table *ngIf=\"searchBox.value\" mat-table [dataSource]=\"songs\" class=\"mat-elevation-z8\">\r\n      <ng-container matColumnDef=\"artist\">\r\n        <th mat-header-cell *matHeaderCellDef> Artist </th>\r\n        <td mat-cell *matCellDef=\"let element\" (click)=\"addSong(element)\" (click)=\"searchBox.value = ''\"> {{element.title}} </td>\r\n      </ng-container>\r\n\r\n      <ng-container matColumnDef=\"title\">\r\n        <th mat-header-cell *matHeaderCellDef> Title </th>\r\n        <td mat-cell *matCellDef=\"let element\" (click)=\"addSong(element)\" (click)=\"searchBox.value = ''\"> {{element.artist}} </td>\r\n      </ng-container>\r\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\r\n    </table>\r\n  </div>\r\n\r\n  <div *ngIf=\"searchOptions[1]\">\r\n\r\n    <input class=\"input-field\" [class.input-field-active]=\"searchBoxSoundcloud.value\" #searchBoxSoundcloud (input)=\"searchSoundcloud(searchBoxSoundcloud.value)\" placeholder=\"Add a song to the queue\">\r\n\r\n    <table *ngIf=\"searchBoxSoundcloud.value\" class=\"soundcloud\" mat-table [dataSource]=\"soundcloud$ | async\" class=\"mat-elevation-z8\">\r\n      <ng-container matColumnDef=\"artwork\">\r\n        <th mat-header-cell *matHeaderCellDef></th>\r\n        <td  style=\"padding:0\" mat-cell *matCellDef=\"let element\" (click)=\"addSong(element.song_id)\" (click)=\"searchBoxSoundcloud.value = ''\"><img src={{element.artwork_url}}></td>\r\n      </ng-container>\r\n\r\n      <ng-container matColumnDef=\"artist\">\r\n        <th mat-header-cell *matHeaderCellDef> Artist </th>\r\n        <td  mat-cell *matCellDef=\"let element\" style=\"padding-left: 0\" (click)=\"addSong(element.song_id)\" (click)=\"searchBoxSoundcloud.value = ''\"> {{element.user.username}} </td>\r\n      </ng-container>\r\n\r\n      <ng-container matColumnDef=\"title\">\r\n        <th mat-header-cell *matHeaderCellDef> Title </th>\r\n        <td mat-cell *matCellDef=\"let element\" (click)=\"addSong(element.song_id)\" (click)=\"searchBoxSoundcloud.value = ''\"> {{element.title}} </td>\r\n      </ng-container>\r\n\r\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumnsSoundcloud;\"></tr>\r\n    </table>\r\n  </div>\r\n\r\n  <div *ngIf=\"searchOptions[2]\">\r\n\r\n      <input class=\"input-field\" [class.input-field-active]=\"searchBoxYoutube.value\" #searchBoxYoutube (input)=\"searchYoutube(searchBoxYoutube.value)\" placeholder=\"Add a song to the queue\">\r\n\r\n    <table *ngIf=\"searchBoxYoutube.value\" mat-table [dataSource]=\"youtubes$ | async\" class=\"mat-elevation-z8\">\r\n      <ng-container matColumnDef=\"title\">\r\n        <th mat-header-cell *matHeaderCellDef> Title </th>\r\n        <td class=\"youtube-td\" style=\"padding-left: 0\" mat-cell *matCellDef=\"let element\" (click)=\"addSong(element.song_id)\" (click)=\"searchBoxYoutube.value = ''\"> <img *ngIf=\"element.thumb\" src={{element.thumb}}> <img *ngIf=\"!element.thumb\" src=\"assets/media/youtube.png\"> <div class=\"youtube-title\">{{element.title}}</div> </td>\r\n      </ng-container>\r\n\r\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumnsYoutube\"></tr>\r\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumnsYoutube;\"></tr>\r\n    </table>\r\n  </div>\r\n\r\n</div>\r\n"
+module.exports = "<div class=\"search-component\">\r\n  <!-- <h4><label for=\"search-box\">Find Songs</label></h4> -->\r\n  <div class=\"btn-group buttons\">\r\n    <button class=\"btn buttons\" [class.btn-primary]=\"searchOptions[0]\" [class.btn-outline-primary]=\"!searchOptions[0]\" (click)=\"onButtonClick(0)\">Spotify</button>\r\n    <button class=\"btn buttons\" [class.btn-primary]=\"searchOptions[1]\" [class.btn-outline-primary]=\"!searchOptions[1]\" (click)=\"onButtonClick(1)\">Soundcloud</button>\r\n    <button class=\"btn buttons\" [class.btn-primary]=\"searchOptions[2]\" [class.btn-outline-primary]=\"!searchOptions[2]\" (click)=\"onButtonClick(2)\">Youtube</button>\r\n  </div>\r\n\r\n  <div *ngIf=\"searchOptions[0]\">\r\n\r\n      <input class=\"input-field\" [class.input-field-active]=\"searchBox.value\" #searchBox (keyup)=\"search_spotify(searchBox.value)\" placeholder=\"Add a song to the queue\">\r\n    <table *ngIf=\"searchBox.value\" mat-table [dataSource]=\"songs\" class=\"mat-elevation-z8\">\r\n      <ng-container matColumnDef=\"artist\">\r\n        <th mat-header-cell *matHeaderCellDef> Artist </th>\r\n        <td mat-cell *matCellDef=\"let element\" (click)=\"addSong(element)\" (click)=\"searchBox.value = ''\"> {{element.title}} </td>\r\n      </ng-container>\r\n\r\n      <ng-container matColumnDef=\"title\">\r\n        <th mat-header-cell *matHeaderCellDef> Title </th>\r\n        <td mat-cell *matCellDef=\"let element\" (click)=\"addSong(element)\" (click)=\"searchBox.value = ''\"> {{element.artist}} </td>\r\n      </ng-container>\r\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\r\n    </table>\r\n  </div>\r\n\r\n  <div *ngIf=\"searchOptions[1]\">\r\n\r\n    <input class=\"input-field\" [class.input-field-active]=\"searchBoxSoundcloud.value\" #searchBoxSoundcloud (input)=\"searchSoundcloud(searchBoxSoundcloud.value)\" placeholder=\"Add a song to the queue\">\r\n    <table *ngIf=\"searchBoxSoundcloud.value\" class=\"soundcloud\" mat-table [dataSource]=\"soundcloud$ | async\" class=\"mat-elevation-z8\">\r\n      <ng-container matColumnDef=\"artwork\">\r\n        <th mat-header-cell *matHeaderCellDef></th>\r\n        <td  style=\"padding:0\" mat-cell *matCellDef=\"let element\" (click)=\"addSong(convertSoundcloud(element))\" (click)=\"searchBoxSoundcloud.value = ''\"><img src={{element.artwork_url}}></td>\r\n      </ng-container>\r\n\r\n      <ng-container matColumnDef=\"artist\">\r\n        <th mat-header-cell *matHeaderCellDef> Artist </th>\r\n        <td  mat-cell *matCellDef=\"let element\" style=\"padding-left: 0\" (click)=\"addSong(convertSoundcloud(element))\" (click)=\"searchBoxSoundcloud.value = ''\"> {{element.user.username}} </td>\r\n      </ng-container>\r\n\r\n      <ng-container matColumnDef=\"title\">\r\n        <th mat-header-cell *matHeaderCellDef> Title </th>\r\n        <td mat-cell *matCellDef=\"let element\" (click)=\"addSong(convertSoundcloud(element))\" (click)=\"searchBoxSoundcloud.value = ''\"> {{element.title}} </td>\r\n      </ng-container>\r\n\r\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumnsSoundcloud;\"></tr>\r\n    </table>\r\n  </div>\r\n\r\n  <div *ngIf=\"searchOptions[2]\">\r\n\r\n      <input class=\"input-field\" [class.input-field-active]=\"searchBoxYoutube.value\" #searchBoxYoutube (input)=\"searchYoutube(searchBoxYoutube.value)\" placeholder=\"Add a song to the queue\">\r\n\r\n    <table *ngIf=\"searchBoxYoutube.value\" mat-table [dataSource]=\"youtubes$ | async\" class=\"mat-elevation-z8\">\r\n      <ng-container matColumnDef=\"title\">\r\n        <th mat-header-cell *matHeaderCellDef> Title </th>\r\n        <td class=\"youtube-td\" style=\"padding-left: 0\" mat-cell *matCellDef=\"let element\" (click)=\"addSong(convertYoutube(element))\" (click)=\"searchBoxYoutube.value = ''\"> <img *ngIf=\"element.artwork\" src={{element.artwork}}> <img *ngIf=\"!element.artwork\" src=\"assets/media/youtube.png\"> <div class=\"youtube-title\">{{element.title}}</div> </td>\r\n      </ng-container>\r\n\r\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumnsYoutube\"></tr>\r\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumnsYoutube;\"></tr>\r\n    </table>\r\n  </div>\r\n\r\n</div>\r\n"
 
 /***/ }),
 
@@ -151,7 +162,7 @@ module.exports = "<div class=\"search-component\">\r\n  <!-- <h4><label for=\"se
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<iframe width=\"100%\" height=\"166\" scrolling=\"no\" frameborder=\"no\" allow=\"autoplay\"\r\n  src=\"https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/{{track_id}}&amp;auto_play=true\">\r\n</iframe>\r\n"
+module.exports = "<iframe *ngIf=\"FRAME\" width=\"100%\" height=\"166\" scrolling=\"no\" frameborder=\"no\" allow=\"autoplay\"\r\n  [src]=\"FRAME\">\r\n</iframe>\r\n"
 
 /***/ }),
 
@@ -329,34 +340,36 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var ApiService = /** @class */ (function () {
+    // PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/tutorial/dom";
     function ApiService(httpClient) {
         this.httpClient = httpClient;
-        this.PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/mmdj/backend";
+        this.PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/mmdj/backend/api";
+        this.PHP_API_SERVER_DOM = "http://db.cse.nd.edu/cse30246/tutorial/dom";
     }
     // Starter Code
     ApiService.prototype.readPolicies = function () {
-        return this.httpClient.get(this.PHP_API_SERVER + "/api/read.php").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.get(this.PHP_API_SERVER + "/read.php").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     ApiService.prototype.createPolicy = function (policy) {
-        return this.httpClient.post(this.PHP_API_SERVER + "/api/create.php", policy).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.post(this.PHP_API_SERVER + "/create.php", policy).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     ApiService.prototype.updatePolicy = function (policy) {
-        return this.httpClient.put(this.PHP_API_SERVER + "/api/update.php", policy).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.put(this.PHP_API_SERVER + "/update.php", policy).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     ApiService.prototype.deletePolicy = function (id) {
-        return this.httpClient.delete(this.PHP_API_SERVER + "/api/delete.php/?id=" + id).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.delete(this.PHP_API_SERVER + "/delete.php/?id=" + id).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     ApiService.prototype.readUsers = function () {
-        return this.httpClient.get(this.PHP_API_SERVER + "/api/readUser.php").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.get(this.PHP_API_SERVER + "/readUser.php").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     ApiService.prototype.createUser = function (user) {
-        return this.httpClient.post(this.PHP_API_SERVER + "/api/createUser.php", user).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.post(this.PHP_API_SERVER + "/createUser.php", user).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     ApiService.prototype.updateUser = function (user) {
-        return this.httpClient.put(this.PHP_API_SERVER + "/api/updateUser.php", user).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.put(this.PHP_API_SERVER + "/updateUser.php", user).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     ApiService.prototype.deleteUser = function (id) {
-        return this.httpClient.delete(this.PHP_API_SERVER + "/api/deleteUser.php/?id=" + id + "&?table=").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.delete(this.PHP_API_SERVER + "/deleteUser.php/?id=" + id + "&?table=").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     // Get
     // Spotify API
@@ -370,36 +383,37 @@ var ApiService = /** @class */ (function () {
         *   https://developer.spotify.com/documentation/general/guides/scopes/
         * opt: show_dialog - keep default of false to avoid relogins
         */
+        return this.httpClient.get(this.PHP_API_SERVER + "/auth.php").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     // events Table
     ApiService.prototype.get_event = function (id) {
-        return this.httpClient.get(this.PHP_API_SERVER + "/api/get_event.php/?id=" + id + "\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.get(this.PHP_API_SERVER + "/get_event.php/?id=" + id + "\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     ApiService.prototype.get_events_by_user = function (user_id) {
-        return this.httpClient.get(this.PHP_API_SERVER + "/api/get_events_by_user.php/?id=" + user_id + "\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.get(this.PHP_API_SERVER + "/get_events_by_user.php/?id=" + user_id + "\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     ApiService.prototype.get_event_current_song = function (event_id) {
-        return this.httpClient.get(this.PHP_API_SERVER + "/api/get_event_current_song.php/?id=" + event_id + "\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.get(this.PHP_API_SERVER + "/get_event_current_song.php/?id=" + event_id + "\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     // queuedSongs Table
     // get all songs in queue for an event, in order
     ApiService.prototype.get_queuedSongs = function (event_id) {
-        return this.httpClient.get(this.PHP_API_SERVER + "/api/get_queuedSongs.php/?id=" + event_id + "\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.get(this.PHP_API_SERVER + "/get_queuedSongs.php/?id=" + event_id + "\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     // songs Table
     // for a search by name
     ApiService.prototype.get_songs = function (query) {
-        return this.httpClient.get(this.PHP_API_SERVER + "/api/get_songs.php/?query=" + query).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.get(this.PHP_API_SERVER + "/get_songs.php/?query=" + query).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     ApiService.prototype.get_song = function (song_id, platform) {
-        return this.httpClient.get(this.PHP_API_SERVER + "/api/get_song.php/?song_id=" + song_id + "&platform=" + platform).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.get(this.PHP_API_SERVER + "/get_song.php/?song_id=" + song_id + "&platform=" + platform).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     // Search Bar
     ApiService.prototype.gethelper_Searchbar_Artist = function (search) {
         throw new Error("Method not implemented.");
     };
     ApiService.prototype.gethelper_Searchbar_Songs = function (search) {
-        return this.httpClient.get(this.PHP_API_SERVER + "/api/gethelper_Searchbar_Songs.php/?search=" + search).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.get(this.PHP_API_SERVER + "/gethelper_Searchbar_Songs.php/?search=" + search).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     ApiService.prototype.get_Searchbar = function (search) {
         this.gethelper_Searchbar_Songs(search);
@@ -413,88 +427,88 @@ var ApiService = /** @class */ (function () {
     };
     // Play Song
     ApiService.prototype.get_user_votes = function (user_id, event_id) {
-        return this.httpClient.get(this.PHP_API_SERVER + "/api/get_votes_single_user.php/?user_id=" + user_id + "&event_id=" + event_id).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.get(this.PHP_API_SERVER + "/get_votes_single_user.php/?user_id=" + user_id + "&event_id=" + event_id).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     // tokens Table
     //Spotify
-    ApiService.prototype.get_OriginalToken = function () {
-        throw new Error("Method not implemented.");
+    ApiService.prototype.get_token = function (user_id) {
+        return this.httpClient.get(this.PHP_API_SERVER_DOM + "/get_token.php/?id=" + user_id).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
-    ApiService.prototype.get_UpdatedToken = function () {
-        throw new Error("Method not implemented.");
+    ApiService.prototype.refresh_token = function (user_id) {
+        return this.httpClient.get(this.PHP_API_SERVER_DOM + "/refresh_user.php/?id=" + user_id).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     // users Table
     ApiService.prototype.get_all_Users = function () {
-        return this.httpClient.get(this.PHP_API_SERVER + "/api/get_all_users.php");
+        return this.httpClient.get(this.PHP_API_SERVER + "/get_all_users.php");
     };
     ApiService.prototype.get_user = function (username, password) {
-        return this.httpClient.get(this.PHP_API_SERVER + "/api/get_single_user.php/?username=" + username + "&password=" + password + "&table=\"users\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.get(this.PHP_API_SERVER + "/get_single_user.php/?username=" + username + "&password=" + password + "&table=\"users\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     // Post
     // events Table
     ApiService.prototype.post_Event = function (event) {
-        return this.httpClient.post(this.PHP_API_SERVER + "/api/post_event.php/?table=events", event);
+        return this.httpClient.post(this.PHP_API_SERVER + "/post_event.php/?table=events", event);
     };
     // queuedSongs Table
     ApiService.prototype.post_QueuedSong = function (queuedSong) {
-        return this.httpClient.post(this.PHP_API_SERVER + "/api/post_queuedSong.php/?table=queuedSongs", queuedSong);
+        return this.httpClient.post(this.PHP_API_SERVER + "/post_queuedSong.php/?table=queuedSongs", queuedSong);
     };
     // songs Table
     ApiService.prototype.post_Song = function (song) {
-        return this.httpClient.post(this.PHP_API_SERVER + "/api/post_song.php/", song).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.post(this.PHP_API_SERVER + "/post_song.php/", song).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     ApiService.prototype.post_vote = function (vote) {
-        return this.httpClient.post(this.PHP_API_SERVER + "/api/post_working.php/?table=vote", vote).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.post(this.PHP_API_SERVER + "/post_working.php/?table=vote", vote).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     // tokens Table
     ApiService.prototype.post_Token = function (token) {
-        return this.httpClient.post(this.PHP_API_SERVER + "/api/post_single_item.php", token).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.post(this.PHP_API_SERVER + "/post_single_item.php", token).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     // users Table
     ApiService.prototype.post_User = function (user) {
-        return this.httpClient.post(this.PHP_API_SERVER + "/api/post_user.php/?table=" + "users", user).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.post(this.PHP_API_SERVER + "/post_user.php/?table=" + "users", user).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     //Put
     // events Table
     ApiService.prototype.put_Event = function (event) {
-        return this.httpClient.put(this.PHP_API_SERVER + "/api/put_Event.php", event).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.put(this.PHP_API_SERVER + "/put_Event.php", event).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     ApiService.prototype.put_current_song = function (event_id, order_num) {
-        return this.httpClient.put(this.PHP_API_SERVER + "/api/put_current_song.php", { "event_id": event_id, "order_num": order_num }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.put(this.PHP_API_SERVER + "/put_current_song.php", { "event_id": event_id, "order_num": order_num }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     // queuedSongs Table
     ApiService.prototype.put_QueuedSong = function (queuedSong) {
-        return this.httpClient.put(this.PHP_API_SERVER + "/api/put_queuedSong.php", queuedSong).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.put(this.PHP_API_SERVER + "/put_queuedSong.php", queuedSong).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     // songs Table
     ApiService.prototype.put_Song = function (song) {
-        return this.httpClient.put(this.PHP_API_SERVER + "/api/put_song.php", song).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.put(this.PHP_API_SERVER + "/put_song.php", song).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     // tokens Table
     // users Table
     ApiService.prototype.put_User = function (user) {
-        return this.httpClient.put(this.PHP_API_SERVER + "/api/put_user.php", user);
+        return this.httpClient.put(this.PHP_API_SERVER + "/put_user.php", user);
     };
     ApiService.prototype.put_vote = function (vote) {
-        return this.httpClient.put(this.PHP_API_SERVER + "/api/put_vote.php", vote).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.put(this.PHP_API_SERVER + "/put_vote.php", vote).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     // Delete
     // events Table
     ApiService.prototype.delete_Event = function (event_id) {
-        return this.httpClient.delete(this.PHP_API_SERVER + "/api/delete_event.php/?id=" + event_id + "&?table=\"event\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.delete(this.PHP_API_SERVER + "/delete_event.php/?id=" + event_id + "&?table=\"event\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     // queuedSongs Table
     ApiService.prototype.delete_QueuedSong = function (song_id) {
-        return this.httpClient.delete(this.PHP_API_SERVER + "/api/delete_single_item.php/?id=" + song_id + "&?table=\"queuedSong\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.delete(this.PHP_API_SERVER + "/delete_single_item.php/?id=" + song_id + "&?table=\"queuedSong\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     // songs Table
     ApiService.prototype.delete_Song = function (song_id) {
-        return this.httpClient.delete(this.PHP_API_SERVER + "/api/delete_single_item.php/?id=" + song_id + "&?table=\"song\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.delete(this.PHP_API_SERVER + "/delete_single_item.php/?id=" + song_id + "&?table=\"song\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     // tokens Table
     // users Table
     ApiService.prototype.delete_User = function (user_id) {
-        return this.httpClient.delete(this.PHP_API_SERVER + "/api/deleteUser.php/?id=" + user_id + "&?table=\"users\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.delete(this.PHP_API_SERVER + "/deleteUser.php/?id=" + user_id + "&?table=\"users\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     ApiService.prototype.errorHandler = function (error) {
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_3__["throwError"])(error);
@@ -600,25 +614,104 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user.service */ "./src/app/user.service.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _api_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./api.service */ "./src/app/api.service.ts");
+/* harmony import */ var _token_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./token.service */ "./src/app/token.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
+
 
 
 
 
 var AppComponent = /** @class */ (function () {
-    function AppComponent(userService, router) {
+    function AppComponent(userService, router, apiService, tokenService) {
         var _this = this;
         this.userService = userService;
         this.router = router;
+        this.apiService = apiService;
+        this.tokenService = tokenService;
+        this.no_spotify = false;
         this.title = 'frontend';
-        this.userService.currentUser.subscribe(function (user) { return user ? _this.user = user : _this.router.navigate(['']); });
+        this.redirect_uri = '';
+        this.userService.currentUser.subscribe(function (user) {
+            user ? _this.user = user : _this.router.navigate(['']),
+                _this.redirect_uri = "http://db.cse.nd.edu/cse30246/tutorial/dom/auth.php/?id=" + user.user_id;
+            _this.apiService.get_token(user.user_id).subscribe(function (token) {
+                console.log(token);
+                if (token.length) {
+                    _this.tokenService.setToken(token[0]["spotify_access"]);
+                }
+                else {
+                    _this.no_spotify = true;
+                }
+            });
+        });
+        this.tokenService.token.subscribe(function (token) { return _this.token = token; });
+        window['onSpotifyWebPlaybackSDKReady'] = function () {
+            console.log('2');
+            var player = new Spotify.Player({
+                name: 'Web Playback SDK Quick Start Player',
+                getOAuthToken: function (cb) { cb(_this.token); }
+            });
+            // Error handling
+            player.addListener('initialization_error', function (_a) {
+                var message = _a.message;
+                console.error(message);
+            });
+            player.addListener('authentication_error', function (_a) {
+                var message = _a.message;
+                console.error(message);
+            });
+            player.addListener('account_error', function (_a) {
+                var message = _a.message;
+                console.error(message);
+            });
+            player.addListener('playback_error', function (_a) {
+                var message = _a.message;
+                console.error(message);
+            });
+            // Playback status updates
+            player.addListener('player_state_changed', function (state) {
+                console.log(state);
+                if (state.position >= state.duration) {
+                }
+                // if (this.song.duration && (state.duration >= this.song.duration)){
+                //   this.callParent();
+                // }
+            });
+            // Ready
+            player.addListener('ready', function (_a) {
+                var device_id = _a.device_id;
+                console.log('Ready with Device ID', device_id);
+                _this.userService.setDeviceID(device_id);
+                console.log('here', device_id);
+                //player.connect();
+                // while (!this.track_id){
+                //}
+                //this.play(device_id, this.track_id);
+                //this.play(device_id, '0jdny0dhgjUwoIp5GkqEaA');
+            });
+            // Not Ready
+            player.addListener('not_ready', function (_a) {
+                var device_id = _a.device_id;
+                console.log('Device ID has gone offline', device_id);
+            });
+            player.connect();
+            console.log(window);
+        };
+        // Play a specified track on the Web Playback SDK's device ID
     }
     AppComponent.prototype.logout = function () {
         this.user = null;
     };
+    AppComponent.prototype.authenticate = function () {
+        window.location.href = this.redirect_uri;
+    };
     AppComponent.ctorParameters = function () { return [
         { type: _user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"] },
-        { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] }
+        { type: _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"] },
+        { type: _api_service__WEBPACK_IMPORTED_MODULE_3__["ApiService"] },
+        { type: _token_service__WEBPACK_IMPORTED_MODULE_4__["TokenService"] }
     ]; };
     AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -671,6 +764,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ngx_youtube_player__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ngx-youtube-player */ "./node_modules/ngx-youtube-player/fesm5/ngx-youtube-player.js");
 /* harmony import */ var _soundcloud_soundcloud_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./soundcloud/soundcloud.component */ "./src/app/soundcloud/soundcloud.component.ts");
 /* harmony import */ var _callback_callback_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./callback/callback.component */ "./src/app/callback/callback.component.ts");
+/* harmony import */ var _mobile_navbar_mobile_navbar_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./mobile-navbar/mobile-navbar.component */ "./src/app/mobile-navbar/mobile-navbar.component.ts");
+
 
 
 
@@ -717,7 +812,8 @@ var AppModule = /** @class */ (function () {
                 _current_song_current_song_component__WEBPACK_IMPORTED_MODULE_22__["CurrentSongComponent"],
                 _youtube_player_youtube_player_component__WEBPACK_IMPORTED_MODULE_23__["YoutubePlayerComponent"],
                 _soundcloud_soundcloud_component__WEBPACK_IMPORTED_MODULE_25__["SoundcloudComponent"],
-                _callback_callback_component__WEBPACK_IMPORTED_MODULE_26__["CallbackComponent"]
+                _callback_callback_component__WEBPACK_IMPORTED_MODULE_26__["CallbackComponent"],
+                _mobile_navbar_mobile_navbar_component__WEBPACK_IMPORTED_MODULE_27__["MobileNavbarComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -957,7 +1053,7 @@ var CallbackComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".current-song {\r\n  width: 100%;\r\n  position: fixed;\r\n  top: 0px;\r\n  z-index: -1;\r\n  background-color: black;\r\n  color: white;\r\n  text-align: center\r\n}\r\n\r\n.song {\r\n  padding-top: 20%;\r\n  padding-bottom: 20%;\r\n  width: 100%;\r\n}\r\n\r\n.normal {\r\n  font-size: 3.5vw;\r\n}\r\n\r\n.banner {\r\n  font-size: 3.25vw;\r\n  padding-top: 3%;\r\n  padding-bottom: 3%;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY3VycmVudC1zb25nL2N1cnJlbnQtc29uZy5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsV0FBVztFQUNYLGVBQWU7RUFDZixRQUFRO0VBQ1IsV0FBVztFQUNYLHVCQUF1QjtFQUN2QixZQUFZO0VBQ1o7QUFDRjs7QUFFQTtFQUNFLGdCQUFnQjtFQUNoQixtQkFBbUI7RUFDbkIsV0FBVztBQUNiOztBQUVBO0VBQ0UsZ0JBQWdCO0FBQ2xCOztBQUVBO0VBQ0UsaUJBQWlCO0VBQ2pCLGVBQWU7RUFDZixrQkFBa0I7QUFDcEIiLCJmaWxlIjoic3JjL2FwcC9jdXJyZW50LXNvbmcvY3VycmVudC1zb25nLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY3VycmVudC1zb25nIHtcclxuICB3aWR0aDogMTAwJTtcclxuICBwb3NpdGlvbjogZml4ZWQ7XHJcbiAgdG9wOiAwcHg7XHJcbiAgei1pbmRleDogLTE7XHJcbiAgYmFja2dyb3VuZC1jb2xvcjogYmxhY2s7XHJcbiAgY29sb3I6IHdoaXRlO1xyXG4gIHRleHQtYWxpZ246IGNlbnRlclxyXG59XHJcblxyXG4uc29uZyB7XHJcbiAgcGFkZGluZy10b3A6IDIwJTtcclxuICBwYWRkaW5nLWJvdHRvbTogMjAlO1xyXG4gIHdpZHRoOiAxMDAlO1xyXG59XHJcblxyXG4ubm9ybWFsIHtcclxuICBmb250LXNpemU6IDMuNXZ3O1xyXG59XHJcblxyXG4uYmFubmVyIHtcclxuICBmb250LXNpemU6IDMuMjV2dztcclxuICBwYWRkaW5nLXRvcDogMyU7XHJcbiAgcGFkZGluZy1ib3R0b206IDMlO1xyXG59XHJcbiJdfQ== */"
+module.exports = ".current-song {\r\n  width: 100%;\r\n  position: fixed;\r\n  top: 0px;\r\n  z-index: -2;\r\n  background-color: black;\r\n  color: white;\r\n  text-align: center;\r\n  background-position: center;\r\n  background-size: cover;\r\n}\r\n\r\n.song {\r\n  padding-top: 20%;\r\n  padding-bottom: 20%;\r\n  width: 100%;\r\n}\r\n\r\n.normal {\r\n  text-align: center;\r\n  margin-left: 25%;\r\n}\r\n\r\n.banner {\r\n  padding-top: 3%;\r\n  padding-bottom: 3%;\r\n  display: inline-flex;\r\n  background: rgba(0, 0, 0, 0.35);\r\n}\r\n\r\nmat-icon {\r\n  font-size: 10vw;\r\n  width: 15%;\r\n}\r\n\r\n.icon {\r\n  width: 15%;\r\n}\r\n\r\n.img-container {\r\n  height: 100%;\r\n  width: 100%;\r\n  -o-object-fit: cover;\r\n     object-fit: cover;\r\n  overflow: visible;\r\n  position: fixed;\r\n  z-index: -2;\r\n  top: 0px;\r\n}\r\n\r\n.artwork {\r\n    width: 100%;\r\n}\r\n\r\n.text-banner {\r\n  font-size: 4.25vw;\r\n  color: white;\r\n  width: 70%;\r\n  padding: 2.5%;\r\n  text-overflow: ellipsis;\r\n  /* -webkit-text-stroke-width: 0.01vw;\r\n  -webkit-text-stroke-color: black; */\r\n  /* Required for text-overflow to do anything */\r\n  white-space: nowrap;\r\n  overflow: hidden;\r\n}\r\n\r\n.text-normal {\r\n  font-size: 5vw;\r\n  color: white;\r\n  width: 70%;\r\n  padding: 2.5%;\r\n  background-color: black;\r\n  border-radius: 10px;\r\n  background: rgba(0, 0, 0, 0.5);\r\n\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY3VycmVudC1zb25nL2N1cnJlbnQtc29uZy5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsV0FBVztFQUNYLGVBQWU7RUFDZixRQUFRO0VBQ1IsV0FBVztFQUNYLHVCQUF1QjtFQUN2QixZQUFZO0VBQ1osa0JBQWtCO0VBQ2xCLDJCQUEyQjtFQUMzQixzQkFBc0I7QUFDeEI7O0FBRUE7RUFDRSxnQkFBZ0I7RUFDaEIsbUJBQW1CO0VBQ25CLFdBQVc7QUFDYjs7QUFFQTtFQUNFLGtCQUFrQjtFQUNsQixnQkFBZ0I7QUFDbEI7O0FBRUE7RUFDRSxlQUFlO0VBQ2Ysa0JBQWtCO0VBQ2xCLG9CQUFvQjtFQUNwQiwrQkFBK0I7QUFDakM7O0FBRUE7RUFDRSxlQUFlO0VBQ2YsVUFBVTtBQUNaOztBQUVBO0VBQ0UsVUFBVTtBQUNaOztBQUVBO0VBQ0UsWUFBWTtFQUNaLFdBQVc7RUFDWCxvQkFBaUI7S0FBakIsaUJBQWlCO0VBQ2pCLGlCQUFpQjtFQUNqQixlQUFlO0VBQ2YsV0FBVztFQUNYLFFBQVE7QUFDVjs7QUFFQTtJQUNJLFdBQVc7QUFDZjs7QUFFQTtFQUNFLGlCQUFpQjtFQUNqQixZQUFZO0VBQ1osVUFBVTtFQUNWLGFBQWE7RUFDYix1QkFBdUI7RUFDdkI7cUNBQ21DO0VBQ25DLDhDQUE4QztFQUM5QyxtQkFBbUI7RUFDbkIsZ0JBQWdCO0FBQ2xCOztBQUdBO0VBQ0UsY0FBYztFQUNkLFlBQVk7RUFDWixVQUFVO0VBQ1YsYUFBYTtFQUNiLHVCQUF1QjtFQUN2QixtQkFBbUI7RUFDbkIsOEJBQThCOztBQUVoQyIsImZpbGUiOiJzcmMvYXBwL2N1cnJlbnQtc29uZy9jdXJyZW50LXNvbmcuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jdXJyZW50LXNvbmcge1xyXG4gIHdpZHRoOiAxMDAlO1xyXG4gIHBvc2l0aW9uOiBmaXhlZDtcclxuICB0b3A6IDBweDtcclxuICB6LWluZGV4OiAtMjtcclxuICBiYWNrZ3JvdW5kLWNvbG9yOiBibGFjaztcclxuICBjb2xvcjogd2hpdGU7XHJcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xyXG4gIGJhY2tncm91bmQtcG9zaXRpb246IGNlbnRlcjtcclxuICBiYWNrZ3JvdW5kLXNpemU6IGNvdmVyO1xyXG59XHJcblxyXG4uc29uZyB7XHJcbiAgcGFkZGluZy10b3A6IDIwJTtcclxuICBwYWRkaW5nLWJvdHRvbTogMjAlO1xyXG4gIHdpZHRoOiAxMDAlO1xyXG59XHJcblxyXG4ubm9ybWFsIHtcclxuICB0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbiAgbWFyZ2luLWxlZnQ6IDI1JTtcclxufVxyXG5cclxuLmJhbm5lciB7XHJcbiAgcGFkZGluZy10b3A6IDMlO1xyXG4gIHBhZGRpbmctYm90dG9tOiAzJTtcclxuICBkaXNwbGF5OiBpbmxpbmUtZmxleDtcclxuICBiYWNrZ3JvdW5kOiByZ2JhKDAsIDAsIDAsIDAuMzUpO1xyXG59XHJcblxyXG5tYXQtaWNvbiB7XHJcbiAgZm9udC1zaXplOiAxMHZ3O1xyXG4gIHdpZHRoOiAxNSU7XHJcbn1cclxuXHJcbi5pY29uIHtcclxuICB3aWR0aDogMTUlO1xyXG59XHJcblxyXG4uaW1nLWNvbnRhaW5lciB7XHJcbiAgaGVpZ2h0OiAxMDAlO1xyXG4gIHdpZHRoOiAxMDAlO1xyXG4gIG9iamVjdC1maXQ6IGNvdmVyO1xyXG4gIG92ZXJmbG93OiB2aXNpYmxlO1xyXG4gIHBvc2l0aW9uOiBmaXhlZDtcclxuICB6LWluZGV4OiAtMjtcclxuICB0b3A6IDBweDtcclxufVxyXG5cclxuLmFydHdvcmsge1xyXG4gICAgd2lkdGg6IDEwMCU7XHJcbn1cclxuXHJcbi50ZXh0LWJhbm5lciB7XHJcbiAgZm9udC1zaXplOiA0LjI1dnc7XHJcbiAgY29sb3I6IHdoaXRlO1xyXG4gIHdpZHRoOiA3MCU7XHJcbiAgcGFkZGluZzogMi41JTtcclxuICB0ZXh0LW92ZXJmbG93OiBlbGxpcHNpcztcclxuICAvKiAtd2Via2l0LXRleHQtc3Ryb2tlLXdpZHRoOiAwLjAxdnc7XHJcbiAgLXdlYmtpdC10ZXh0LXN0cm9rZS1jb2xvcjogYmxhY2s7ICovXHJcbiAgLyogUmVxdWlyZWQgZm9yIHRleHQtb3ZlcmZsb3cgdG8gZG8gYW55dGhpbmcgKi9cclxuICB3aGl0ZS1zcGFjZTogbm93cmFwO1xyXG4gIG92ZXJmbG93OiBoaWRkZW47XHJcbn1cclxuXHJcblxyXG4udGV4dC1ub3JtYWwge1xyXG4gIGZvbnQtc2l6ZTogNXZ3O1xyXG4gIGNvbG9yOiB3aGl0ZTtcclxuICB3aWR0aDogNzAlO1xyXG4gIHBhZGRpbmc6IDIuNSU7XHJcbiAgYmFja2dyb3VuZC1jb2xvcjogYmxhY2s7XHJcbiAgYm9yZGVyLXJhZGl1czogMTBweDtcclxuICBiYWNrZ3JvdW5kOiByZ2JhKDAsIDAsIDAsIDAuNSk7XHJcblxyXG59XHJcbiJdfQ== */"
 
 /***/ }),
 
@@ -975,14 +1071,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _classes_song__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @classes/song */ "./src/app/Classes/song.ts");
 /* harmony import */ var _api_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../api.service */ "./src/app/api.service.ts");
+/* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../user.service */ "./src/app/user.service.ts");
+
 
 
 
 
 var CurrentSongComponent = /** @class */ (function () {
-    function CurrentSongComponent(apiService) {
+    function CurrentSongComponent(apiService, userService) {
+        var _this = this;
         this.apiService = apiService;
+        this.userService = userService;
         this.song = new _classes_song__WEBPACK_IMPORTED_MODULE_2__["Song"]();
+        this.userService.device_id.subscribe(function (device_id) { return _this.device_id = device_id; });
         this.width = window.innerWidth;
         this.yoffset = window.pageYOffset;
         this.song_padding = this.width <= 600 ? String(Math.max(20 - 100 * this.yoffset / window.innerHeight, 0)) + '%' : '20%';
@@ -1023,7 +1124,8 @@ var CurrentSongComponent = /** @class */ (function () {
         this.song_padding = this.width <= 600 ? String(Math.max(20 - 100 * this.yoffset / window.innerHeight, 0)) + '%' : '20%';
     };
     CurrentSongComponent.ctorParameters = function () { return [
-        { type: _api_service__WEBPACK_IMPORTED_MODULE_3__["ApiService"] }
+        { type: _api_service__WEBPACK_IMPORTED_MODULE_3__["ApiService"] },
+        { type: _user_service__WEBPACK_IMPORTED_MODULE_4__["UserService"] }
     ]; };
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
@@ -1387,6 +1489,68 @@ var JoinComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/mobile-navbar/mobile-navbar.component.css":
+/*!***********************************************************!*\
+  !*** ./src/app/mobile-navbar/mobile-navbar.component.css ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".mobile-navbar {\r\n  position: fixed;\r\n  z-index: 1;\r\n  bottom: 0px;\r\n  /* border-top-color: lightgray;\r\n  border-top-style: solid; */\r\n  background-color: white;\r\n  width: 100%;\r\n  height: 8%;\r\n  color: lightgray;\r\n  display: inline-flex;\r\n  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);\r\n}\r\n\r\n.section {\r\n  height: 100%;\r\n  padding-top: 7px;\r\n  text-align: center;\r\n  float: bottom;\r\n  width: 33.333333%;\r\n}\r\n\r\nmat-icon {\r\n  font-size: 10vw;\r\n  width: 100%;\r\n  height: 100%;\r\n}\r\n\r\n.active {\r\n  color: black;\r\n  border-bottom-style: solid;\r\n  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);\r\n  transition: all 0.3s cubic-bezier(.25,.8,.25,1);\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvbW9iaWxlLW5hdmJhci9tb2JpbGUtbmF2YmFyLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxlQUFlO0VBQ2YsVUFBVTtFQUNWLFdBQVc7RUFDWDs0QkFDMEI7RUFDMUIsdUJBQXVCO0VBQ3ZCLFdBQVc7RUFDWCxVQUFVO0VBQ1YsZ0JBQWdCO0VBQ2hCLG9CQUFvQjtFQUNwQixrRUFBa0U7QUFDcEU7O0FBRUE7RUFDRSxZQUFZO0VBQ1osZ0JBQWdCO0VBQ2hCLGtCQUFrQjtFQUNsQixhQUFhO0VBQ2IsaUJBQWlCO0FBQ25COztBQUVBO0VBQ0UsZUFBZTtFQUNmLFdBQVc7RUFDWCxZQUFZO0FBQ2Q7O0FBRUE7RUFDRSxZQUFZO0VBQ1osMEJBQTBCO0VBQzFCLGtFQUFrRTtFQUNsRSwrQ0FBK0M7QUFDakQiLCJmaWxlIjoic3JjL2FwcC9tb2JpbGUtbmF2YmFyL21vYmlsZS1uYXZiYXIuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5tb2JpbGUtbmF2YmFyIHtcclxuICBwb3NpdGlvbjogZml4ZWQ7XHJcbiAgei1pbmRleDogMTtcclxuICBib3R0b206IDBweDtcclxuICAvKiBib3JkZXItdG9wLWNvbG9yOiBsaWdodGdyYXk7XHJcbiAgYm9yZGVyLXRvcC1zdHlsZTogc29saWQ7ICovXHJcbiAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XHJcbiAgd2lkdGg6IDEwMCU7XHJcbiAgaGVpZ2h0OiA4JTtcclxuICBjb2xvcjogbGlnaHRncmF5O1xyXG4gIGRpc3BsYXk6IGlubGluZS1mbGV4O1xyXG4gIGJveC1zaGFkb3c6IDAgM3B4IDZweCByZ2JhKDAsMCwwLDAuMTYpLCAwIDNweCA2cHggcmdiYSgwLDAsMCwwLjIzKTtcclxufVxyXG5cclxuLnNlY3Rpb24ge1xyXG4gIGhlaWdodDogMTAwJTtcclxuICBwYWRkaW5nLXRvcDogN3B4O1xyXG4gIHRleHQtYWxpZ246IGNlbnRlcjtcclxuICBmbG9hdDogYm90dG9tO1xyXG4gIHdpZHRoOiAzMy4zMzMzMzMlO1xyXG59XHJcblxyXG5tYXQtaWNvbiB7XHJcbiAgZm9udC1zaXplOiAxMHZ3O1xyXG4gIHdpZHRoOiAxMDAlO1xyXG4gIGhlaWdodDogMTAwJTtcclxufVxyXG5cclxuLmFjdGl2ZSB7XHJcbiAgY29sb3I6IGJsYWNrO1xyXG4gIGJvcmRlci1ib3R0b20tc3R5bGU6IHNvbGlkO1xyXG4gIGJveC1zaGFkb3c6IDAgMXB4IDNweCByZ2JhKDAsMCwwLDAuMTIpLCAwIDFweCAycHggcmdiYSgwLDAsMCwwLjI0KTtcclxuICB0cmFuc2l0aW9uOiBhbGwgMC4zcyBjdWJpYy1iZXppZXIoLjI1LC44LC4yNSwxKTtcclxufVxyXG4iXX0= */"
+
+/***/ }),
+
+/***/ "./src/app/mobile-navbar/mobile-navbar.component.ts":
+/*!**********************************************************!*\
+  !*** ./src/app/mobile-navbar/mobile-navbar.component.ts ***!
+  \**********************************************************/
+/*! exports provided: MobileNavbarComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MobileNavbarComponent", function() { return MobileNavbarComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+var MobileNavbarComponent = /** @class */ (function () {
+    function MobileNavbarComponent() {
+        this.display = [];
+        this.toggle = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+    }
+    Object.defineProperty(MobileNavbarComponent.prototype, "inp", {
+        set: function (input) {
+            this.display = input;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    MobileNavbarComponent.prototype.ngOnInit = function () {
+    };
+    MobileNavbarComponent.prototype.toggleValue = function (index) {
+        this.toggle.emit(index);
+    };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
+    ], MobileNavbarComponent.prototype, "inp", null);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()
+    ], MobileNavbarComponent.prototype, "toggle", void 0);
+    MobileNavbarComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-mobile-navbar',
+            template: __webpack_require__(/*! raw-loader!./mobile-navbar.component.html */ "./node_modules/raw-loader/index.js!./src/app/mobile-navbar/mobile-navbar.component.html"),
+            styles: [__webpack_require__(/*! ./mobile-navbar.component.css */ "./src/app/mobile-navbar/mobile-navbar.component.css")]
+        })
+    ], MobileNavbarComponent);
+    return MobileNavbarComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/navbar/navbar.component.css":
 /*!*********************************************!*\
   !*** ./src/app/navbar/navbar.component.css ***!
@@ -1486,7 +1650,7 @@ var NavbarComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".party-container {\r\n    width: 50%;\r\n    margin-left: 25%;\r\n    margin-top: 70%;\r\n    text-align: center;\r\n    background-color: white;\r\n    padding-top: 2%;\r\n  }\r\n\r\ntable {\r\n    width: 100%;\r\n    text-align: left;\r\n}\r\n\r\n.buttons-right {\r\n    text-align: right;\r\n    padding: 0;\r\n    margin: 0;\r\n}\r\n\r\n.arrow-button {\r\n  /* background-color: #4285F4; */\r\n  /* border-style: solid; */\r\n  /* border-color: #4285F4; */\r\n  margin: 0%;\r\n  width: 100%;\r\n  color: #4285F4;\r\n  cursor: pointer;\r\n  text-align: center;\r\n}\r\n\r\n.arrow-button-up:hover {\r\n  /* background-color: white; */\r\n  color: #00C851;\r\n}\r\n\r\n.arrow-button-up-voted {\r\n  /* background-color: white; */\r\n  color: #00C851;\r\n}\r\n\r\n.arrow-button-down:hover {\r\n  /* background-color: white; */\r\n  color: #ff4444;\r\n}\r\n\r\n.arrow-button-down-voted {\r\n  /* background-color: white; */\r\n  color: #ff4444;\r\n}\r\n\r\n@media only screen and (max-width: 600px) {\r\n   .party-container {\r\n     width: 100%;\r\n     margin-left: 0%;\r\n   }\r\n}\r\n\r\n.end-party-button {\r\n  float: right;\r\n  border: 0;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFydHkvcGFydHkuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLFVBQVU7SUFDVixnQkFBZ0I7SUFDaEIsZUFBZTtJQUNmLGtCQUFrQjtJQUNsQix1QkFBdUI7SUFDdkIsZUFBZTtFQUNqQjs7QUFFRjtJQUNJLFdBQVc7SUFDWCxnQkFBZ0I7QUFDcEI7O0FBRUE7SUFDSSxpQkFBaUI7SUFDakIsVUFBVTtJQUNWLFNBQVM7QUFDYjs7QUFFQTtFQUNFLCtCQUErQjtFQUMvQix5QkFBeUI7RUFDekIsMkJBQTJCO0VBQzNCLFVBQVU7RUFDVixXQUFXO0VBQ1gsY0FBYztFQUNkLGVBQWU7RUFDZixrQkFBa0I7QUFDcEI7O0FBRUE7RUFDRSw2QkFBNkI7RUFDN0IsY0FBYztBQUNoQjs7QUFFQTtFQUNFLDZCQUE2QjtFQUM3QixjQUFjO0FBQ2hCOztBQUVBO0VBQ0UsNkJBQTZCO0VBQzdCLGNBQWM7QUFDaEI7O0FBRUE7RUFDRSw2QkFBNkI7RUFDN0IsY0FBYztBQUNoQjs7QUFFQTtHQUNHO0tBQ0UsV0FBVztLQUNYLGVBQWU7R0FDakI7QUFDSDs7QUFFQTtFQUNFLFlBQVk7RUFDWixTQUFTO0FBQ1giLCJmaWxlIjoic3JjL2FwcC9wYXJ0eS9wYXJ0eS5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnBhcnR5LWNvbnRhaW5lciB7XHJcbiAgICB3aWR0aDogNTAlO1xyXG4gICAgbWFyZ2luLWxlZnQ6IDI1JTtcclxuICAgIG1hcmdpbi10b3A6IDcwJTtcclxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxuICAgIGJhY2tncm91bmQtY29sb3I6IHdoaXRlO1xyXG4gICAgcGFkZGluZy10b3A6IDIlO1xyXG4gIH1cclxuXHJcbnRhYmxlIHtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgdGV4dC1hbGlnbjogbGVmdDtcclxufVxyXG5cclxuLmJ1dHRvbnMtcmlnaHQge1xyXG4gICAgdGV4dC1hbGlnbjogcmlnaHQ7XHJcbiAgICBwYWRkaW5nOiAwO1xyXG4gICAgbWFyZ2luOiAwO1xyXG59XHJcblxyXG4uYXJyb3ctYnV0dG9uIHtcclxuICAvKiBiYWNrZ3JvdW5kLWNvbG9yOiAjNDI4NUY0OyAqL1xyXG4gIC8qIGJvcmRlci1zdHlsZTogc29saWQ7ICovXHJcbiAgLyogYm9yZGVyLWNvbG9yOiAjNDI4NUY0OyAqL1xyXG4gIG1hcmdpbjogMCU7XHJcbiAgd2lkdGg6IDEwMCU7XHJcbiAgY29sb3I6ICM0Mjg1RjQ7XHJcbiAgY3Vyc29yOiBwb2ludGVyO1xyXG4gIHRleHQtYWxpZ246IGNlbnRlcjtcclxufVxyXG5cclxuLmFycm93LWJ1dHRvbi11cDpob3ZlciB7XHJcbiAgLyogYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7ICovXHJcbiAgY29sb3I6ICMwMEM4NTE7XHJcbn1cclxuXHJcbi5hcnJvdy1idXR0b24tdXAtdm90ZWQge1xyXG4gIC8qIGJhY2tncm91bmQtY29sb3I6IHdoaXRlOyAqL1xyXG4gIGNvbG9yOiAjMDBDODUxO1xyXG59XHJcblxyXG4uYXJyb3ctYnV0dG9uLWRvd246aG92ZXIge1xyXG4gIC8qIGJhY2tncm91bmQtY29sb3I6IHdoaXRlOyAqL1xyXG4gIGNvbG9yOiAjZmY0NDQ0O1xyXG59XHJcblxyXG4uYXJyb3ctYnV0dG9uLWRvd24tdm90ZWQge1xyXG4gIC8qIGJhY2tncm91bmQtY29sb3I6IHdoaXRlOyAqL1xyXG4gIGNvbG9yOiAjZmY0NDQ0O1xyXG59XHJcblxyXG5AbWVkaWEgb25seSBzY3JlZW4gYW5kIChtYXgtd2lkdGg6IDYwMHB4KSB7XHJcbiAgIC5wYXJ0eS1jb250YWluZXIge1xyXG4gICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgIG1hcmdpbi1sZWZ0OiAwJTtcclxuICAgfVxyXG59XHJcblxyXG4uZW5kLXBhcnR5LWJ1dHRvbiB7XHJcbiAgZmxvYXQ6IHJpZ2h0O1xyXG4gIGJvcmRlcjogMDtcclxufVxyXG4iXX0= */"
+module.exports = ".party-container {\r\n    width: 50%;\r\n    margin-left: 25%;\r\n    margin-top: 50%;\r\n    text-align: center;\r\n    background-color: white;\r\n    padding-top: 2%;\r\n    padding-bottom: 20%;\r\n  }\r\n\r\ntable {\r\n    width: 100%;\r\n    text-align: left;\r\n}\r\n\r\n.buttons-right {\r\n    text-align: right;\r\n    padding: 0;\r\n    margin: 0;\r\n}\r\n\r\n.arrow-button {\r\n  /* background-color: #4285F4; */\r\n  /* border-style: solid; */\r\n  /* border-color: #4285F4; */\r\n  margin: 0%;\r\n  width: 100%;\r\n  color: #4285F4;\r\n  cursor: pointer;\r\n  text-align: center;\r\n}\r\n\r\n.arrow-button-up:hover {\r\n  /* background-color: white; */\r\n  color: #00C851;\r\n}\r\n\r\n.arrow-button-up-voted {\r\n  /* background-color: white; */\r\n  color: #00C851;\r\n}\r\n\r\n.arrow-button-down:hover {\r\n  /* background-color: white; */\r\n  color: #ff4444;\r\n}\r\n\r\n.arrow-button-down-voted {\r\n  /* background-color: white; */\r\n  color: #ff4444;\r\n}\r\n\r\n@media only screen and (max-width: 600px) {\r\n   .party-container {\r\n     width: 100%;\r\n     margin-left: 0%;\r\n   }\r\n}\r\n\r\n.end-party-button {\r\n  float: right;\r\n  border: 0;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvcGFydHkvcGFydHkuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLFVBQVU7SUFDVixnQkFBZ0I7SUFDaEIsZUFBZTtJQUNmLGtCQUFrQjtJQUNsQix1QkFBdUI7SUFDdkIsZUFBZTtJQUNmLG1CQUFtQjtFQUNyQjs7QUFFRjtJQUNJLFdBQVc7SUFDWCxnQkFBZ0I7QUFDcEI7O0FBRUE7SUFDSSxpQkFBaUI7SUFDakIsVUFBVTtJQUNWLFNBQVM7QUFDYjs7QUFFQTtFQUNFLCtCQUErQjtFQUMvQix5QkFBeUI7RUFDekIsMkJBQTJCO0VBQzNCLFVBQVU7RUFDVixXQUFXO0VBQ1gsY0FBYztFQUNkLGVBQWU7RUFDZixrQkFBa0I7QUFDcEI7O0FBRUE7RUFDRSw2QkFBNkI7RUFDN0IsY0FBYztBQUNoQjs7QUFFQTtFQUNFLDZCQUE2QjtFQUM3QixjQUFjO0FBQ2hCOztBQUVBO0VBQ0UsNkJBQTZCO0VBQzdCLGNBQWM7QUFDaEI7O0FBRUE7RUFDRSw2QkFBNkI7RUFDN0IsY0FBYztBQUNoQjs7QUFFQTtHQUNHO0tBQ0UsV0FBVztLQUNYLGVBQWU7R0FDakI7QUFDSDs7QUFFQTtFQUNFLFlBQVk7RUFDWixTQUFTO0FBQ1giLCJmaWxlIjoic3JjL2FwcC9wYXJ0eS9wYXJ0eS5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnBhcnR5LWNvbnRhaW5lciB7XHJcbiAgICB3aWR0aDogNTAlO1xyXG4gICAgbWFyZ2luLWxlZnQ6IDI1JTtcclxuICAgIG1hcmdpbi10b3A6IDUwJTtcclxuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcclxuICAgIGJhY2tncm91bmQtY29sb3I6IHdoaXRlO1xyXG4gICAgcGFkZGluZy10b3A6IDIlO1xyXG4gICAgcGFkZGluZy1ib3R0b206IDIwJTtcclxuICB9XHJcblxyXG50YWJsZSB7XHJcbiAgICB3aWR0aDogMTAwJTtcclxuICAgIHRleHQtYWxpZ246IGxlZnQ7XHJcbn1cclxuXHJcbi5idXR0b25zLXJpZ2h0IHtcclxuICAgIHRleHQtYWxpZ246IHJpZ2h0O1xyXG4gICAgcGFkZGluZzogMDtcclxuICAgIG1hcmdpbjogMDtcclxufVxyXG5cclxuLmFycm93LWJ1dHRvbiB7XHJcbiAgLyogYmFja2dyb3VuZC1jb2xvcjogIzQyODVGNDsgKi9cclxuICAvKiBib3JkZXItc3R5bGU6IHNvbGlkOyAqL1xyXG4gIC8qIGJvcmRlci1jb2xvcjogIzQyODVGNDsgKi9cclxuICBtYXJnaW46IDAlO1xyXG4gIHdpZHRoOiAxMDAlO1xyXG4gIGNvbG9yOiAjNDI4NUY0O1xyXG4gIGN1cnNvcjogcG9pbnRlcjtcclxuICB0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbn1cclxuXHJcbi5hcnJvdy1idXR0b24tdXA6aG92ZXIge1xyXG4gIC8qIGJhY2tncm91bmQtY29sb3I6IHdoaXRlOyAqL1xyXG4gIGNvbG9yOiAjMDBDODUxO1xyXG59XHJcblxyXG4uYXJyb3ctYnV0dG9uLXVwLXZvdGVkIHtcclxuICAvKiBiYWNrZ3JvdW5kLWNvbG9yOiB3aGl0ZTsgKi9cclxuICBjb2xvcjogIzAwQzg1MTtcclxufVxyXG5cclxuLmFycm93LWJ1dHRvbi1kb3duOmhvdmVyIHtcclxuICAvKiBiYWNrZ3JvdW5kLWNvbG9yOiB3aGl0ZTsgKi9cclxuICBjb2xvcjogI2ZmNDQ0NDtcclxufVxyXG5cclxuLmFycm93LWJ1dHRvbi1kb3duLXZvdGVkIHtcclxuICAvKiBiYWNrZ3JvdW5kLWNvbG9yOiB3aGl0ZTsgKi9cclxuICBjb2xvcjogI2ZmNDQ0NDtcclxufVxyXG5cclxuQG1lZGlhIG9ubHkgc2NyZWVuIGFuZCAobWF4LXdpZHRoOiA2MDBweCkge1xyXG4gICAucGFydHktY29udGFpbmVyIHtcclxuICAgICB3aWR0aDogMTAwJTtcclxuICAgICBtYXJnaW4tbGVmdDogMCU7XHJcbiAgIH1cclxufVxyXG5cclxuLmVuZC1wYXJ0eS1idXR0b24ge1xyXG4gIGZsb2F0OiByaWdodDtcclxuICBib3JkZXI6IDA7XHJcbn1cclxuIl19 */"
 
 /***/ }),
 
@@ -1542,6 +1706,8 @@ var PartyComponent = /** @class */ (function () {
         this.displayedColumns = ['score', 'artist', 'title', 'vote'];
         this.results = [];
         this.userVotes = {};
+        this.display = [1, 0, 0, 0];
+        this.width = window.innerWidth;
         this.id = route.snapshot.paramMap.get('id');
         this.userService.currentUser.subscribe(function (user) { return user ? _this.user = user : _this.router.navigate(['']); });
         this.apiService.get_event(parseInt(this.id)).subscribe(function (data) {
@@ -1660,6 +1826,13 @@ var PartyComponent = /** @class */ (function () {
     PartyComponent.prototype.loginSpotify = function () {
         this.tokenService.getSpotifyToken(String(this.event.event_id));
     };
+    PartyComponent.prototype.toggleDisplay = function (index) {
+        this.display = [0, 0, 0, 0];
+        this.display[index] = 1;
+    };
+    PartyComponent.prototype.onResize = function (event) {
+        this.width = window.innerWidth;
+    };
     PartyComponent.ctorParameters = function () { return [
         { type: _song_search_service__WEBPACK_IMPORTED_MODULE_5__["SongSearchService"] },
         { type: _api_service__WEBPACK_IMPORTED_MODULE_6__["ApiService"] },
@@ -1669,6 +1842,9 @@ var PartyComponent = /** @class */ (function () {
         { type: _user_service__WEBPACK_IMPORTED_MODULE_7__["UserService"] },
         { type: _token_service__WEBPACK_IMPORTED_MODULE_12__["TokenService"] }
     ]; };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["HostListener"])('window:resize', ['$event'])
+    ], PartyComponent.prototype, "onResize", null);
     PartyComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-party',
@@ -1709,7 +1885,7 @@ var SongSearchService = /** @class */ (function () {
         this.ITUNES_API = 'https://itunes.apple.com/search?term=';
         this.PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/mmdj/backend/api";
         this.YOUTUBE_API = this.PHP_API_SERVER + "/youtube.php";
-        this.CLIENT_ID = 'BeGVhOrGmfboy1LtiHTQF6Ejpt9ULJCI';
+        this.CLIENT_ID = 'UW9ajvMgVdMMW3cdeBi8lPfN6dvOVGji';
         this.SOUNDCLOUD_API = "https://api.soundcloud.com/tracks/?client_id=" + this.CLIENT_ID;
         this.SPOTIFY_API = "https://api.spotify.com/v1/search";
     }
@@ -1891,6 +2067,27 @@ var SongSearchComponent = /** @class */ (function () {
             }
         });
     };
+    SongSearchComponent.prototype.convertYoutube = function (youtube) {
+        var y_song = new _classes_song__WEBPACK_IMPORTED_MODULE_7__["Song"]();
+        y_song.title = youtube.title;
+        y_song.artist = '';
+        y_song.artwork = youtube.artwork.split('?')[0];
+        y_song.song_id = youtube.url.split('v=')[1].split(';')[0];
+        y_song.platform = 'youtube';
+        y_song.duration = 0;
+        return y_song;
+    };
+    SongSearchComponent.prototype.convertSoundcloud = function (soundcloud) {
+        var s_song = new _classes_song__WEBPACK_IMPORTED_MODULE_7__["Song"]();
+        console.log(soundcloud);
+        s_song.title = soundcloud.title;
+        s_song.artist = soundcloud.user.username;
+        s_song.song_id = String(soundcloud.id);
+        s_song.artwork = soundcloud.artwork_url;
+        s_song.platform = 'soundcloud';
+        s_song.duration = soundcloud.duration;
+        return s_song;
+    };
     SongSearchComponent.prototype.onButtonClick = function (index) {
         this.searchOptions = [0, 0, 0];
         this.searchOptions[index] = 1;
@@ -1971,19 +2168,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SoundcloudComponent", function() { return SoundcloudComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
+
 
 
 var SoundcloudComponent = /** @class */ (function () {
-    function SoundcloudComponent() {
+    function SoundcloudComponent(sanitizer) {
+        this.sanitizer = sanitizer;
+        this.track_id = 0;
+        this.FRAME = null;
     }
     Object.defineProperty(SoundcloudComponent.prototype, "inp", {
         set: function (input) {
-            this.track_id = input[0];
+            console.log(input);
+            this.track_id = input;
+            this.FRAME = this.sanitize("https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/" + this.track_id + "&amp;auto_play=true");
         },
         enumerable: true,
         configurable: true
     });
+    SoundcloudComponent.prototype.sanitize = function (frame) {
+        return this.sanitizer.bypassSecurityTrustResourceUrl(frame);
+    };
     SoundcloudComponent.prototype.ngOnInit = function () { };
+    SoundcloudComponent.ctorParameters = function () { return [
+        { type: _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["DomSanitizer"] }
+    ]; };
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
     ], SoundcloudComponent.prototype, "inp", null);
@@ -2024,32 +2234,99 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SpotifyComponent", function() { return SpotifyComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _token_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../token.service */ "./src/app/token.service.ts");
 
 
-// import '@types/spotify-web-playback-sdk';
-// import * as Spotify from '@classes/index.d';
+
+// import { my_device_id } from '../app.component';
 var SpotifyComponent = /** @class */ (function () {
-    function SpotifyComponent() {
+    function SpotifyComponent(tokenService) {
+        var _this = this;
+        this.tokenService = tokenService;
+        this.myEvent = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+        //this.device_id = my_device_id;
+        this.tokenService.token.subscribe(function (token) { return _this.token = token; });
+        // console.log('1');
+        // window['onSpotifyWebPlaybackSDKReady'] = () => {
+        //   console.log('2');
+        //   const player = new Spotify.Player({
+        //     name: 'Web Playback SDK Quick Start Player',
+        //     getOAuthToken: cb => { cb(this.token); }
+        //   });
+        //   // Error handling
+        //   player.addListener('initialization_error', ({ message }) => { console.error(message); });
+        //   player.addListener('authentication_error', ({ message }) => { console.error(message); });
+        //   player.addListener('account_error', ({ message }) => { console.error(message); });
+        //   player.addListener('playback_error', ({ message }) => { console.error(message); });
+        //   // Playback status updates
+        //   player.addListener('player_state_changed', state => {
+        //     console.log(state)
+        //     if (this.song.duration && ((state.position >= this.song.duration) || (state.position == 0 && state.paused)) ) {
+        //     //   this.callParent();
+        //     // }
+        //   });
+        //   // Ready
+        //   player.addListener('ready', ({ device_id }) => {
+        //     console.log('Ready with Device ID', device_id);
+        //     this.device_id = device_id;
+        //     console.log('here', this.device_id);
+        //     //player.connect();
+        //     while (!this.track_id){
+        //     }
+        //     //this.play(device_id, this.track_id);
+        //     //this.play(device_id, '0jdny0dhgjUwoIp5GkqEaA');
+        //   });
+        //   // Not Ready
+        //   player.addListener('not_ready', ({ device_id }) => {
+        //     console.log('Device ID has gone offline', device_id);
+        //   });
+        //   player.connect();
+        // };
+        // Play a specified track on the Web Playback SDK's device ID
     }
-    // public token: string;
-    // public track_id: string;
-    // public device_id: string;
-    // public song: Song;
-    //
-    //
-    // @Input()
-    // set inp(input) {
-    //    this.track_id = input['song_id'];
-    //    this.song = input;
-    //    console.log("track_id", this.track_id);
-    //
-    //     if(this.track_id && this.device_id ){
-    //       this.play(this.device_id, this.track_id);
-    //   }
-    // }
-    //
+    Object.defineProperty(SpotifyComponent.prototype, "inp", {
+        set: function (input) {
+            // console.log('THIS', window.onSpotifyWebPlaybackSDKReady);
+            console.log('input', input);
+            this.track_id = input[0]['song_id'];
+            this.device_id = input[1];
+            this.song = input;
+            console.log("track_id", this.track_id);
+            console.log('dev', this.device_id);
+            if (this.track_id && this.device_id) {
+                this.play(this.device_id, this.track_id);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     SpotifyComponent.prototype.ngOnInit = function () {
     };
+    SpotifyComponent.prototype.play = function (device_id, current_track) {
+        console.log('here');
+        var spotify_uri = 'spotify:track:' + current_track;
+        //var spotify_uri:string = 'spotify:track:0jdny0dhgjUwoIp5GkqEaA';
+        fetch("https://api.spotify.com/v1/me/player/play?device_id=" + device_id, {
+            method: 'PUT',
+            body: JSON.stringify({ uris: [spotify_uri] }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': "Bearer " + this.token
+            }
+        });
+    };
+    SpotifyComponent.prototype.callParent = function () {
+        this.myEvent.emit('eventDesc');
+    };
+    SpotifyComponent.ctorParameters = function () { return [
+        { type: _token_service__WEBPACK_IMPORTED_MODULE_2__["TokenService"] }
+    ]; };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
+    ], SpotifyComponent.prototype, "inp", null);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()
+    ], SpotifyComponent.prototype, "myEvent", void 0);
     SpotifyComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-spotify',
@@ -2145,6 +2422,8 @@ var UserService = /** @class */ (function () {
     function UserService() {
         this.currentUserSubject = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"](JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
+        this.device_id_Subject = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"](localStorage.getItem('currentUser'));
+        this.device_id = this.device_id_Subject.asObservable();
     }
     Object.defineProperty(UserService.prototype, "currentUserValue", {
         get: function () {
@@ -2157,6 +2436,10 @@ var UserService = /** @class */ (function () {
         user.authdata = window.btoa(user.username + ':' + user.password);
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
+    };
+    UserService.prototype.setDeviceID = function (my_device_id) {
+        localStorage.setItem('device_id', my_device_id);
+        this.device_id_Subject.next(my_device_id);
     };
     UserService.prototype.updateUser = function (user) {
         user.authdata = window.btoa(user.username + ':' + user.password);
@@ -2207,9 +2490,15 @@ __webpack_require__.r(__webpack_exports__);
 
 var YoutubePlayerComponent = /** @class */ (function () {
     function YoutubePlayerComponent() {
-        this.id = 'FM7MFYoylVs';
         this.onResize();
     }
+    Object.defineProperty(YoutubePlayerComponent.prototype, "inp", {
+        set: function (input) {
+            this.id = input;
+        },
+        enumerable: true,
+        configurable: true
+    });
     YoutubePlayerComponent.prototype.ngOnInit = function () {
     };
     YoutubePlayerComponent.prototype.onResize = function (event) {
@@ -2231,6 +2520,9 @@ var YoutubePlayerComponent = /** @class */ (function () {
     YoutubePlayerComponent.prototype.pauseVideo = function () {
         this.player.pauseVideo();
     };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
+    ], YoutubePlayerComponent.prototype, "inp", null);
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["HostListener"])('window:resize', ['$event'])
     ], YoutubePlayerComponent.prototype, "onResize", null);
