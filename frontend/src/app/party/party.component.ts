@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Event } from '@classes/event';
 import { Song } from '@classes/song';
 import { User } from '@classes/user';
@@ -26,16 +26,18 @@ export class PartyComponent implements OnInit {
   public event = new Event();
   public queuedSong: QueuedSong;
   public queuedSongs = [];
+  public width: number;
   public displayedColumns = ['score', 'artist', 'title', 'vote'];
   public results = [];
   public id: string;
   public queuedSongs$: Observable<Song[]>;
   public userVotes = {};
   public user: User;
+  public display = [1, 0, 0, 0];
 
   constructor(private songSearchService: SongSearchService, private apiService: ApiService, private router: Router,
     private route: ActivatedRoute, private snackBar: MatSnackBar, private userService: UserService, private tokenService: TokenService) {
-
+    this.width = window.innerWidth;
     this.id = route.snapshot.paramMap.get('id');
     this.userService.currentUser.subscribe(
       user => user ? this.user = user : this.router.navigate([''])
@@ -185,6 +187,16 @@ export class PartyComponent implements OnInit {
 
   loginSpotify() {
       this.tokenService.getSpotifyToken(String(this.event.event_id));
+  }
+
+  toggleDisplay(index: number) {
+    this.display = [0, 0, 0, 0];
+    this.display[index] = 1;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event?) {
+    this.width = window.innerWidth;
   }
 
 

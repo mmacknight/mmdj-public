@@ -18,6 +18,7 @@ import { Vote } from "@classes/vote";
 
 export class ApiService {
 PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/mmdj/backend/api";
+PHP_API_SERVER_DOM = "http://db.cse.nd.edu/cse30246/tutorial/dom";
 // PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/tutorial/dom";
 constructor(private httpClient: HttpClient) {}
 
@@ -135,12 +136,12 @@ constructor(private httpClient: HttpClient) {}
         //Spotify
 
             get_token(user_id: number){
-                return this.httpClient.get<Token[]>(`${this.PHP_API_SERVER}/get_token.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
+                return this.httpClient.get<Token[]>(`${this.PHP_API_SERVER_DOM}/get_token.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
 
             }
 
             refresh_token(user_id: number){
-                return this.httpClient.get<Token[]>(`${this.PHP_API_SERVER}/refresh_user.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
+                return this.httpClient.get<Token[]>(`${this.PHP_API_SERVER_DOM}/refresh_user.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
 
             }
 

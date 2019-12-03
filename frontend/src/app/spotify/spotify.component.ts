@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Song } from '@classes/song';
 import { TokenService } from '../token.service';
+// import { my_device_id } from '../app.component';
 
-// import '@types/spotify-web-playback-sdk';
-// import * as Spotify from '@classes/index.d';
 
 @Component({
   selector: 'app-spotify',
@@ -14,15 +13,21 @@ import { TokenService } from '../token.service';
 export class SpotifyComponent implements OnInit {
   public token: string;
   public track_id: string;
-  public device_id: string;
+  //public device_id: string
+  public device_id : any;
   public song: Song;
 
 
   @Input()
   set inp(input) {
-     this.track_id = input['song_id'];
+
+   // console.log('THIS', window.onSpotifyWebPlaybackSDKReady);
+      console.log('input', input);
+     this.track_id = input[0]['song_id'];
+     this.device_id = input[1];
      this.song = input;
      console.log("track_id", this.track_id);
+     console.log('dev', this.device_id);
 
       if(this.track_id && this.device_id ){
         this.play(this.device_id, this.track_id);
@@ -33,64 +38,64 @@ export class SpotifyComponent implements OnInit {
 
   }
 
-
   constructor(private tokenService: TokenService) {
-    console.log("heerre");
+
+
+    //this.device_id = my_device_id;
     this.tokenService.token.subscribe(
       token => this.token = token
     )
-    window['onSpotifyWebPlaybackSDKReady'] = () => {
-    // window.onSpotifyWebPlaybackSDKReady = () => {
-      const player = new Spotify.Player({
-        name: 'Web Playback SDK Quick Start Player',
-        getOAuthToken: cb => { cb(this.token); }
-      });
+    // console.log('1');
+    // window['onSpotifyWebPlaybackSDKReady'] = () => {
 
-      // Error handling
-      
-      player.addListener('initialization_error', ({ message }) => { console.error(message); });
-      player.addListener('authentication_error', ({ message }) => { console.error(message); });
-      player.addListener('account_error', ({ message }) => { console.error(message); });
-      player.addListener('playback_error', ({ message }) => { console.error(message); });
+    //   console.log('2');
 
-      // Playback status updates
-      player.addListener('player_state_changed', state => {
-        console.log(state);
-        if (this.song.duration && ((state.position >= this.song.duration) || (state.position == 0 && state.paused)) ) {
-          this.callParent();
-        }
-     });
+    //   const player = new Spotify.Player({
+    //     name: 'Web Playback SDK Quick Start Player',
+    //     getOAuthToken: cb => { cb(this.token); }
+    //   });
 
-      // Ready
-      player.addListener('ready', ({ device_id }) => {
-        console.log('Ready with Device ID', device_id);
-        this.device_id = device_id;
-        console.log('here', this.device_id);
-        console.log("HEEEY");
+    //   // Error handling
+    //   player.addListener('initialization_error', ({ message }) => { console.error(message); });
+    //   player.addListener('authentication_error', ({ message }) => { console.error(message); });
+    //   player.addListener('account_error', ({ message }) => { console.error(message); });
+    //   player.addListener('playback_error', ({ message }) => { console.error(message); });
+
+    //   // Playback status updates
+    //   player.addListener('player_state_changed', state => {
+    //     console.log(state)
+    //     if (this.song.duration && ((state.position >= this.song.duration) || (state.position == 0 && state.paused)) ) {
+    //     //   this.callParent();
+    //     // }
+    //   });
+
+    //   // Ready
+    //   player.addListener('ready', ({ device_id }) => {
+    //     console.log('Ready with Device ID', device_id);
+    //     this.device_id = device_id;
+    //     console.log('here', this.device_id);
+
+    //     //player.connect();
+    //     while (!this.track_id){
+
+    //     }
+
+    //     //this.play(device_id, this.track_id);
+    //     //this.play(device_id, '0jdny0dhgjUwoIp5GkqEaA');
+    //   });
+
+    //   // Not Ready
+    //   player.addListener('not_ready', ({ device_id }) => {
+    //     console.log('Device ID has gone offline', device_id);
+    //   });
+
+    //   player.connect();
 
 
-        //player.connect();
-        while (!this.track_id){
-
-        }
-        console.log("heere2");
-        this.play(device_id, this.track_id);
-        //this.play(device_id, '0jdny0dhgjUwoIp5GkqEaA');
-      });
-
-      // Not Ready
-      player.addListener('not_ready', ({ device_id }) => {
-        console.log('Device ID has gone offline', device_id);
-      });
-
-      player.connect();
-
-    };
+    // };
 
     // Play a specified track on the Web Playback SDK's device ID
-    console.log("HIIIHH");
-    console.log(this.device_id);
-    console.log(window);
+
 
 
   }
