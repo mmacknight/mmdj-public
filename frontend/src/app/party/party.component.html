@@ -2,40 +2,43 @@
 <button class="btn btn-outline-danger end-party-button" (click)="onEndPartyClick()" *ngIf="event.user_id==user.user_id">End Party</button>
 
 <div class='party-container rounded'>
-    <div *ngIf="display[1]" class="party-info">
-      <h4>{{event.event_name}}</h4>
-      <h6>Party Code: {{event.event_id}}</h6>
-      <p>{{event.description | lowercase}}</p>
-      <!-- <button class="btn btn-primary" (click)="loginSpotify()">Refresh Spotify token</button> -->
+    <div *ngIf="display[1]" class="add-song">
+
 
       <app-song-search [inp]=event.event_id></app-song-search>
     </div>
 
     <div *ngIf="display[0]" class="queue">
-      <table mat-table [dataSource]="queuedSongs$ | async" class="mat-elevation-z8">
+      <table mat-table [dataSource]="queuedSongs$ | async" [trackBy]="trackByFunction" class="mat-elevation-z8">
 
-          <ng-container matColumnDef="score">
+        <ng-container matColumnDef="Songs">
+          <th mat-header-cell *matHeaderCellDef>Songs</th>
+          <td class="spotify-td" style="padding-left: 0" mat-cell *matCellDef="let element;">
+            <img *ngIf="element.artwork" class="spotify-artowrk" src={{element.artwork}}>
+            <img *ngIf="!element.artwork" class="spotify-artowrk" src="/assets/media/spotify.png">
+            <div class="spotfy-row text-left" style="padding-top: 1%; margin-left: 2.5%;">
+              <div class="spotify-title">
+                <b>{{element.title}}</b>
+              </div>
+              <div class="spotify-artist">
+                <small>{{element.artist}}</small>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+          <ng-container matColumnDef="Score">
             <th mat-header-cell *matHeaderCellDef> Score </th>
             <td mat-cell *matCellDef="let element"> {{element.popularity}} </td>
           </ng-container>
 
-          <ng-container matColumnDef="artist">
-            <th mat-header-cell *matHeaderCellDef> Artist </th>
-            <td mat-cell *matCellDef="let element"> {{element.artist}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="title">
-            <th mat-header-cell *matHeaderCellDef> Title </th>
-            <td mat-cell *matCellDef="let element"> {{element.title}} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="vote" >
+          <ng-container matColumnDef="Vote" >
               <th mat-header-cell *matHeaderCellDef> Vote </th>
               <td mat-cell *matCellDef="let element" class='buttons-right'>
-                <div class="arrow-button arrow-button-up" [class.arrow-button-up-voted]="userVotes[element.order_num] == 1" (click)="upvote(element.order_num, element.song_id, element.platform)">
+                <div class="arrow-button arrow-button-up" [class.arrow-button-up-voted]="element.vote == '1'" (click)="upvote(element.order_num, element.song_id, element.platform, element.vote)">
                   <mat-icon aria-hidden="false">add_circle</mat-icon>
                 </div>
-                <div class="arrow-button arrow-button-down" [class.arrow-button-down-voted]="userVotes[element.order_num] == -1" (click)="downvote(element.order_num, element.song_id, element.platform)">
+                <div class="arrow-button arrow-button-down" [class.arrow-button-down-voted]="element.vote == '-1'" (click)="downvote(element.order_num, element.song_id, element.platform, element.vote)">
                     <mat-icon aria-hidden="false">remove_circle</mat-icon>
                 </div>
               </td>
@@ -45,8 +48,13 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
       </div>
-      <div *ngIf="display[2]" class="account">
+      <div *ngIf="display[2]" class="account-party">
+        <h4>{{event.event_name}}</h4>
+        <h6>Party Code: {{event.event_id}}</h6>
+        <p>{{event.description | lowercase}}</p>
+        <!-- <button class="btn btn-primary" (click)="loginSpotify()">Refresh Spotify token</button> -->
         {{user.username}}
+        <button class="btn btn-primary" (click)="logout()">Log Out</button>
       </div>
 </div>
 <app-mobile-navbar [inp]="display" (toggle)="toggleDisplay($event)"></app-mobile-navbar>

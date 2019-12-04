@@ -28,15 +28,15 @@ export class SongSearchComponent implements OnInit {
   public songs$: Observable<any>;
   public songs = [];
   private searchTerms = new Subject<string>();
-  public displayedColumns = ['artist', 'title'];
+  public displayedColumns = ['Results'];
 
   public soundcloud$: Observable<Soundcloud[]>;
   private searchTermsSoundcloud = new Subject<string>();
-  public displayedColumnsSoundcloud = ['artwork', 'artist','title'];
+  public displayedColumnsSoundcloud = ['Results'];
 
   public youtubes$: Observable<Youtube[]>;
   private searchTermsYoutube = new Subject<string>();
-  public displayedColumnsYoutube = ['title'];
+  public displayedColumnsYoutube = ['Results'];
   public s: Soundcloud[];
 
   constructor(private songSearchService: SongSearchService, private apiService: ApiService, private tokenService: TokenService) {
@@ -178,14 +178,16 @@ export class SongSearchComponent implements OnInit {
     s_song.title = soundcloud.title;
     s_song.artist = soundcloud.user.username;
     s_song.song_id = String(soundcloud.id);
-    s_song.artwork = soundcloud.artwork_url;
+    if (soundcloud.artwork_url) {
+      s_song.artwork = soundcloud.artwork_url;
+    } else {
+      s_song.artwork = soundcloud.user.avatar_url;
+    }
     s_song.platform = 'soundcloud';
     s_song.duration = soundcloud.duration;
 
     return s_song;
   }
-
-
 
 
   onButtonClick(index) {

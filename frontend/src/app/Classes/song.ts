@@ -7,4 +7,5 @@ export class  Song {
 	popularity: number = -1;
 	duration: number = -1;
 	order_num: number = -1;
+	vote: number = 0;
 }

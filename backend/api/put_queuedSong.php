@@ -12,7 +12,7 @@ if(isset($postdata) && !empty($postdata))
   $request = json_decode($postdata);
 
 
-  // Validate. 
+  // Validate.
   if(trim($request->event_id) === '' || trim($request->order_num) === '' )
   {
     return http_response_code(400);
@@ -21,6 +21,8 @@ if(isset($postdata) && !empty($postdata))
   // Sanitize.
   $event_id = mysqli_real_escape_string($con, trim($request->event_id));
   $order_num = mysqli_real_escape_string($con, trim($request->order_num));
+  $platform = mysqli_real_escape_string($con, trim($request->platform));
+  $song_id = mysqli_real_escape_string($con, trim($request->song_id));
   $popularity = mysqli_real_escape_string($con, trim($request->popularity));
 
   // Create.

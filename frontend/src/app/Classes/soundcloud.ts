@@ -5,5 +5,6 @@ export class Soundcloud {
   	duration: number = -1;
     user: {
       username: string;
+      avatar_url: string;
     }
 }

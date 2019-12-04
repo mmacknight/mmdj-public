@@ -1,5 +1,5 @@
 <div class="mobile-navbar">
+  <div class="section" [class.active]="display[1]" (click)="toggleValue(1)"><mat-icon aria-hidden="false">queue</mat-icon></div>
   <div class="section" [class.active]="display[0]" (click)="toggleValue(0)"><mat-icon aria-hidden="false">queue_music</mat-icon></div>
-  <div class="section" [class.active]="display[1]" (click)="toggleValue(1)"><mat-icon aria-hidden="false">info</mat-icon></div>
   <div class="section" [class.active]="display[2]" (click)="toggleValue(2)"><mat-icon aria-hidden="false">account_circle</mat-icon></div>
 </div>

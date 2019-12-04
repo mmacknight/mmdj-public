@@ -45,7 +45,7 @@ export class SongSearchService {
       }
     }
 
-    return this.httpClient.get(`${this.SPOTIFY_API}?q=${search_term}&type=track`, headers).pipe(catchError(this.errorHandler));
+    return this.httpClient.get(`${this.SPOTIFY_API}?q=${search_term}&type=track&limit=50`, headers).pipe(catchError(this.errorHandler));
 
   }
 

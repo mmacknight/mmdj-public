@@ -1,10 +1,9 @@
 .party-container {
     width: 50%;
     margin-left: 25%;
-    margin-top: 50%;
+    margin-top: 70%;
     text-align: center;
     background-color: white;
-    padding-top: 2%;
     padding-bottom: 20%;
   }
 
@@ -30,20 +29,11 @@ table {
   text-align: center;
 }
 
-.arrow-button-up:hover {
-  /* background-color: white; */
-  color: #00C851;
-}
-
 .arrow-button-up-voted {
   /* background-color: white; */
   color: #00C851;
 }
 
-.arrow-button-down:hover {
-  /* background-color: white; */
-  color: #ff4444;
-}
 
 .arrow-button-down-voted {
   /* background-color: white; */
@@ -60,4 +50,34 @@ table {
 .end-party-button {
   float: right;
   border: 0;
+}
+
+.account-party {
+  padding-top: 5%;
+}
+
+.add-song {
+  padding-top: 5%;
+}
+
+.spotify-row {
+  display: inline-flex;
+  width: 80%;
+  padding: 0;
+}
+
+.spotify-artowrk {
+  width: 20%;
+}
+
+.spotify-td {
+  display: flex;
+}
+
+.spotify-title {
+  width: 100%;
+}
+
+.spotify-artist {
+  width: 100%;
 }
