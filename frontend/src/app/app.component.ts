@@ -19,11 +19,14 @@ export class AppComponent {
   public redirect_uri: string = '';
 
   constructor(private userService: UserService, private router:Router, private apiService: ApiService, private tokenService: TokenService) {
-
     this.userService.currentUser.subscribe(
       user =>  {
         user ? this.user = user : this.router.navigate(['']),
         this.redirect_uri = `http://db.cse.nd.edu/cse30246/tutorial/dom/auth.php/?id=${user.user_id}`;
+        this.apiService.refresh_token(user.user_id).subscribe(
+          data => console.log(data),
+          error => console.log(error)
+        );
         this.apiService.get_token(user.user_id).subscribe(
           token => {
             console.log(token);

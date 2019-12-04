@@ -54,3 +54,25 @@ td {
 .soundcloud > img {
   width: 100%;
 }
+
+.spotify-row {
+  display: inline-flex;
+  width: 80%;
+  padding: 0;
+}
+
+.spotify-artowrk {
+  width: 20%;
+}
+
+.spotify-td {
+  display: flex;
+}
+
+.spotify-title {
+  width: 100%;
+}
+
+.spotify-artist {
+  width: 100%;
+}

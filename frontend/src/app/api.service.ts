@@ -91,6 +91,11 @@ constructor(private httpClient: HttpClient) {}
             return this.httpClient.get<Song[]>(`${this.PHP_API_SERVER}/get_queuedSongs.php/?id=${event_id}"`).pipe(catchError(this.errorHandler));
         }
 
+        // get all songs in queue for an event, in order with user votes
+        get_queuedSongsVotes(event_id: number, user_id: number):Observable<Song[]>{
+            return this.httpClient.get<Song[]>(`${this.PHP_API_SERVER}/get_queuedSongsVotes.php/?event_id=${event_id}&user_id=${user_id}"`).pipe(catchError(this.errorHandler));
+        }
+
     // songs Table
         // for a search by name
         get_songs(query: string) {
@@ -141,7 +146,7 @@ constructor(private httpClient: HttpClient) {}
             }
 
             refresh_token(user_id: number){
-                return this.httpClient.get<Token[]>(`${this.PHP_API_SERVER_DOM}/refresh_user.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
+                return this.httpClient.get<Token[]>(`${this.PHP_API_SERVER_DOM}/refresh_user1.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
 
             }
 

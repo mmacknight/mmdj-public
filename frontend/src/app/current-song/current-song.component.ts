@@ -18,7 +18,7 @@ export class CurrentSongComponent implements OnInit {
   public device_id: String;
   width: number;
   yoffset: number;
-  song_padding: string;
+  song_padding: number;
 
   @Input()
   set inp(input) {
@@ -34,7 +34,7 @@ export class CurrentSongComponent implements OnInit {
     )
     this.width = window.innerWidth;
     this.yoffset = window.pageYOffset;
-    this.song_padding = this.width <= 600 ? String(Math.max(20-100*this.yoffset/window.innerHeight,0))+'%' : '20%'
+    this.song_padding = this.width <= 600 ? Math.max(20-100*this.yoffset/window.innerHeight,0) : 20;
 
    }
 
@@ -74,7 +74,7 @@ export class CurrentSongComponent implements OnInit {
   onResize(event?) {
     this.width = window.innerWidth;
     this.yoffset = window.pageYOffset;
-    this.song_padding = this.width <= 600 ? String(Math.max(20-100*this.yoffset/window.innerHeight,0))+'%' : '20%'
+    this.song_padding = this.width <= 600 ? Math.max(20-100*this.yoffset/window.innerHeight,0) : 20;
   }
 
 

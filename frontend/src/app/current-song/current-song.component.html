@@ -1,20 +1,20 @@
 <div *ngIf="song.song_id" class="current-song" [style.backgroundImage]="'url('+ song.artwork +')'" [style.z-index]="width > 600 ? -1 : 1">
   <!-- <app-youtube-player></app-youtube-player> -->
-  <app-spotify *ngIf="song.platform == 'spotify' && device_id" [inp]="[song, device_id]" (myEvent)='skipSong()'></app-spotify>
+  <!-- <app-spotify *ngIf="song.platform == 'spotify' && device_id" [inp]="[song, device_id]" (myEvent)='skipSong()'></app-spotify>
   <app-soundcloud *ngIf="song.platform == 'soundcloud'" [inp]="song.song_id"></app-soundcloud>
-  <app-youtube-player *ngIf="song.platform == 'youtube'" [inp]="song.song_id"></app-youtube-player>
+  <app-youtube-player *ngIf="song.platform == 'youtube'" [inp]="song.song_id"></app-youtube-player> -->
 
-  <div class="song" [style.padding-top]="song_padding" [style.padding-bottom]="song_padding">
+  <div class="song" [class.song-normal]="width > 600 || song_padding != 0"  [style.padding-top]="width > 600 || song_padding != 0 ? 2.5 + song_padding+'%' : 0" [style.padding-bottom]="width > 600 || song_padding != 0 ? 27.5 + song_padding+'%' : 0">
 
     <!-- <div class="img-container">
       <img src={{song.artwork}} class="artwork">
     </div> -->
-    <div *ngIf="width > 600 || song_padding != '0%'" class="normal">
+    <div *ngIf="width > 600 || song_padding != 0" class="normal">
       <div class="text-normal">
         <b>{{song.title}}<br>{{song.artist}}</b>
       </div>
     </div>
-    <div *ngIf="width <= 600 && song_padding == '0%'" class="banner">
+    <div *ngIf="width <= 600 && song_padding == 0" class="banner">
       <img *ngIf="song.platform == 'spotify'" class="icon" src="assets/media/spotify.png">
       <img *ngIf="song.platform == 'soundcloud'" class="icon" src="assets/media/soundcloud.png">
       <img *ngIf="song.platform == 'youtube'" class="icon" src="assets/media/youtube.png">

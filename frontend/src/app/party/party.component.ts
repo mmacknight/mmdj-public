@@ -27,11 +27,10 @@ export class PartyComponent implements OnInit {
   public queuedSong: QueuedSong;
   public queuedSongs = [];
   public width: number;
-  public displayedColumns = ['score', 'artist', 'title', 'vote'];
+  public displayedColumns = ['Songs', 'Score', 'Vote'];
   public results = [];
   public id: string;
   public queuedSongs$: Observable<Song[]>;
-  public userVotes = {};
   public user: User;
   public display = [1, 0, 0, 0];
 
@@ -47,7 +46,6 @@ export class PartyComponent implements OnInit {
       data  => {
         if (data) {
           this.event = data[0];
-          this.refreshVotes();
           console.log(data);
           // this.refresh();
         }
@@ -76,47 +74,53 @@ export class PartyComponent implements OnInit {
   //   )
   // }
 
-  refreshVotes() {
-    this.apiService.get_user_votes(this.user.user_id,this.event.event_id).subscribe(
-      data => {
-        for (let i in data) {
-          var vote = data[i];
-          this.userVotes[vote.order_num] = vote.vote;
-        }
-        //console.log(this.userVotes);
-      },
-      error => {
-        if ( error.status >= 400) {
-          console.log(error)
-        }
-      }
-    )
-  }
+  // refreshVotes() {
+  //   this.apiService.get_user_votes(this.user.user_id,this.event.event_id).subscribe(
+  //     data => {
+  //       for (let i in data) {
+  //         var vote = data[i];
+  //         this.userVotes[vote.order_num] = vote.vote;
+  //       }
+  //       //console.log(this.userVotes);
+  //     },
+  //     error => {
+  //       if ( error.status >= 400) {
+  //         console.log(error)
+  //       }
+  //     }
+  //   )
+  // }
 
-  upvote(order_num, song_id, platform) {
+  upvote(order_num, song_id, platform, old_vote) {
+    var voted = old_vote != null;
+    old_vote = parseInt(old_vote);
     this.queuedSong = new QueuedSong;
     this.queuedSong.event_id = this.event.event_id;
     this.queuedSong.order_num = order_num;
+    this.queuedSong.song_id = song_id;
+    this.queuedSong.platform = platform;
     var vote_amount = [2, 1, -1];
-    this.queuedSong.popularity = order_num in this.userVotes ? vote_amount[parseInt(this.userVotes[order_num])+1] : 1;
+    this.queuedSong.popularity = old_vote ? vote_amount[old_vote+1] : 1;
+    console.log(this.queuedSong);
     this.apiService.put_QueuedSong(this.queuedSong).subscribe(
       data => {
         var vote = new Vote();
         vote.user_id = this.user.user_id;
         vote.event_id = this.event.event_id;
-        vote.vote = order_num in this.userVotes && this.userVotes[order_num] == 1 ? 0 : 1;
+        vote.vote = old_vote && old_vote == 1 ? 0 : 1;
         vote.song_id = song_id;
         vote.platform = platform;
         vote.order_num = parseInt(order_num);
-        if (order_num in this.userVotes) {
+        console.log(vote)
+        if (voted) {
           this.apiService.put_vote(vote).subscribe(
-            data => this.refreshVotes(),
-            error => error.status == 204 ? this.refreshVotes() : console.log(error)
+            data => console.log(data),
+            error => console.log(error)
           )
         } else {
           this.apiService.post_vote(vote).subscribe(
-            data => this.refreshVotes(),
-            error => error.status == 204 ? this.refreshVotes() : console.log(error)
+            data => console.log(data),
+            error => console.log(error)
           )
         }
       },
@@ -129,31 +133,36 @@ export class PartyComponent implements OnInit {
     )
   }
 
-  downvote(order_num, song_id, platform) {
+  downvote(order_num, song_id, platform, old_vote) {
+    var voted = old_vote != null;
+    console.log(voted);
+    old_vote = parseInt(old_vote);
     this.queuedSong = new QueuedSong;
     this.queuedSong.event_id = this.event.event_id;
     this.queuedSong.order_num = order_num;
+    this.queuedSong.song_id = song_id;
+    this.queuedSong.platform = platform;
     var vote_amount = [1, -1, -2];
-    this.queuedSong.popularity = order_num in this.userVotes ? vote_amount[parseInt(this.userVotes[order_num])+1] : -1;
+    this.queuedSong.popularity = old_vote ? vote_amount[old_vote+1] : -1;
     this.apiService.put_QueuedSong(this.queuedSong).subscribe(
       data => {
         var vote = new Vote();
         vote.user_id = this.user.user_id;
         vote.event_id = this.event.event_id;
-        vote.vote = order_num in this.userVotes && this.userVotes[order_num] == -1 ? 0 : -1;
+        vote.vote = old_vote && old_vote == -1 ? 0 : -1;
         vote.song_id = song_id;
         vote.platform = platform;
         vote.order_num = parseInt(order_num);
         console.log(vote);
-        if (order_num in this.userVotes) {
+        if (voted) {
           this.apiService.put_vote(vote).subscribe(
-            data => this.refreshVotes(),
-            error => error.status == 204 ? this.refreshVotes() : console.log(error)
+            data => console.log(data),
+            error => console.log(error)
           )
         } else {
           this.apiService.post_vote(vote).subscribe(
-            data => this.refreshVotes(),
-            error => error.status == 204 ? this.refreshVotes() : console.log(error)
+            data => console.log(data),
+            error => console.log(error)
           )
         }
       },
@@ -167,7 +176,7 @@ export class PartyComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.queuedSongs$ = interval(1000).pipe(switchMap(() => this.apiService.get_queuedSongs(this.event.event_id)));
+    this.queuedSongs$ = interval(1000).pipe(switchMap(() => this.apiService.get_queuedSongsVotes(this.event.event_id, this.user.user_id)));
   }
 
   onEndPartyClick(){
@@ -192,6 +201,16 @@ export class PartyComponent implements OnInit {
   toggleDisplay(index: number) {
     this.display = [0, 0, 0, 0];
     this.display[index] = 1;
+  }
+
+  trackByFunction(index, item) {
+    if (!item) return null;
+    return index;
+  }
+
+  logout() {
+    this.userService.logout();
+    this.router.navigate(['']);
   }
 
   @HostListener('window:resize', ['$event'])
