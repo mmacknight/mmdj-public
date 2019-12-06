@@ -16,19 +16,31 @@ if(isset($postdata) && !empty($postdata))
   $password = mysqli_real_escape_string($con, trim($request->password));
   // Create.
   $sql = "INSERT INTO `users`(`username`,`password`) VALUES ('{$username}','{$password}')";
-  if(mysqli_query($con,$sql))
-  {
-    http_response_code(201);
-    $user = [
-      'username' => $username,
-      'password' => $password,
-      'user_id'    => mysqli_insert_id($con)
-    ];
-    echo json_encode($user);
-  }
-  else
-  {
-    http_response_code(422);
+  
+  if ($stmt = mysqli_prepare($con, "INSERT INTO `users`(`username`,`password`) VALUES ( ?, ?)" )){
+ 
+    /* bind parameters for markers */
+    mysqli_stmt_bind_param($stmt, "ss", $username, $password);
+  
+    /* execute query */
+    mysqli_stmt_execute($stmt);
+    
+    $rows = mysqli_stmt_affected_rows($stmt);
+
+    mysqli_stmt_close($stmt);
+
+    if ($rows === -1){
+      //username already taken
+      http_response_code(422);
+    } else {
+      $user = [
+        'user_id' =>  mysqli_insert_id($con),
+        'username'    => $username,
+        'password' => $password
+      ];
+      echo json_encode($user);
+      http_response_code(201);
+    }
   }
 }
 ?>

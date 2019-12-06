@@ -12,18 +12,34 @@ $password = ($_GET['password'] !== null )? mysqli_real_escape_string($con, trim(
 $users = [];
 $sql = "SELECT user_id, username, password FROM users where username like '{$username}' limit 1";
 
-if($result = mysqli_query($con,$sql))
-{
+if ($stmt = mysqli_prepare($con, "SELECT user_id, username, password FROM users where username like ? limit 1" )){
+ 
+  /* bind parameters for markers */
+  mysqli_stmt_bind_param($stmt, "s", $username);
+
+  /* execute query */
+  mysqli_stmt_execute($stmt);
+
+  /* bind result variables */
+  mysqli_stmt_bind_result($stmt, $id, $name, $code);
+
+  /* fetch values */
   $i = 0;
-  while($row = mysqli_fetch_assoc($result))
-  {
-    $users[$i]['user_id'] = $row['user_id'];
-    $users[$i]['username'] = $row['username'];
-    $users[$i]['password'] = $row['password'];
+  while (mysqli_stmt_fetch($stmt)) {
+    $users[$i]['user_id'] = $id;
+    $users[$i]['username'] = $name;
+    $users[$i]['password'] = $code;
     $i++;
   }
 
-  if ($users[0]['password'] !== $password) {
+  mysqli_stmt_close($stmt);
+  
+  if ($users === []){
+    // no username found
+    http_response_code(404);
+  
+
+  } else if ($users[0]['password'] !== $password) {
     // incorrect password, emit error
     http_response_code(405);
 
@@ -32,11 +48,7 @@ if($result = mysqli_query($con,$sql))
     echo json_encode($users[0]);
     http_response_code(200);
   }
-  
+
 }
-else
-{
-  // no username found
-  http_response_code(404);
-}
+
 ?>
