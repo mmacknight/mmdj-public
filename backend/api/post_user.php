@@ -14,7 +14,9 @@ if(isset($postdata) && !empty($postdata))
   // Sanitize.
   $username = mysqli_real_escape_string($con, trim($request->username));
   $password = mysqli_real_escape_string($con, trim($request->password));
-  // Create.
+
+  $password = crypt($password, "xYDoMwaNTzU2HacKhIM"); // currently using constant SALT. could enhance by doing random salt each time and storing salt in DB
+// Create.
   $sql = "INSERT INTO `users`(`username`,`password`) VALUES ('{$username}','{$password}')";
   
   if ($stmt = mysqli_prepare($con, "INSERT INTO `users`(`username`,`password`) VALUES ( ?, ?)" )){

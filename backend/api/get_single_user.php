@@ -8,6 +8,7 @@ require 'database.php';
 $username = ($_GET['username'] !== null )? mysqli_real_escape_string($con, trim($_GET['username'])) : false;
 $password = ($_GET['password'] !== null )? mysqli_real_escape_string($con, trim($_GET['password'])) : false;
 
+$password = crypt($password, "xYDoMwaNTzU2HacKhIM"); // currently using constant SALT. could enhance by doing random salt each time and storing salt in DB
 
 $users = [];
 $sql = "SELECT user_id, username, password FROM users where username like '{$username}' limit 1";
@@ -45,6 +46,7 @@ if ($stmt = mysqli_prepare($con, "SELECT user_id, username, password FROM users 
 
   } else {
     // this user exists, yay log them in
+    //$users[0]['password'] = 'nice try!';
     echo json_encode($users[0]);
     http_response_code(200);
   }
