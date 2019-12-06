@@ -4,6 +4,7 @@ import { ApiService } from '../api.service';
 import { UserService } from '../user.service';
 import { User } from '@classes/user';
 import { Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-auth',
@@ -12,19 +13,33 @@ import { Router } from '@angular/router';
 })
 export class AuthComponent implements OnInit {
 
-  public loginForm: FormGroup;
-  public loginClicked: Boolean;
   public registerForm: FormGroup;
+  public loginForm: FormGroup;
+  public authButtons = [1,0];
   public registerClicked: Boolean;
   public user: User;
   public invalid: Boolean;
-  public nextPage: string; 
+  public nextPage: string;
+  DESKTOP: boolean = false;
 
-  constructor(fb: FormBuilder, public apiService: ApiService, public userService: UserService, public router: Router) {
-    this.loginClicked = true;
-    this.registerClicked = false;
-    this.nextPage = window.innerWidth > 600 ? 'host': 'join';
-
+  constructor(fb: FormBuilder, public apiService: ApiService, public userService: UserService, public router: Router, private deviceService: DeviceDetectorService) {
+    this.DESKTOP = deviceService.isDesktop();
+    this.nextPage = this.DESKTOP ? 'host': 'join';
+    this.userService.currentUser.subscribe(
+      user => {
+        if (user) {
+          this.apiService.get_events_by_user(user.user_id).subscribe(
+            data => {
+              if (data.length) {
+                this.router.navigate(['party',data[0].event_id]);
+              } else {
+                this.router.navigate([this.nextPage]);
+              }
+            }
+          )
+        }
+      }
+    )
     this.loginForm = fb.group({
       username: '',
       password: ''
@@ -37,27 +52,28 @@ export class AuthComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
   }
 
-  onLoginClick() {
-    console.log("login");
-    this.registerClicked = false;
-    this.loginClicked = !this.loginClicked;
-  }
-
-  onRegisterClick() {
-    this.loginClicked = false;
-    this.registerClicked = !this.registerClicked;
+  onAuthButtonClick(index) {
+    this.authButtons = [0,0];
+    this.authButtons[index] = 1;
   }
 
   login() {
     this.apiService.get_user(this.loginForm.controls.username.value, this.loginForm.controls.password.value).subscribe(
       user  => {
-        console.log("Login, ", user)
-        this.router.navigate([this.nextPage]);
-        this.userService.login(user)
+        this.userService.login(user),
         this.invalid = false
+        this.apiService.get_events_by_user(user.user_id).subscribe(
+          data => {
+            if (data.length) {
+              this.router.navigate(['party',data[0].event_id]);
+            } else {
+              this.router.navigate([this.nextPage]);
+            }
+          }
+        )
       },
       error => {
         this.invalid = true,
@@ -89,12 +105,7 @@ export class AuthComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event?) {
-    if (window.innerWidth > 600) {
-      this.nextPage = 'host';
-    }
-    else {
-      this.nextPage = 'join';
-    }
+    this.nextPage = this.DESKTOP ? 'host': 'join';
   }
 
 }

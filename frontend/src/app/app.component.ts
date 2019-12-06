@@ -4,6 +4,7 @@ import { UserService } from './user.service';
 import { ApiService } from './api.service';
 import { TokenService } from './token.service';
 import { Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,8 @@ export class AppComponent {
   title = 'frontend';
   public redirect_uri: string = '';
 
-  constructor(private userService: UserService, private router:Router, private apiService: ApiService, private tokenService: TokenService) {
+  constructor(private deviceDetectorService: DeviceDetectorService, private userService: UserService, private router:Router, private apiService: ApiService, private tokenService: TokenService) {
+    console.log("Desktop", this.deviceDetectorService.isDesktop());
     this.userService.currentUser.subscribe(
       user =>  {
         user ? this.user = user : this.router.navigate(['']),

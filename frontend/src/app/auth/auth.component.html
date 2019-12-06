@@ -1,13 +1,13 @@
 <div class="example-container">
 
-  <h1>Welcome to MMDJ</h1>
+  <h1>MMDJ</h1>
 
   <div class="btn-group buttons">
-    <button class="btn buttons" [class.btn-primary]="!registerClicked" [class.btn-outline-primary]="registerClicked" (click)="onLoginClick()">Login</button>
-    <button class="btn buttons" [class.btn-primary]="registerClicked" [class.btn-outline-primary]="!registerClicked" (click)="onRegisterClick()">Register</button>
+    <button class="btn buttons" [class.btn-primary]="authButtons[0]" [class.btn-outline-primary]="!authButtons[0]" (click)="onAuthButtonClick(0)">Login</button>
+    <button class="btn buttons" [class.btn-primary]="authButtons[1]" [class.btn-outline-primary]="!authButtons[1]" (click)="onAuthButtonClick(1)">Register</button>
   </div>
 
-  <form *ngIf="loginClicked" class="form-container text-center" [formGroup]="loginForm" (ngSubmit)="login()">
+  <form *ngIf="authButtons[0]" class="form-container text-center" [formGroup]="loginForm" (ngSubmit)="login()">
     <mat-form-field>
       <input matInput formControlName="username" placeholder="Username">
       <mat-hint *ngIf="invalid">Invalid Login</mat-hint>
@@ -19,7 +19,7 @@
     <button class="btn btn-primary" type="submit">Login</button>
   </form>
 
-  <form *ngIf="registerClicked" class="form-container text-center" [formGroup]="registerForm" (ngSubmit)="register()">
+  <form *ngIf="authButtons[1]" class="form-container text-center" [formGroup]="registerForm" (ngSubmit)="register()">
     <mat-form-field>
       <input matInput formControlName="username" placeholder="Username">
       <mat-hint *ngIf="invalid">Choose a new username</mat-hint>

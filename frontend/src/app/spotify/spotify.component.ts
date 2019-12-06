@@ -20,7 +20,7 @@ export class SpotifyComponent implements OnInit {
 
   @Input()
   set inp(input) {
-
+    console.log("INNNN SPOTIFY", input);
    // console.log('THIS', window.onSpotifyWebPlaybackSDKReady);
       console.log('input', input);
      this.track_id = input[0]['song_id'];
@@ -30,6 +30,7 @@ export class SpotifyComponent implements OnInit {
      console.log('dev', this.device_id);
 
       if(this.track_id && this.device_id ){
+        console.log("PLAYYYING", this.track_id);
         this.play(this.device_id, this.track_id);
     }
   }

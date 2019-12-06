@@ -5,11 +5,11 @@ import {
  } from 'rxjs/operators';
 import { SongSearchService } from '../song-search.service';
 import { ApiService } from '../api.service';
-import { TokenService } from '../token.service';
 import { Song } from '@classes/song';
 import { Youtube } from '@classes/youtube';
 import { Soundcloud } from '@classes/soundcloud';
 import { QueuedSong } from '@classes/queuedSong';
+import { TokenService } from '../token.service';
 // import { platform } from 'os';
 
 
@@ -25,9 +25,9 @@ export class SongSearchComponent implements OnInit {
 
   public searchOptions = [1, 0, 0];
 
-  public songs$: Observable<any>;
+  public spotify$: Observable<any>;
   public songs = [];
-  private searchTerms = new Subject<string>();
+  private searchTermsSpotify = new Subject<any>();
   public displayedColumns = ['Results'];
 
   public soundcloud$: Observable<Soundcloud[]>;
@@ -55,28 +55,28 @@ export class SongSearchComponent implements OnInit {
   }
 
   // Push a search term into the observable stream.
-  search(term: string): void {
-    this.searchTerms.next(term);
-  }
+  // search_spotify(term: string): void {
+  //   this.searchTermsSpotify.next(term);
+  // }
 
   searchYoutube(term: string): void {
     this.searchTermsYoutube.next(term);
   }
 
   searchSoundcloud(term: string): void {
-    this.searchTermsSoundcloud.next(term);
+    this.searchTermsSoundcloud.next(term)
   }
 
   ngOnInit(): void {
 
-    this.songs$ = this.searchTerms.pipe(
+    this.spotify$ = this.searchTermsSpotify.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),
 
       // ignore new term if same as previous term
       distinctUntilChanged(),
       // switch to new search observable each time the term changes
-      // switchMap((term: string) => this.songSearchService.searchSpotify('kesha')).subscribe(
+      switchMap((term: string[]) => this.songSearchService.searchSpotify(term[0], term[1]))
       //   data => this.songs = data;
       // )
     );
@@ -200,7 +200,8 @@ export class SongSearchComponent implements OnInit {
     if (search_term){
       this.tokenService.token.subscribe(
         token => {
-          this.songSearchService.searchSpotify(search_term,token).subscribe(
+          this.searchTermsSpotify.next([search_term,token]);
+          this.spotify$.subscribe(
             data => {
               this.songs = [];
               for(var item in data['tracks']['items']){
