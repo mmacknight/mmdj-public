@@ -23,6 +23,8 @@ if(isset($postdata) && !empty($postdata))
   $username = mysqli_real_escape_string($con, trim($request->username));
   $password = mysqli_real_escape_string($con, trim($request->password));
 
+  $password = crypt($password, "xYDoMwaNTzU2HacKhIM"); // currently using constant SALT. could enhance by doing random salt each time and storing salt in DB
+
   // Create.
   $sql = "UPDATE users SET password = '{$password}', username = '{$username}' WHERE user_id = {$user_id}";
 
