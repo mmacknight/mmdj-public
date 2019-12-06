@@ -10,9 +10,9 @@ import { UserService } from '../user.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar'
-import { Observable, interval  } from 'rxjs';
+import { Observable, interval, timer  } from 'rxjs';
 import {
-   debounceTime, distinctUntilChanged, switchMap
+   startWith, debounceTime, distinctUntilChanged, switchMap
  } from 'rxjs/operators';
 
 import { TokenService } from '../token.service';
@@ -31,6 +31,7 @@ export class PartyComponent implements OnInit {
   public results = [];
   public id: string;
   public queuedSongs$: Observable<Song[]>;
+  public currentSong$: Observable<Song>;
   public user: User;
   public display = [1, 0, 0, 0];
 
@@ -38,25 +39,36 @@ export class PartyComponent implements OnInit {
     private route: ActivatedRoute, private snackBar: MatSnackBar, private userService: UserService, private tokenService: TokenService) {
     this.width = window.innerWidth;
     this.id = route.snapshot.paramMap.get('id');
-    this.userService.currentUser.subscribe(
-      user => user ? this.user = user : this.router.navigate([''])
-    );
 
-    this.apiService.get_event(parseInt(this.id)).subscribe(
-      data  => {
-        if (data) {
-          this.event = data[0];
-          console.log(data);
-          // this.refresh();
-        }
-      },
-      error => {
-        if ( error.status >= 400) {
-          // this.invalid = true,
-          console.log(error)
-        }
+    this.userService.currentUser.subscribe(
+      user => {
+        user ? this.user = user : this.router.navigate(['']);
+        this.apiService.get_event(parseInt(this.id)).subscribe(
+          data  => {
+            if (data) {
+              this.event = data[0];
+              console.log(data);
+              this.queuedSongs$ = timer(0,500).pipe(
+                // startWith(1000),
+                distinctUntilChanged(),
+                switchMap(() => this.apiService.get_queuedSongsVotes(this.event.event_id, this.user.user_id))
+              );
+              // this.currentSong$ = timer(0,500).pipe(
+              //   // startWith(1000),
+              //   distinctUntilChanged(),
+              //   switchMap(() => this.apiService.get_event_current_song(this.event.event_id))
+              // );
+            }
+          },
+          error => {
+            if ( error.status >= 400) {
+              // this.invalid = true,
+              console.log(error)
+            }
+          }
+        )
       }
-    )
+    );
   }
 
   // refresh() {
@@ -176,7 +188,7 @@ export class PartyComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.queuedSongs$ = interval(1000).pipe(switchMap(() => this.apiService.get_queuedSongsVotes(this.event.event_id, this.user.user_id)));
+
   }
 
   onEndPartyClick(){

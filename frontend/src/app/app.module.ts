@@ -25,6 +25,7 @@ import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
 import { SoundcloudComponent } from './soundcloud/soundcloud.component';
 import { CallbackComponent } from './callback/callback.component';
 import { MobileNavbarComponent } from './mobile-navbar/mobile-navbar.component';
+import { DeviceDetectorModule } from 'ngx-device-detector';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { MobileNavbarComponent } from './mobile-navbar/mobile-navbar.component';
     MatIconModule,
     // ToastrModule.forRoot(),
     MatSnackBarModule,
-    NgxYoutubePlayerModule
+    NgxYoutubePlayerModule,
+    DeviceDetectorModule.forRoot()
   ],
   providers: [
     { provide: Window, useValue: window }

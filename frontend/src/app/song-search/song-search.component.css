@@ -45,6 +45,7 @@ td {
 .youtube-td > img {
   width: 25%;
   margin-right: 5%;
+  height: 100%;
 }
 
 .soundcloud {
@@ -63,6 +64,7 @@ td {
 
 .spotify-artowrk {
   width: 20%;
+  height: 100%;
 }
 
 .spotify-td {

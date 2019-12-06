@@ -38,7 +38,7 @@ export class SongSearchService {
   }
 
   searchSpotify(search_term, token) {
-
+    console.log(token);
     const headers = {
       headers: {
         'Authorization': `Bearer ${token}`

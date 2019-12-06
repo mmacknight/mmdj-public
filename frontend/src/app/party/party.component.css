@@ -4,7 +4,6 @@
     margin-top: 70%;
     text-align: center;
     background-color: white;
-    padding-bottom: 20%;
   }
 
 table {
@@ -57,7 +56,7 @@ table {
 }
 
 .add-song {
-  padding-top: 5%;
+  padding-top: 20%;
 }
 
 .spotify-row {
@@ -68,6 +67,7 @@ table {
 
 .spotify-artowrk {
   width: 20%;
+  height: 100%;
 }
 
 .spotify-td {
@@ -75,9 +75,11 @@ table {
 }
 
 .spotify-title {
+  color: #606060;
   width: 100%;
 }
 
 .spotify-artist {
+  color: darkgray;
   width: 100%;
 }

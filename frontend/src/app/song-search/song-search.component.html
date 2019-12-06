@@ -31,7 +31,6 @@
   </div>
 
   <div *ngIf="searchOptions[1]">
-
     <input class="input-field" [class.input-field-active]="searchBoxSoundcloud.value" #searchBoxSoundcloud (input)="searchSoundcloud(searchBoxSoundcloud.value)" placeholder="Add a song to the queue">
     <table *ngIf="searchBoxSoundcloud.value" class="soundcloud" mat-table [dataSource]="soundcloud$ | async" class="mat-elevation-z8">
       <ng-container matColumnDef="Results">
