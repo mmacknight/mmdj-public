@@ -19,34 +19,6 @@ require 'database.php';
 // Extract, validate and sanitize the id.
 $event_id = ($_GET['id'] !== null && (int)$_GET['id'] > 0)? mysqli_real_escape_string($con, (int)$_GET['id']) : false;
 
-/**
- * Obtain event host authorization information -- must be in database or we have an error
-*/
-$token = [];
-$sql = "SELECT spotify_access from tokens, events where event_id = {$event_id} and events.user_id = tokens.user_id ";
-if ($result = mysqli_query($con, $sql))
-{
-    $i = 0;
-    while($row = mysqli_fetch_assoc($result))
-    {
-        $token[$i] = $row['spotify_access'];
-        $i++;
-    }
-    if (strlen($token[0]) < 1 ){
-        // TOKEN NOT FOUND
-        echo json_encode($event_id);
-        http_response_code(404);
-        die();
-    }
-} 
-else
-{
-  // TOKEN NOT FOUND
-  echo json_encode($event_id);
-  http_response_code(404);
-  die();
-}
-
 
 /**
    * Get historical songs to default onto
@@ -140,21 +112,9 @@ if($result = mysqli_query($con,$sql1))
                 $i++;
             }
 
-        
-
-
             echo json_encode($recs);
-
         
             http_response_code(200);
-
-
-
-
-
-
-
-
 
         }
         else
