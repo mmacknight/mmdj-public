@@ -9,3 +9,9 @@
    -webkit-text-stroke-width: 0.2vw;
    -webkit-text-stroke-color: gray;
 }
+
+.spotify-button {
+   z-index: 3;
+   position: fixed;
+   top: 10px;
+}
