@@ -8,23 +8,11 @@
   text-align: center;
   background-position: center;
   background-size: cover;
-  background-color: #222222;
-  color: #ffffff;
 }
 
-.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited, .btn-outline-primary:hover {
-    background-color: #ffffff !important;
-    border-color: #ffffff !important;
-    color: #4b4e6d !important;
-}
-
-.btn-outline-primary, .btn-outline-primary:active, .btn-outline-primary:visited {
-  border-color: #ffffff !important;
-  color: #ffffff !important;
-}
-/* 
+/*
 .current-song-desktop {
-  width: 100%; 
+  width: 100%;
   width: -webkit-fill-avaliable;
   top: 0px;
   z-index: -2;

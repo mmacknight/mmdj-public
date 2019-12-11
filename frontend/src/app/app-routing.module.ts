@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { AuthComponent } from './auth/auth.component';
 import { JoinComponent } from './join/join.component';
@@ -12,7 +11,6 @@ import { CallbackComponent } from './callback/callback.component';
 
 const routes: Routes = [
   { path: '', component: AuthComponent },
-  { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: AuthComponent },
   { path: 'join', component: JoinComponent },
   { path: 'host', component: HostComponent },

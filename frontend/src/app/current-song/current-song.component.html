@@ -1,9 +1,19 @@
-<div class="current-song" [style.backgroundImage]="'url('+ song.artwork +')'" [style.z-index]="0 ? -1 : 1">
-  <app-spotify *ngIf="HOST && DESKTOP && song.platform == 'spotify' && device_id" [inp]="[song, device_id]" (myEvent)='skipSong()'></app-spotify>
-  <app-soundcloud *ngIf="HOST && DESKTOP && song.platform == 'soundcloud'" [inp]="song.song_id" (endSong)=skipSong()></app-soundcloud>
-  <app-youtube-player *ngIf="HOST && DESKTOP && song.platform == 'youtube'" [inp]="song.song_id" (endSong)=skipSong()></app-youtube-player>
+<div *ngIf=DESKTOP class='current-song-outer-desktop'>
+  <div *ngIf="song.song_id" class="current-song-desktop">
+  <!-- <div *ngIf="song.song_id" class="current-song-desktop" [style.backgroundImage]="'url('+ song.artwork +')'"> -->
+      <mat-card *ngIf="song.platform == 'spotify'" class='song-info-card'>
+        <mat-card-title>{{song.title}}</mat-card-title>
+        <mat-card-subtitle>{{song.artist}}</mat-card-subtitle>
+      </mat-card>
+      <img *ngIf="song.platform == 'spotify'" src={{song.artwork}} alt="album art" [style.height]="height+'px'" >
 
-  <div class="song" [class.song-normal]="DESKTOP || song_padding != 0"  [style.padding-top]="DESKTOP || song_padding != 0 ? 2.5 + song_padding+'%' : 0" [style.padding-bottom]="width > 600 || song_padding != 0 ? 27.5 + song_padding+'%' : 0">
+      <app-spotify *ngIf="HOST && song.platform == 'spotify' && device_id" [inp]="[song, device_id]" (myEvent)='skipSong()'></app-spotify>
+      <app-soundcloud *ngIf="HOST && song.platform == 'soundcloud'" [inp]="song.song_id" (endSong)=skipSong()></app-soundcloud>
+      <app-youtube-player *ngIf="HOST && song.platform == 'youtube'" [inp]="song.song_id" (endSong)=skipSong()></app-youtube-player>
+
+    </div>
+
+</div>
 
 <div *ngIf=!DESKTOP>
   <div *ngIf="song.song_id" class="current-song" [style.backgroundImage]="'url('+ song.artwork +')'" [style.z-index]="0 ? -1 : 1">
