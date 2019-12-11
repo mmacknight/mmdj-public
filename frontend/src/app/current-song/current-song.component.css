@@ -22,6 +22,28 @@
   border-color: #ffffff !important;
   color: #ffffff !important;
 }
+/* 
+.current-song-desktop {
+  width: 100%; 
+  width: -webkit-fill-avaliable;
+  top: 0px;
+  z-index: -2;
+  background-color: black;
+  color: white;
+  text-align: center;
+  background-position: center;
+  background-size: cover;
+} */
+
+.current-song-desktop {
+  text-align: center;
+  /* object-fit: contain; */
+  height: 66.66%;
+}
+
+.current-song-outer-desktop {
+  height: 66.666% !important;
+}
 
 .song {
   /* padding-top: 20%;
@@ -100,4 +122,14 @@ mat-icon {
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.5);
 
+}
+
+.album-art {
+  height: 66.6%;
+  /* width: 30px; */
+}
+
+.song-info-card {
+  position: absolute;
+  left: 0;
 }

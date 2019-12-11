@@ -23,51 +23,9 @@ PHP_API_SERVER_DOM = "http://db.cse.nd.edu/cse30246/tutorial/dom";
 constructor(private httpClient: HttpClient) {}
 
 
-// Starter Code
-    readPolicies(): Observable<Policy[]>{
-        return this.httpClient.get<Policy[]>(`${this.PHP_API_SERVER}/read.php`).pipe(catchError(this.errorHandler));
-    }
-
-    createPolicy(policy: Policy): Observable<Policy>{
-        return this.httpClient.post<Policy>(`${this.PHP_API_SERVER}/create.php`, policy).pipe(catchError(this.errorHandler));
-    }
-
-    updatePolicy(policy: Policy){
-        return this.httpClient.put<Policy>(`${this.PHP_API_SERVER}/update.php`, policy).pipe(catchError(this.errorHandler));
-    }
-
-    deletePolicy(id: number){
-        return this.httpClient.delete<Policy>(`${this.PHP_API_SERVER}/delete.php/?id=${id}`).pipe(catchError(this.errorHandler));
-    }
-
-    readUsers(): Observable<User[]>{
-        return this.httpClient.get<User[]>(`${this.PHP_API_SERVER}/readUser.php`).pipe(catchError(this.errorHandler));
-    }
-
-    createUser(user: User){
-        return this.httpClient.post<User>(`${this.PHP_API_SERVER}/createUser.php`, user).pipe(catchError(this.errorHandler));
-    }
-
-    updateUser(user: User){
-        return this.httpClient.put<User>(`${this.PHP_API_SERVER}/updateUser.php`, user).pipe(catchError(this.errorHandler));
-    }
-
-    deleteUser(id: number){
-        return this.httpClient.delete<User>(`${this.PHP_API_SERVER}/deleteUser.php/?id=${id}&?table=`).pipe(catchError(this.errorHandler));
-    }
-
 // Get
     // Spotify API
             get_spotify_login(){
-                /*  PARAMS: from https://developer.spotify.com/documentation/general/guides/authorization-guide/
-                * req: client_id - provided by spotify when we register app
-                * req: response_type - "Set to code"
-                * req: redirect_uri, state, scope
-                * opt: state - for security
-                * opt: scope - if no scope specified, we get only normally visible things (not all api data)
-                *   https://developer.spotify.com/documentation/general/guides/scopes/
-                * opt: show_dialog - keep default of false to avoid relogins
-                */
                return this.httpClient.get<User>(`${this.PHP_API_SERVER}/auth.php`).pipe(catchError(this.errorHandler));
             }
 
@@ -83,7 +41,6 @@ constructor(private httpClient: HttpClient) {}
         get_event_current_song(event_id: number){
             return this.httpClient.get<Song>(`${this.PHP_API_SERVER}/get_event_current_song.php/?id=${event_id}"`).pipe(catchError(this.errorHandler));
         }
-
 
     // queuedSongs Table
         // get all songs in queue for an event, in order
@@ -107,57 +64,58 @@ constructor(private httpClient: HttpClient) {}
         }
 
 
-        // Search Bar
+    // Search Bar
 
-            gethelper_Searchbar_Artist(search: string){
-                throw new Error("Method not implemented.");
-            }
+        gethelper_Searchbar_Artist(search: string){
+            throw new Error("Method not implemented.");
+        }
 
-            gethelper_Searchbar_Songs(search: string){
-                return this.httpClient.get<Song[]>(`${this.PHP_API_SERVER}/gethelper_Searchbar_Songs.php/?search=${search}`).pipe(catchError(this.errorHandler));
-            }
+        gethelper_Searchbar_Songs(search: string){
+            return this.httpClient.get<Song[]>(`${this.PHP_API_SERVER}/gethelper_Searchbar_Songs.php/?search=${search}`).pipe(catchError(this.errorHandler));
+        }
 
-            get_Searchbar(search: string){
-                this.gethelper_Searchbar_Songs(search);
-                //TODO
-                //this.gethelper_Searchbar_Artists(search);
-                //this.gethelper_Searchbar_Albums(search);
-            }
+        get_Searchbar(search: string){
+            this.gethelper_Searchbar_Songs(search);
+            //TODO
+            //this.gethelper_Searchbar_Artists(search);
+            //this.gethelper_Searchbar_Albums(search);
+        }
 
-        // Play Song
-            get_PlayableSong(){
-                throw new Error("Method not implemented.");
-            }
+    // Play Song
+        get_PlayableSong(){
+            throw new Error("Method not implemented.");
+        }
 
-        // Play Song
-            get_user_votes(user_id: number, event_id: number){
-              return this.httpClient.get(`${this.PHP_API_SERVER}/get_votes_single_user.php/?user_id=${user_id}&event_id=${event_id}`).pipe(catchError(this.errorHandler));
+    // Play Song
+        get_user_votes(user_id: number, event_id: number){
+            return this.httpClient.get(`${this.PHP_API_SERVER}/get_votes_single_user.php/?user_id=${user_id}&event_id=${event_id}`).pipe(catchError(this.errorHandler));
 
-            }
+        }
 
+        get_recommendations(event_id:number){
+            return this.httpClient.get(`${this.PHP_API_SERVER_DOM}/get_recommendations_new.php/?id=${event_id}`).pipe(catchError(this.errorHandler));
+        }
 
-    // tokens Table
-
-        //Spotify
+    //Spotify Token Handling
 
             get_token(user_id: number): Observable<any>{
                 return this.httpClient.get(`${this.PHP_API_SERVER_DOM}/get_token.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
 
-            }
+        }
 
             refresh_token(user_id: number): Observable<any> {
                 return this.httpClient.get(`${this.PHP_API_SERVER_DOM}/refresh_user1.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
 
-            }
+        }
 
     // users Table
-            get_all_Users(): Observable<User[]>{
-                return this.httpClient.get<User[]>(`${this.PHP_API_SERVER}/get_all_users.php`);
-            }
+        get_all_Users(): Observable<User[]>{
+            return this.httpClient.get<User[]>(`${this.PHP_API_SERVER}/get_all_users.php`);
+        }
 
-            get_user(username: string, password: string){
-                return this.httpClient.get<User>(`${this.PHP_API_SERVER}/get_single_user.php/?username=${username}&password=${password}&table="users"`).pipe(catchError(this.errorHandler));
-            }
+        get_user(username: string, password: string){
+            return this.httpClient.get<User>(`${this.PHP_API_SERVER}/get_single_user.php/?username=${username}&password=${password}&table="users"`).pipe(catchError(this.errorHandler));
+        }
 
 // Post
 

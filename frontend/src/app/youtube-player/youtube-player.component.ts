@@ -24,6 +24,8 @@ export class YoutubePlayerComponent implements OnInit {
     this.videos[0] = input;
   }
   constructor() {
+    this.height = window.innerHeight *2/3;
+    this.width = this.height *16/9;
     this.onResize();
   }
 
@@ -33,8 +35,11 @@ export class YoutubePlayerComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event?) {
-    this.width = window.innerWidth;
-    this.height = this.width*9/16;
+    // this.width = window.innerWidth;
+    this.height = window.innerHeight *2/3;
+    this.width = this.height *16/9;
+    // this.height = this.width*9/16;
+    console.log(this.width);
   }
 
   onStateChange(event) {

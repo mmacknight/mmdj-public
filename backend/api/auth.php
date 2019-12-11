@@ -21,6 +21,7 @@ $options = [
     'scope' => [
         'playlist-read-private',
         'user-read-private',
+        'streaming'
     ],
 ];
 

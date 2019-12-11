@@ -11,9 +11,15 @@
 }
 
 .spotify-button {
+<<<<<<< HEAD
   position: fixed;
   z-index: 3;
   top: 10%;
   left: 10px;
   border-radius: 15px;
+=======
+   z-index: 3;
+   position: fixed;
+   top: 10px;
+>>>>>>> 702d39071aa983982915baa678c948be69b106de
 }

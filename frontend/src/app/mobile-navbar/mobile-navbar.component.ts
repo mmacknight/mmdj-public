@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-mobile-navbar',
@@ -8,13 +9,16 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 export class MobileNavbarComponent implements OnInit {
 
   public display = [];
+  public DESKTOP: any;
 
   @Input()
   set inp(input) {
     this.display = input;
   }
 
-  constructor() { }
+  constructor(private deviceService: DeviceDetectorService) { 
+    this.DESKTOP = this.deviceService.isDesktop();
+  }
 
   ngOnInit() {
   }
