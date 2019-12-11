@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Observable, BehaviorSubject } from 'rxjs';
 import {
-   debounceTime, distinctUntilChanged, switchMap
+   debounceTime, distinctUntilChanged, switchMap, first
  } from 'rxjs/operators';
 import { SongSearchService } from '../song-search.service';
 import { ApiService } from '../api.service';
@@ -20,22 +20,25 @@ import { TokenService } from '../token.service';
 })
 export class SongSearchComponent implements OnInit {
 
-  public event_id = 1;
+  public event_id: number = null;
+  public host_id: number = null;
+  public padding: number;
   public qs: QueuedSong;
-
+  spotifySongs$: Observable<any> = new Observable<any>();
   public searchOptions = [1, 0, 0];
+  searching_term = '';
 
   public spotify$: Observable<any>;
   public songs = [];
-  private searchTermsSpotify = new Subject<any>();
+  private searchTermsSpotify = new BehaviorSubject<string[]>(['','']);
   public displayedColumns = ['Results'];
 
   public soundcloud$: Observable<Soundcloud[]>;
-  private searchTermsSoundcloud = new Subject<string>();
+  private searchTermsSoundcloud = new BehaviorSubject<string>('');
   public displayedColumnsSoundcloud = ['Results'];
 
   public youtubes$: Observable<Youtube[]>;
-  private searchTermsYoutube = new Subject<string>();
+  private searchTermsYoutube = new BehaviorSubject<string>('');
   public displayedColumnsYoutube = ['Results'];
   public s: Soundcloud[];
 
@@ -47,11 +50,14 @@ export class SongSearchComponent implements OnInit {
     //   }
     // )
     // this.search_spotify('kesha');
+    this.padding = window.pageYOffset/window.innerHeight;
+
    }
 
   @Input()
   set inp(input) {
-     this.event_id = input;
+    this.event_id = input.event_id;
+    this.host_id = input.user_id;
   }
 
   // Push a search term into the observable stream.
@@ -72,13 +78,12 @@ export class SongSearchComponent implements OnInit {
     this.spotify$ = this.searchTermsSpotify.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),
-
       // ignore new term if same as previous term
       distinctUntilChanged(),
+      first(),
       // switch to new search observable each time the term changes
-      switchMap((term: string[]) => this.songSearchService.searchSpotify(term[0], term[1]))
-      //   data => this.songs = data;
-      // )
+      switchMap((term: string[]) => this.songSearchService.searchSpotify(term[0],term[1]))
+
     );
 
     this.soundcloud$ = this.searchTermsSoundcloud.pipe(
@@ -109,7 +114,7 @@ export class SongSearchComponent implements OnInit {
   }
 
   addSong(newSong: Song) {
-    // add to Songs table
+    this.searching_term = '';
     console.log(newSong);
     this.apiService.get_song(newSong.song_id, newSong.platform).subscribe(
       data => {
@@ -142,7 +147,6 @@ export class SongSearchComponent implements OnInit {
   addSongToQueue(id: string, platform: string){
     this.qs = new QueuedSong();
     this.qs.event_id = this.event_id;
-    console.log(this.event_id);
     this.qs.song_id = id;
     this.qs.platform = platform;
 
@@ -174,7 +178,6 @@ export class SongSearchComponent implements OnInit {
 
   convertSoundcloud(soundcloud: Soundcloud) {
     var s_song = new Song();
-    console.log(soundcloud)
     s_song.title = soundcloud.title;
     s_song.artist = soundcloud.user.username;
     s_song.song_id = String(soundcloud.id);
@@ -193,40 +196,57 @@ export class SongSearchComponent implements OnInit {
   onButtonClick(index) {
     this.searchOptions = [0, 0, 0];
     this.searchOptions[index] = 1;
+    if (index == 0) {
+      this.search_spotify(this.searching_term);
+    } else if (index == 1){
+      this.searchSoundcloud(this.searching_term);
+    } else if (index == 2){
+      this.searchYoutube(this.searching_term);
+    }
   }
 
+  convertJSON(data) {
+    var songs = [];
+    if (data && 'tracks' in data) {
+      for(var item in data['tracks']['items']){
+        var mySong = new Song();
+        mySong.artist = data['tracks']['items'][item]['artists'][0]['name'];
+        mySong.platform = 'spotify';
+        mySong.title = data['tracks']['items'][item]['name'];
+        mySong.song_id = data['tracks']['items'][item]['id'];
+        mySong.duration = data['tracks']['items'][item]['duration_ms'];
+        if ('images' in data['tracks']['items'][item]['album']){
+          if (0 in data['tracks']['items'][item]['album']['images'] ){
+            if ('url' in data['tracks']['items'][item]['album']['images'][0]){
+              mySong.artwork = data['tracks']['items'][item]['album']['images'][0]['url'];
+            }
+          }
+        }
+        songs.push(mySong);
+      }
+    }
+    return songs;
+  }
 
   search_spotify(search_term: string){
     if (search_term){
-      this.tokenService.token.subscribe(
+      this.apiService.get_token(this.host_id).subscribe(
         token => {
-          this.searchTermsSpotify.next([search_term,token]);
-          this.spotify$.subscribe(
-            data => {
-              this.songs = [];
-              for(var item in data['tracks']['items']){
-                var mySong = new Song();
-                mySong.artist = data['tracks']['items'][item]['artists'][0]['name'];
-                mySong.platform = 'spotify';
-                mySong.title = data['tracks']['items'][item]['name'];
-                mySong.song_id = data['tracks']['items'][item]['id'];
-                mySong.duration = data['tracks']['items'][item]['duration_ms'];
-                if ('images' in data['tracks']['items'][item]['album']){
-                  if (0 in data['tracks']['items'][item]['album']['images'] ){
-                    if ('url' in data['tracks']['items'][item]['album']['images'][0]){
-                      mySong.artwork = data['tracks']['items'][item]['album']['images'][0]['url'];
-                    }
-                  }
-                }
-                this.songs.push(mySong);
-              }
-            },
-            error => {
-              console.log(error)
-            }
-          )
+          this.searchTermsSpotify.next([search_term,token[0]['spotify_access']]);
+          this.spotifySongs$ = this.spotify$.pipe(first(), debounceTime(300))
         }
       )
     }
   }
+
+  trackByFunction(index, item) {
+    if (!item) return null;
+    return index;
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event?) {
+    this.padding = window.pageYOffset/window.innerHeight;
+  }
+
 }

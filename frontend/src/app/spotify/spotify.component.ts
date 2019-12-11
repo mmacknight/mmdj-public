@@ -43,8 +43,8 @@ export class SpotifyComponent implements OnInit {
 
 
     //this.device_id = my_device_id;
-    this.tokenService.token.subscribe(
-      token => this.token = token
+    this.tokenService.getToken().subscribe(
+      token => this.token = token[0]['spotify_access']
     )
     // console.log('1');
     // window['onSpotifyWebPlaybackSDKReady'] = () => {

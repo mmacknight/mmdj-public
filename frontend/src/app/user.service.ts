@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { throwError as observableThrowError, BehaviorSubject, Observable } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { ApiService } from './api.service';
 import { map } from 'rxjs/operators';
 import { User } from '@classes/user';
@@ -12,12 +14,15 @@ export class UserService {
   public currentUser: Observable<User>;
   private device_id_Subject: BehaviorSubject<String>;
   public device_id: Observable<String>;
+  numb = 0;
+  SPOTIFY_API = `https://api.spotify.com/v1/me`;
 
-  constructor() {
-      this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-      this.currentUser = this.currentUserSubject.asObservable();
-      this.device_id_Subject = new BehaviorSubject<String>(localStorage.getItem('currentUser'));
-      this.device_id = this.device_id_Subject.asObservable();
+  constructor(private httpClient: HttpClient) {
+    console.log("MAKING USER SERVICE");
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUser = this.currentUserSubject.asObservable();
+    this.device_id_Subject = new BehaviorSubject<String>(localStorage.getItem('currentUser'));
+    this.device_id = this.device_id_Subject.asObservable();
   }
 
   public get currentUserValue(): User {
@@ -45,5 +50,19 @@ export class UserService {
       // remove user from local storage to log user out
       localStorage.removeItem('currentUser');
       this.currentUserSubject.next(null);
+  }
+
+  getProfile(token: string) {
+    console.log("HIIIIIOOOOO",token);
+    const headers = {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }
+    return this.httpClient.get(`${this.SPOTIFY_API}`, headers).pipe(catchError(this.errorHandler));
+  }
+
+  errorHandler(error: HttpErrorResponse) {
+    return observableThrowError(error);
   }
 }

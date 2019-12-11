@@ -27,6 +27,7 @@ export class PartyComponent implements OnInit {
   public queuedSong: QueuedSong;
   public queuedSongs = [];
   public width: number;
+  public padding: number;
   public displayedColumns = ['Songs', 'Score', 'Vote'];
   public results = [];
   public id: string;
@@ -34,15 +35,32 @@ export class PartyComponent implements OnInit {
   public currentSong$: Observable<Song>;
   public user: User;
   public display = [1, 0, 0, 0];
+  public spotifyUserInfo = {};
 
   constructor(private songSearchService: SongSearchService, private apiService: ApiService, private router: Router,
     private route: ActivatedRoute, private snackBar: MatSnackBar, private userService: UserService, private tokenService: TokenService) {
     this.width = window.innerWidth;
+    this.padding = window.pageYOffset/window.innerHeight;
     this.id = route.snapshot.paramMap.get('id');
+
 
     this.userService.currentUser.subscribe(
       user => {
         user ? this.user = user : this.router.navigate(['']);
+        this.apiService.get_token(this.user.user_id).subscribe(
+          token => {
+            this.userService.getProfile(token[0]['spotify_access']).subscribe(
+              data => {
+                this.spotifyUserInfo = data;
+              },
+              error => {
+                console.log("YO got an error");
+                console.log(error)
+              }
+            )
+          },
+          error => console.log(error)
+        );
         this.apiService.get_event(parseInt(this.id)).subscribe(
           data  => {
             if (data) {
@@ -225,9 +243,18 @@ export class PartyComponent implements OnInit {
     this.router.navigate(['']);
   }
 
+  leaveParty() {
+    this.router.navigate(['join']);
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize(event?) {
     this.width = window.innerWidth;
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event?) {
+    this.padding = window.pageYOffset/window.innerHeight;
   }
 
 
