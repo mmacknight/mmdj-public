@@ -136,7 +136,7 @@ constructor(private httpClient: HttpClient) {}
             }
 
             get_recommendations(event_id:number){
-                return this.httpClient.get(`${this.PHP_API_SERVER_DOM}/get_recommendations.php/?id=${event_id}`).pipe(catchError(this.errorHandler));
+                return this.httpClient.get(`${this.PHP_API_SERVER_DOM}/get_recommendations_new.php/?id=${event_id}`).pipe(catchError(this.errorHandler));
             }
     // tokens Table
 
