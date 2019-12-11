@@ -23,22 +23,24 @@ export class AppComponent {
     console.log("Desktop", this.deviceDetectorService.isDesktop());
     this.userService.currentUser.subscribe(
       user =>  {
-        user ? this.user = user : this.router.navigate(['']),
-        this.redirect_uri = `http://db.cse.nd.edu/cse30246/tutorial/dom/auth.php/?id=${user.user_id}`;
-        this.apiService.refresh_token(user.user_id).subscribe(
-          data => console.log(data),
-          error => console.log(error)
-        );
-        this.apiService.get_token(user.user_id).subscribe(
-          token => {
-            console.log(token);
-            if (token.length) {
-              this.tokenService.setToken(token[0]["spotify_access"]);
-            } else {
-              this.no_spotify = true;
+        if (user) {
+          this.user = user;
+          this.redirect_uri = `http://db.cse.nd.edu/cse30246/tutorial/dom/auth.php/?id=${user.user_id}`;
+          this.apiService.refresh_token(user.user_id).subscribe(
+            data => console.log(data),
+            error => console.log(error)
+          );
+          this.apiService.get_token(user.user_id).subscribe(
+            token => {
+              console.log(token);
+              if (token.length) {
+                this.tokenService.setToken(token[0]["spotify_access"]);
+              } else {
+                this.no_spotify = true;
+              }
             }
-          }
-        )
+          )
+        }
       }
     );
     this.tokenService.token.subscribe(

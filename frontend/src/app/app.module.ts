@@ -26,6 +26,10 @@ import { SoundcloudComponent } from './soundcloud/soundcloud.component';
 import { CallbackComponent } from './callback/callback.component';
 import { MobileNavbarComponent } from './mobile-navbar/mobile-navbar.component';
 import { DeviceDetectorModule } from 'ngx-device-detector';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -61,7 +65,11 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
     // ToastrModule.forRoot(),
     MatSnackBarModule,
     NgxYoutubePlayerModule,
-    DeviceDetectorModule.forRoot()
+    DeviceDetectorModule.forRoot(),
+    MatGridListModule,
+    FlexLayoutModule,
+    MatCardModule,
+    MatButtonModule
   ],
   providers: [
     { provide: Window, useValue: window }

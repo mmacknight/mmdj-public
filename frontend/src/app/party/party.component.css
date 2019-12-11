@@ -83,3 +83,122 @@ table {
   color: darkgray;
   width: 100%;
 }
+
+/* .info-text {
+  width: -webkit-fill-available;
+} */
+
+.example-card {
+  width: -webkit-stretch-avaliable;
+  height: -webkit-stretch-avaliable;
+}
+
+.song-card {
+  width: 10%;
+  height:10%;
+}
+
+.queued-songs{
+  height: 300px !important;
+}
+
+.image-text{
+  margin-top: 0px;
+}
+
+mat-grid-list {
+  background-color: black;
+}
+
+mat-card img{
+  object-fit: contain; /*this makes the image in src fit to the size specified below*/
+  height: 75%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+}
+
+mat-card {
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  background-color: black;
+}
+
+mat-card-title {
+  font-size: 2vw;
+  color: white;
+}
+
+mat-card-content {
+  color: #95a3b3;
+}
+
+mat-card-subtitle {
+  color: #95a3b3;
+}
+
+.left-align-card {
+  text-align: left;
+}
+
+.my-mat-card-title {
+  font-size: 1.25vw;
+  margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  color: white;
+
+}
+
+.my-mat-card-subtitle {
+  margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #95a3b3;
+}
+
+.card-header-info {
+  height: 25%;
+  width: 100%;
+}
+
+.bottom-text{
+  position: absolute;
+  bottom: 0;
+  font-size: 2vw;
+
+}
+
+.arrow-icon-button {
+  color: white;
+
+}
+
+.votes-card {
+ 
+}
+
+.votes-icon {
+  font-size: 5vw;
+  color: red;
+  opacity: 50%;
+  position: absolute;
+  bottom: 25%;
+  left: 25%;
+}
+
+.votes-text{
+  color: white;
+  position: absolute;
+  bottom: 13%;
+  left: 35%;
+  font-size: 2vw;
+}
+
+/* mat-button {
+  background-color: black;
+  color: white;
+} */
+
+

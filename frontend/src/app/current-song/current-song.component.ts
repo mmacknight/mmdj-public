@@ -26,6 +26,7 @@ export class CurrentSongComponent implements OnInit {
   HOST: boolean = false;
   DESKTOP: boolean = false;
   width: number = 0;
+  height: number =0;
   yoffset: number = 0;
   song_padding: number = 0;
 
@@ -72,6 +73,7 @@ export class CurrentSongComponent implements OnInit {
       device_id => this.device_id = device_id
     )
     this.width = window.innerWidth;
+    this.height = window.innerHeight *2/3;
     this.yoffset = window.pageYOffset;
     this.song_padding = !this.DESKTOP ? Math.max(20-100*this.yoffset/window.innerHeight,0) : 20;
    }
@@ -106,6 +108,7 @@ export class CurrentSongComponent implements OnInit {
   onResize(event?) {
     this.DESKTOP = this.deviceService.isDesktop();
     this.width = window.innerWidth;
+    this.height = window.innerHeight *2/3;
     this.yoffset = window.pageYOffset;
     this.song_padding = !this.DESKTOP ? Math.max(20-100*this.yoffset/window.innerHeight,0) : 20;
   }
