@@ -212,7 +212,7 @@ class Request
         }
 
         $options[CURLOPT_URL] = $url;
-
+       
         $ch = curl_init();
         curl_setopt_array($ch, array_replace($options, $this->curlOptions));
 
