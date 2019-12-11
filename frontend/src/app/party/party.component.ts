@@ -28,6 +28,7 @@ export class PartyComponent implements OnInit {
   public queuedSong: QueuedSong;
   public queuedSongs = [];
   public width: number;
+  public padding: number;
   public height: number;
   public displayedColumns = ['Songs', 'Score', 'Vote'];
   public results = [];
@@ -36,36 +37,51 @@ export class PartyComponent implements OnInit {
   public currentSong$: Observable<Song>;
   public user: User;
   public display = [1, 0, 0, 0];
+  public spotifyUserInfo = {};
   public DESKTOP: any;
   public showProfileInfo: Boolean;
   public showInfoText: Boolean;
   public matIconArrowLabel: string;
-  
 
   constructor(private songSearchService: SongSearchService, private apiService: ApiService, private router: Router,
     private route: ActivatedRoute, private snackBar: MatSnackBar, private userService: UserService, private tokenService: TokenService, private deviceService: DeviceDetectorService) {
-    
+
     this.showInfoText = true;
     this.matIconArrowLabel = 'keyboard_arrow_left';
     this.showProfileInfo = false;
-    
+
     this.DESKTOP = this.deviceService.isDesktop();
-    
+
     this.width = window.innerWidth;
+    this.padding = window.pageYOffset/window.innerHeight;
     this.height = window.innerHeight;
     this.id = route.snapshot.paramMap.get('id');
+
 
     this.userService.currentUser.subscribe(
       user => {
         user ? this.user = user : this.router.navigate(['']);
-        console.log('USER', user);
+        this.apiService.get_token(this.user.user_id).subscribe(
+          token => {
+            this.userService.getProfile(token[0]['spotify_access']).subscribe(
+              data => {
+                this.spotifyUserInfo = data;
+              },
+              error => {
+                console.log("YO got an error");
+                console.log(error)
+              }
+            )
+          },
+          error => console.log(error)
+        );
         this.apiService.get_event(parseInt(this.id)).subscribe(
           data  => {
             if (data) {
               this.event = data[0];
               console.log(data);
               this.queuedSongs$ = timer(0,500).pipe(
-               
+
                 // startWith(1000),
                 distinctUntilChanged(),
                 switchMap(() => this.apiService.get_queuedSongsVotes(this.event.event_id, this.user.user_id))
@@ -84,7 +100,7 @@ export class PartyComponent implements OnInit {
             }
           }
         )
-        
+
       }
     );
   }
@@ -243,6 +259,10 @@ export class PartyComponent implements OnInit {
     this.router.navigate(['']);
   }
 
+  leaveParty() {
+    this.router.navigate(['join']);
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize(event?) {
     this.width = window.innerWidth;
@@ -267,6 +287,11 @@ export class PartyComponent implements OnInit {
     else {
       this.showProfileInfo = true;
     }
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event?) {
+    this.padding = window.pageYOffset/window.innerHeight;
   }
 
 

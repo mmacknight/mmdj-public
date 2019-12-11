@@ -1,17 +1,21 @@
 <div class="search-component">
   <!-- <h4><label for="search-box">Find Songs</label></h4> -->
-  <div class="btn-group buttons">
-    <button class="btn buttons" [class.btn-primary]="searchOptions[0]" [class.btn-outline-primary]="!searchOptions[0]" (click)="onButtonClick(0)">Spotify</button>
-    <button class="btn buttons" [class.btn-primary]="searchOptions[1]" [class.btn-outline-primary]="!searchOptions[1]" (click)="onButtonClick(1)">Soundcloud</button>
-    <button class="btn buttons" [class.btn-primary]="searchOptions[2]" [class.btn-outline-primary]="!searchOptions[2]" (click)="onButtonClick(2)">Youtube</button>
+  <div [class.add-song]="searching_term != ''">
+    <input class="input-field" [(ngModel)]="searching_term" [class.d-none]="!searchOptions[0]" [class.input-field-active]="searchBox.value" #searchBox (input)="search_spotify(searching_term)" placeholder="Add a song to the queue">
+    <input class="input-field" [(ngModel)]="searching_term" [class.d-none]="!searchOptions[1]" [class.input-field-active]="searchBoxSoundcloud.value" #searchBoxSoundcloud (input)="searchSoundcloud(searching_term)" placeholder="Add a song to the queue">
+    <input class="input-field" [(ngModel)]="searching_term" [class.d-none]="!searchOptions[2]" [class.input-field-active]="searchBoxYoutube.value" #searchBoxYoutube (input)="searchYoutube(searching_term)" placeholder="Add a song to the queue">
+
+    <div class="btn-group buttons">
+      <button class="btn platform-button" [class.btn-primary]="searchOptions[0]" [class.btn-outline-primary]="!searchOptions[0]" (click)="onButtonClick(0)">Spotify</button>
+      <button class="btn platform-button" [class.btn-primary]="searchOptions[1]" [class.btn-outline-primary]="!searchOptions[1]" (click)="onButtonClick(1)">Soundcloud</button>
+      <button class="btn platform-button" [class.btn-primary]="searchOptions[2]" [class.btn-outline-primary]="!searchOptions[2]" (click)="onButtonClick(2)">Youtube</button>
+    </div>
   </div>
+  <div *ngIf="searchOptions[0]" [class.search-scroll]="searching_term != ''">
 
-  <div *ngIf="searchOptions[0]">
-
-    <input class="input-field" [class.input-field-active]="searchBox.value" #searchBox (keyup)="search_spotify(searchBox.value)" placeholder="Add a song to the queue">
-    <table *ngIf="searchBox.value" mat-table [dataSource]="songs" class="mat-elevation-z8">
+    <table *ngIf="searchBox.value" mat-table [dataSource]="convertJSON(spotifySongs$ | async)" [trackBy]="trackByFunction" class="mat-elevation-z8">
       <ng-container matColumnDef="Results">
-        <th mat-header-cell *matHeaderCellDef> Results </th>
+        <!-- <th [class.d-none]="1" mat-header-cell *matHeaderCellDef></th> -->
         <td class="spotify-td" style="padding-left: 0" mat-cell *matCellDef="let element" (click)="addSong(element)" (click)="searchBox.value = ''">
           <img *ngIf="element.artwork" class="spotify-artowrk" src={{element.artwork}}>
           <img *ngIf="!element.artwork" class="spotify-artowrk" src="/assets/media/spotify.png">
@@ -25,16 +29,16 @@
           </div>
         </td>
       </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
 
   <div *ngIf="searchOptions[1]">
-    <input class="input-field" [class.input-field-active]="searchBoxSoundcloud.value" #searchBoxSoundcloud (input)="searchSoundcloud(searchBoxSoundcloud.value)" placeholder="Add a song to the queue">
+
     <table *ngIf="searchBoxSoundcloud.value" class="soundcloud" mat-table [dataSource]="soundcloud$ | async" class="mat-elevation-z8">
       <ng-container matColumnDef="Results">
-        <th mat-header-cell *matHeaderCellDef>Results</th>
+        <!-- <th [class.d-none]="1" mat-header-cell *matHeaderCellDef></th> -->
         <td class="spotify-td" style="padding-left: 0" mat-cell *matCellDef="let element" (click)="addSong(convertSoundcloud(element))" (click)="searchBoxSoundcloud.value = ''">
           <img *ngIf="element.artwork_url" class="spotify-artowrk" src={{element.artwork_url}}>
           <img *ngIf="!element.artwork_url && element.user.avatar_url" class="spotify-artowrk" src={{element.user.avatar_url}}>
@@ -49,22 +53,20 @@
           </div>
         </td>
       </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumnsSoundcloud"></tr>
+      <!-- <tr mat-header-row *matHeaderRowDef="displayedColumnsSoundcloud"></tr> -->
       <tr mat-row *matRowDef="let row; columns: displayedColumnsSoundcloud;"></tr>
     </table>
   </div>
 
   <div *ngIf="searchOptions[2]">
 
-      <input class="input-field" [class.input-field-active]="searchBoxYoutube.value" #searchBoxYoutube (input)="searchYoutube(searchBoxYoutube.value)" placeholder="Add a song to the queue">
-
     <table *ngIf="searchBoxYoutube.value" mat-table [dataSource]="youtubes$ | async" class="mat-elevation-z8">
       <ng-container matColumnDef="Results">
-        <th mat-header-cell *matHeaderCellDef>Results</th>
+        <!-- <th [class.d-none]="1" mat-header-cell *matHeaderCellDef></th> -->
         <td class="youtube-td" style="padding-left: 0" mat-cell *matCellDef="let element" (click)="addSong(convertYoutube(element))" (click)="searchBoxYoutube.value = ''"> <img *ngIf="element.artwork" src={{element.artwork}}> <img *ngIf="!element.artwork" src="assets/media/youtube.png"> <div class="youtube-title">{{element.title}}</div> </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumnsYoutube"></tr>
+      <!-- <tr mat-header-row *matHeaderRowDef="displayedColumnsYoutube"></tr> -->
       <tr mat-row *matRowDef="let row; columns: displayedColumnsYoutube;"></tr>
     </table>
   </div>

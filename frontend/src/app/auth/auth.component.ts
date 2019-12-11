@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from '../api.service';
 import { UserService } from '../user.service';
+import { TokenService } from '../token.service';
 import { User } from '@classes/user';
 import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -22,7 +23,7 @@ export class AuthComponent implements OnInit {
   public nextPage: string;
   DESKTOP: boolean = false;
 
-  constructor(fb: FormBuilder, public apiService: ApiService, public userService: UserService, public router: Router, private deviceService: DeviceDetectorService) {
+  constructor(fb: FormBuilder, public apiService: ApiService, public tokenService: TokenService, public userService: UserService, public router: Router, private deviceService: DeviceDetectorService) {
     this.DESKTOP = deviceService.isDesktop();
     this.nextPage = this.DESKTOP ? 'host': 'join';
     this.userService.currentUser.subscribe(
@@ -64,7 +65,9 @@ export class AuthComponent implements OnInit {
     this.apiService.get_user(this.loginForm.controls.username.value, this.loginForm.controls.password.value).subscribe(
       user  => {
         this.userService.login(user),
-        this.invalid = false
+        this.invalid = false,
+        this.tokenService.updateUser(user.user_id),
+
         this.apiService.get_events_by_user(user.user_id).subscribe(
           data => {
             if (data.length) {

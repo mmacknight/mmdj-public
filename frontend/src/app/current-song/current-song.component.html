@@ -1,42 +1,13 @@
-<div *ngIf=DESKTOP class='current-song-outer-desktop'>
-  <div *ngIf="song.song_id" class="current-song-desktop">
-  <!-- <div *ngIf="song.song_id" class="current-song-desktop" [style.backgroundImage]="'url('+ song.artwork +')'"> -->
-      <mat-card *ngIf="song.platform == 'spotify'" class='song-info-card'>
-        <mat-card-title>{{song.title}}</mat-card-title>
-        <mat-card-subtitle>{{song.artist}}</mat-card-subtitle>
-      </mat-card>
-      <img *ngIf="song.platform == 'spotify'" src={{song.artwork}} alt="album art" [style.height]="height+'px'" >
-    
-      <app-spotify *ngIf="HOST && DESKTOP && song.platform == 'spotify' && device_id" [inp]="[song, device_id]" (myEvent)='skipSong()'></app-spotify>
-      <app-soundcloud *ngIf="HOST && DESKTOP && song.platform == 'soundcloud'" [inp]="song.song_id"></app-soundcloud>
-      <app-youtube-player *ngIf="HOST && DESKTOP && song.platform == 'youtube'" [inp]="song.song_id"></app-youtube-player>
-  
-      <!-- <div class="song" [class.song-normal]="DESKTOP || song_padding != 0"  [style.padding-top]="DESKTOP || song_padding != 0 ? 2.5 + song_padding+'%' : 0" [style.padding-bottom]="width > 600 || song_padding != 0 ? 27.5 + song_padding+'%' : 0">
-  
-  
-        <div *ngIf="DESKTOP || song_padding != 0" class="normal">
-          <div class="text-normal">
-            <b>{{song.title}}<br>{{song.artist}}</b>
-          </div>
-        </div>
-        <div *ngIf="!DESKTOP && song_padding == 0" class="banner">
-          <img *ngIf="song.platform == 'spotify'" class="icon" src="assets/media/spotify.png">
-          <img *ngIf="song.platform == 'soundcloud'" class="icon" src="assets/media/soundcloud.png">
-          <img *ngIf="song.platform == 'youtube'" class="icon" src="assets/media/youtube.png">
-          <div class="text-banner">
-            {{song.title}} - {{song.artist}}
-          </div>
-          <mat-icon (click)='skipSong()'>skip_next</mat-icon>
-        </div>
-  
-      </div> -->
-    </div>
-  
-</div>
+<div class="current-song" [style.backgroundImage]="'url('+ song.artwork +')'" [style.z-index]="0 ? -1 : 1">
+  <app-spotify *ngIf="HOST && DESKTOP && song.platform == 'spotify' && device_id" [inp]="[song, device_id]" (myEvent)='skipSong()'></app-spotify>
+  <app-soundcloud *ngIf="HOST && DESKTOP && song.platform == 'soundcloud'" [inp]="song.song_id" (endSong)=skipSong()></app-soundcloud>
+  <app-youtube-player *ngIf="HOST && DESKTOP && song.platform == 'youtube'" [inp]="song.song_id" (endSong)=skipSong()></app-youtube-player>
 
-<div *ngIf=!DESKTOP> 
+  <div class="song" [class.song-normal]="DESKTOP || song_padding != 0"  [style.padding-top]="DESKTOP || song_padding != 0 ? 2.5 + song_padding+'%' : 0" [style.padding-bottom]="width > 600 || song_padding != 0 ? 27.5 + song_padding+'%' : 0">
+
+<div *ngIf=!DESKTOP>
   <div *ngIf="song.song_id" class="current-song" [style.backgroundImage]="'url('+ song.artwork +')'" [style.z-index]="0 ? -1 : 1">
-    
+
     <div class="song" [class.song-normal]="DESKTOP || song_padding != 0"  [style.padding-top]="DESKTOP || song_padding != 0 ? 2.5 + song_padding+'%' : 0" [style.padding-bottom]="width > 600 || song_padding != 0 ? 27.5 + song_padding+'%' : 0">
 
       <div *ngIf="song_padding == 0" class="banner">
@@ -56,5 +27,5 @@
         </div>
 
     </div>
-  </div> 
+  </div>
 </div>

@@ -1,9 +1,11 @@
 .party-container {
     width: 50%;
     margin-left: 25%;
-    margin-top: 70%;
+    margin-top: 52%;
+    padding-top: 17.5%;
     text-align: center;
-    background-color: white;
+    /* background-color: #222222;
+    color: #ffffff !important; */
   }
 
 table {
@@ -21,6 +23,7 @@ table {
   /* background-color: #4285F4; */
   /* border-style: solid; */
   /* border-color: #4285F4; */
+  font-size: 7vw;
   margin: 0%;
   width: 100%;
   color: #4285F4;
@@ -55,10 +58,6 @@ table {
   padding-top: 5%;
 }
 
-.add-song {
-  padding-top: 20%;
-}
-
 .spotify-row {
   display: inline-flex;
   width: 80%;
@@ -84,6 +83,26 @@ table {
   width: 100%;
 }
 
+.profile-icon {
+  width: 25%;
+  border-style: solid;
+  border-width: 4px;
+  border-color: #95a3b3;
+}
+
+.account {
+  margin-left: 5%;
+  display: inline-flex;
+}
+.username {
+  font-size: 6vw;
+  padding-top: 6%;
+  margin-left: 2%;
+}
+
+.mat-column-select {
+  overflow: initial;
+}
 /* .info-text {
   width: -webkit-fill-available;
 } */
@@ -176,7 +195,7 @@ mat-card-subtitle {
 }
 
 .votes-card {
- 
+
 }
 
 .votes-icon {
@@ -200,5 +219,3 @@ mat-card-subtitle {
   background-color: black;
   color: white;
 } */
-
-

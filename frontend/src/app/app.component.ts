@@ -5,6 +5,10 @@ import { ApiService } from './api.service';
 import { TokenService } from './token.service';
 import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { Observable, BehaviorSubject, timer } from 'rxjs';
+import {
+   debounceTime, distinctUntilChanged, switchMap
+ } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -13,16 +17,64 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 })
 export class AppComponent {
 
-  public user: User;
+  public user: User = null;
   public token: string;
   public no_spotify: boolean = false;
   title = 'frontend';
   public redirect_uri: string = '';
+  tokenRefresh$: Observable<any>;
+  tokenRefreshSubject: BehaviorSubject<any>;
+  REFRESH_MINUTES: number = 30;
+  REFRESH_SECONDS: number = 0;
+  REFRESH_TIME: number = 0;
 
   constructor(private deviceDetectorService: DeviceDetectorService, private userService: UserService, private router:Router, private apiService: ApiService, private tokenService: TokenService) {
     console.log("Desktop", this.deviceDetectorService.isDesktop());
+    this.REFRESH_TIME = (this.REFRESH_MINUTES * 60 +  this.REFRESH_SECONDS) * 1000;
+    this.tokenRefreshSubject = new BehaviorSubject<any>(null);
+    this.tokenRefresh$ = timer(0,this.REFRESH_TIME).pipe(
+      switchMap( () =>
+        this.tokenRefreshSubject.pipe(
+          distinctUntilChanged(),
+           switchMap((user_id: number) => this.apiService.refresh_token(user_id))
+        )
+      )
+    )
+
+    this.tokenService.tokenRefreshSubject = this.tokenRefreshSubject;
+    this.tokenService.tokenRefresh$ = this.tokenRefresh$;
+
+    if (this.user) {
+      this.tokenService.updateUser(this.user.user_id);
+    }
     this.userService.currentUser.subscribe(
       user =>  {
+<<<<<<< HEAD
+        user ? this.user = user : this.router.navigate(['']),
+        this.tokenService.updateUser(this.user.user_id);
+        this.redirect_uri = `http://db.cse.nd.edu/cse30246/tutorial/dom/auth.php/?id=${user.user_id}`;
+        this.tokenService.updateUser(this.user.user_id);
+        this.tokenService.getToken().subscribe(
+            token => {
+            console.log(token);
+            if (token.length) {
+              this.tokenService.setToken(token[0]["spotify_access"]);
+            } else {
+              this.no_spotify = true;
+            }
+          }
+        )
+        // this.apiService.get_token(user.user_id).subscribe(
+        //   token => {
+        //     console.log(token);
+        //     if (token.length) {
+        //       this.tokenService.setToken(token[0]["spotify_access"]);
+        //     } else {
+        //       this.no_spotify = true;
+        //     }
+        //   }
+        // )
+=======
         if (user) {
           this.user = user;
           this.redirect_uri = `http://db.cse.nd.edu/cse30246/tutorial/dom/auth.php/?id=${user.user_id}`;
@@ -41,6 +93,7 @@ export class AppComponent {
             }
           )
         }
+>>>>>>> 702d39071aa983982915baa678c948be69b106de
       }
     );
     this.tokenService.token.subscribe(

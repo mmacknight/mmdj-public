@@ -98,13 +98,13 @@ constructor(private httpClient: HttpClient) {}
 
     //Spotify Token Handling
 
-        get_token(user_id: number){
-            return this.httpClient.get<Token[]>(`${this.PHP_API_SERVER_DOM}/get_token.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
+            get_token(user_id: number): Observable<any>{
+                return this.httpClient.get(`${this.PHP_API_SERVER_DOM}/get_token.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
 
         }
 
-        refresh_token(user_id: number){
-            return this.httpClient.get<Token[]>(`${this.PHP_API_SERVER_DOM}/refresh_user1.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
+            refresh_token(user_id: number): Observable<any> {
+                return this.httpClient.get(`${this.PHP_API_SERVER_DOM}/refresh_user1.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
 
         }
 

@@ -83,7 +83,6 @@ export class CurrentSongComponent implements OnInit {
   }
 
   setCurrentSong() {
-    console.log("HEERRREE1111");
     this.apiService.get_event_current_song(this.event_id).subscribe(
       data => {
         this.song = data
@@ -105,12 +104,18 @@ export class CurrentSongComponent implements OnInit {
 
 
   @HostListener('window:scroll', ['$event'])
-  onResize(event?) {
+  onScroll(event?) {
     this.DESKTOP = this.deviceService.isDesktop();
     this.width = window.innerWidth;
     this.height = window.innerHeight *2/3;
     this.yoffset = window.pageYOffset;
     this.song_padding = !this.DESKTOP ? Math.max(20-100*this.yoffset/window.innerHeight,0) : 20;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event?) {
+    this.DESKTOP = this.deviceService.isDesktop();
+    this.width = window.innerWidth;
   }
 
 

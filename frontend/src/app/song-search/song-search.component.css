@@ -2,18 +2,35 @@
   overflow: visible;
   height: 20%;
   width: 100%;
+  background-color: #222222;
+  color: #ffffff;
 }
 
 .input-field {
   width: 95%;
   border-radius: 15px;
   margin-top: 2%;
-  margin-bottom: 4%;
+  margin-bottom: 2%;
   border: 0;
   padding: 1% 3% 1% 3%;
   background-color: gainsboro;
   color: black;
   outline: 0;
+}
+
+.buttons {
+  width: 95%;
+  margin: 2%;
+  /*
+  border-radius: 15px;
+  padding: 1% 3% 1% 3%;
+  outline: 0;
+  width: 95%; */
+}
+
+.platform-button {
+  font-size: 3.25vw;
+  padding: 1%;
 }
 
 .input-field-active {
@@ -36,10 +53,12 @@ td {
 
 .youtube-td {
   display: flex;
+  text-align: left;
 }
 
 .youtube-title {
   width: 70%;
+
 }
 
 .youtube-td > img {
@@ -72,9 +91,23 @@ td {
 }
 
 .spotify-title {
+  color: #606060;
   width: 100%;
 }
 
 .spotify-artist {
+  color: darkgray;
   width: 100%;
 }
+/*
+.add-song {
+  position: fixed;
+  z-index: 1;
+  top: 9%;
+  width: 100%;
+  background-color: white;
+} */
+
+/* .search-scroll {
+  padding-top: 18%;
+} */
