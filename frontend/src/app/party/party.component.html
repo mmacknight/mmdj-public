@@ -98,8 +98,8 @@
       </div>
       <div *ngIf="display[2]" class="account-party">
         <div class="account text-center">
-          <img *ngIf="spotifyUserInfo.images[0].url" src={{spotifyUserInfo.images[0].url}} class="profile-icon rounded-circle">
-          <img *ngIf="!spotifyUserInfo.images[0].url" src="/assets/media/profile.webp" class="profile-icon rounded-circle">
+          <!-- <img *ngIf="spotifyUserInfo.images[0].url" src={{spotifyUserInfo.images[0].url}} class="profile-icon rounded-circle"> -->
+          <!-- <img *ngIf="!spotifyUserInfo.images[0].url" src="/assets/media/profile.webp" class="profile-icon rounded-circle"> -->
           <div class="username"><b>{{user.username}}</b></div>
         </div>
         <button class="btn btn-primary" (click)="logout()">Log Out</button>

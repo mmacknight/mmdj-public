@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule, MatOptionModule, MatSelectModule } from '@angular/material';
@@ -34,7 +33,6 @@ import {MatButtonModule} from '@angular/material/button';
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
     HomepageComponent,
     NavbarComponent,
     AuthComponent,
