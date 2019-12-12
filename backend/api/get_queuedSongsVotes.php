@@ -11,10 +11,11 @@ $user_id = ($_GET['user_id'] !== null && (int)$_GET['user_id'] > 0)? mysqli_real
 // echo $user_id;
 $songs = [];
 
+
 $sql1 = "SELECT songs.* , queuedSongs.popularity as qpop, queuedSongs.playability, order_num FROM new_songs as songs, queuedSongs where queuedSongs.event_id = {$event_id} and songs.song_id = queuedSongs.song_id and songs.platform = queuedSongs.platform and playability = true ORDER BY queuedSongs.popularity desc, queuedSongs.order_num";
 $sql2 = "SELECT songs.* , queuedSongs.popularity as qpop, queuedSongs.playability, votes.order_num as order_num, votes.vote as vote FROM new_songs as songs, queuedSongs, votes where votes.user_id = {$user_id} and votes.order_num = queuedSongs.order_num and queuedSongs.event_id = {$event_id} and songs.song_id = queuedSongs.song_id and songs.platform = queuedSongs.platform and playability = true ORDER BY queuedSongs.popularity desc, queuedSongs.order_num";
 
-$sql = "SELECT s1.*, s2.vote FROM ({$sql1}) as s1 LEFT JOIN ({$sql2}) as s2 ON s1.order_num = s2.order_num ORDER BY s1.qpop DESC";
+$sql = "SELECT s1.*, s2.vote FROM ({$sql1}) as s1 LEFT JOIN ({$sql2}) as s2 ON s1.order_num = s2.order_num ORDER BY s1.qpop desc, s1.order_num";
 
 if($result = mysqli_query($con,$sql))
 {
