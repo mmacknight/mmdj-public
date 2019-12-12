@@ -18,10 +18,15 @@
   width: 100%;
 }
 
+
 .spotify-button {
   position: fixed;
   z-index: 3;
   top: 10%;
   left: 10px;
   border-radius: 15px;
+}
+.profile-div {
+  padding-left: 85%;
+  padding-top: 3%;
 }

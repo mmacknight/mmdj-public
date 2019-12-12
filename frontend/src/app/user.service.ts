@@ -17,7 +17,6 @@ export class UserService {
   SPOTIFY_API = `https://api.spotify.com/v1/me`;
 
   constructor(private httpClient: HttpClient) {
-    console.log("MAKING USER SERVICE");
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
     this.tokenRefresh$ = new Observable<any>();
@@ -50,13 +49,11 @@ export class UserService {
  }
 
   logout() {
-      // remove user from local storage to log user out
       localStorage.removeItem('currentUser');
       this.currentUserSubject.next(null);
   }
 
   getProfile(token: string) {
-    console.log("HIIIIIOOOOO",token);
     const headers = {
       headers: {
         'Authorization': `Bearer ${token}`

@@ -51,7 +51,7 @@ constructor(private httpClient: HttpClient) {}
 
         // get all songs in queue for an event, in order with user votes
         get_queuedSongsVotes(event_id: number, user_id: number):Observable<Song[]>{
-            return this.httpClient.get<Song[]>(`${this.PHP_API_SERVER}/get_queuedSongsVotes.php/?event_id=${event_id}&user_id=${user_id}"`).pipe(catchError(this.errorHandler));
+            return this.httpClient.get<Song[]>(`${this.PHP_API_SERVER_DOM}/get_queuedSongsVotes.php/?event_id=${event_id}&user_id=${user_id}"`).pipe(catchError(this.errorHandler));
         }
 
     // songs Table

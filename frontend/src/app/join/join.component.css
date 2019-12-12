@@ -1,8 +1,14 @@
 .example-container {
-  width: 40%;
+  /* width: 40%; */
   margin-left: 30%;
   padding: 2%;
   text-align: center;
+
+}
+
+.profile-div {
+  padding-left: 70%;
+  padding-top: 10%;
 }
 
 .buttons {
@@ -25,7 +31,7 @@
 
 @media only screen and (max-width: 600px) {
   .example-container {
-    margin-top: 80%;
+    padding-top: 50%;
     width: 80%;
     margin-left: 10%;
   }

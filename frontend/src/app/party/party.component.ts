@@ -31,6 +31,7 @@ export class PartyComponent implements OnInit {
   public padding: number;
   public height: number;
   public displayedColumns = ['Songs', 'Score', 'Vote'];
+  public displayedColumnsRecommendations = ['Songs'];
   public results = [];
   public id: string;
   public queuedSongs$: Observable<Song[]>;
@@ -42,13 +43,20 @@ export class PartyComponent implements OnInit {
   public showProfileInfo: Boolean;
   public showInfoText: Boolean;
   public matIconArrowLabel: string;
+  public showRecommendationsTable: Boolean;
+  public recommendations: any;
+  public qs: QueuedSong;
+  public showOptions: Boolean;
 
   constructor(private songSearchService: SongSearchService, private apiService: ApiService, private router: Router,
     private route: ActivatedRoute, private snackBar: MatSnackBar, private userService: UserService, private tokenService: TokenService, private deviceService: DeviceDetectorService) {
 
     this.showInfoText = true;
+    this.showOptions = false;
+    this.showRecommendationsTable = false;
     this.matIconArrowLabel = 'keyboard_arrow_left';
     this.showProfileInfo = false;
+    this.recommendations = [];
 
     this.DESKTOP = this.deviceService.isDesktop();
 
@@ -69,7 +77,6 @@ export class PartyComponent implements OnInit {
                 this.spotifyUserInfo = data;
               },
               error => {
-                console.log("YO got an error");
                 console.log(error)
               }
             )
@@ -80,23 +87,15 @@ export class PartyComponent implements OnInit {
           data  => {
             if (data) {
               this.event = data[0];
-              console.log(data);
               this.queuedSongs$ = timer(0,500).pipe(
 
-                // startWith(1000),
                 distinctUntilChanged(),
                 switchMap(() => this.apiService.get_queuedSongsVotes(this.event.event_id, this.user.user_id))
               );
-              // this.currentSong$ = timer(0,500).pipe(
-              //   // startWith(1000),
-              //   distinctUntilChanged(),
-              //   switchMap(() => this.apiService.get_event_current_song(this.event.event_id))
-              // );
             }
           },
           error => {
             if ( error.status >= 400) {
-              // this.invalid = true,
               console.log(error)
             }
           }
@@ -105,38 +104,6 @@ export class PartyComponent implements OnInit {
       }
     );
   }
-
-  // refresh() {
-  //   this.apiService.get_queuedSongs(this.event.event_id).subscribe(
-  //     data => {
-  //       this.queuedSongs = data;
-  //       console.log(this.queuedSongs);
-  //     },
-  //     error => {
-  //       if ( error.status >= 400) {
-  //         // this.invalid = true,
-  //         console.log(error)
-  //       }
-  //     }
-  //   )
-  // }
-
-  // refreshVotes() {
-  //   this.apiService.get_user_votes(this.user.user_id,this.event.event_id).subscribe(
-  //     data => {
-  //       for (let i in data) {
-  //         var vote = data[i];
-  //         this.userVotes[vote.order_num] = vote.vote;
-  //       }
-  //       //console.log(this.userVotes);
-  //     },
-  //     error => {
-  //       if ( error.status >= 400) {
-  //         console.log(error)
-  //       }
-  //     }
-  //   )
-  // }
 
   upvote(order_num, song_id, platform, old_vote) {
     var voted = old_vote != null;
@@ -148,7 +115,6 @@ export class PartyComponent implements OnInit {
     this.queuedSong.platform = platform;
     var vote_amount = [2, 1, -1];
     this.queuedSong.popularity = old_vote ? vote_amount[old_vote+1] : 1;
-    console.log(this.queuedSong);
     this.apiService.put_QueuedSong(this.queuedSong).subscribe(
       data => {
         var vote = new Vote();
@@ -182,7 +148,6 @@ export class PartyComponent implements OnInit {
 
   downvote(order_num, song_id, platform, old_vote) {
     var voted = old_vote != null;
-    console.log(voted);
     old_vote = parseInt(old_vote);
     this.queuedSong = new QueuedSong;
     this.queuedSong.event_id = this.event.event_id;
@@ -200,22 +165,20 @@ export class PartyComponent implements OnInit {
         vote.song_id = song_id;
         vote.platform = platform;
         vote.order_num = parseInt(order_num);
-        console.log(vote);
         if (voted) {
           this.apiService.put_vote(vote).subscribe(
-            data => console.log(data),
+            data => {},
             error => console.log(error)
           )
         } else {
           this.apiService.post_vote(vote).subscribe(
-            data => console.log(data),
+            data => {},
             error => console.log(error)
           )
         }
       },
       error => {
         if ( error.status >= 400) {
-          // this.invalid = true,
           console.log(error)
         }
       }
@@ -227,12 +190,22 @@ export class PartyComponent implements OnInit {
   }
 
   onEndPartyClick(){
+    this.showOptions = true;
+
+  }
+
+  onEndPartyNOClick(){
+    this.showOptions = false;
+    this.showProfileInfo = false;
+  }
+
+  onEndPartyYESClick(){
 
     this.apiService.delete_Event(this.event.event_id).subscribe(
       data => {
-        let snackBarRef = this.snackBar.open('Your event was successfully deleted', 'Start a new party');
+        let snackBarRef = this.snackBar.open('Your event was successfully deleted', 'DISMISS');
         snackBarRef.onAction().subscribe(() => {
-          this.router.navigate(['/host']);
+          this.router.navigate(['/']);
         });
       },
       error => {
@@ -295,5 +268,64 @@ export class PartyComponent implements OnInit {
     this.padding = window.pageYOffset/window.innerHeight;
   }
 
+  goFullscreen(){
+    document.body.requestFullscreen();
+  }
+
+  getRecommendations(){
+
+    this.apiService.get_recommendations(this.event.event_id).subscribe(
+      recommendations => {
+        this.recommendations = recommendations;
+        this.showRecommendationsTable = true;
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  onSongSearch(){
+
+  }
+
+  addSong(newSong: any) {
+    this.apiService.get_song(newSong.song_id, newSong.platform).subscribe(
+      data => {
+        if (data){   
+          this.addSongToQueue(newSong.song_id, newSong.platform);
+          let snackBarRef = this.snackBar.open('"' + newSong.title + '" ' +'was added to the queue', 'DISMISS');
+
+        }
+        else {
+          this.apiService.post_Song(newSong).subscribe(
+            data => this.addSongToQueue(newSong.song_id, newSong.platform),
+            error => console.log(error)
+          )
+        }
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+
+  addSongToQueue(id: string, platform: string){
+    this.qs = new QueuedSong();
+    this.qs.event_id = this.event.event_id;
+    this.qs.song_id = id;
+    this.qs.platform = platform;
+
+    this.apiService.post_QueuedSong(this.qs).subscribe(
+      data => {
+       
+      },
+      error => {
+        if ( error.status >= 400) {
+          console.log(error)
+        }
+      }
+    )
+  }
 
 }

@@ -18,7 +18,6 @@ import {
 })
 export class AppComponent {
   public started = false;
-  public track: any;
   public user: User = null;
   public token: string;
   public no_spotify: boolean = false;
@@ -30,6 +29,8 @@ export class AppComponent {
   REFRESH_MINUTES: number = 30;
   REFRESH_SECONDS: number = 0;
   REFRESH_TIME: number = 0;
+  public track:any;
+
 
   constructor(private deviceDetectorService: DeviceDetectorService, private userService: UserService, private router:Router, private apiService: ApiService, private spotifyPlaybackService: SpotifyPlaybackService) {
     console.log("Desktop", this.deviceDetectorService.isDesktop());
@@ -54,6 +55,7 @@ export class AppComponent {
     this.userService.currentUser.subscribe(
       user =>  {
         user ? this.user = user : this.router.navigate(['']),
+
         this.initializeSpotifyPlayer(String(user.user_id));
         this.userService.updateTokenUser(this.user.user_id);
         this.redirect_uri = `http://db.cse.nd.edu/cse30246/tutorial/dom/auth0.php/?id=${user.user_id}`;
@@ -69,6 +71,7 @@ export class AppComponent {
         //     }
         //   }
         // )
+
         // this.apiService.get_token(user.user_id).subscribe(
         //   token => {
         //     console.log(token);
@@ -81,6 +84,7 @@ export class AppComponent {
         // )
       }
     );
+
 
 
     // Play a specified track on the Web Playback SDK's device ID

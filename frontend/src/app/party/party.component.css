@@ -8,6 +8,10 @@
     color: #ffffff !important; */
   }
 
+.display-div {
+  height: 100%;
+}
+
 table {
     width: 100%;
     text-align: left;
@@ -203,19 +207,23 @@ mat-card-subtitle {
   color: red;
   opacity: 50%;
   position: absolute;
-  bottom: 25%;
+  top: 65%;
   left: 25%;
 }
 
 .votes-text{
   color: white;
   position: absolute;
-  bottom: 13%;
+  top: 71.5%;
   left: 35%;
   font-size: 2vw;
 }
 
-/* mat-button {
-  background-color: black;
-  color: white;
-} */
+.tv-button {
+  background-color: primary;
+}
+
+
+.queue-table {
+  margin-bottom: 10%;
+}

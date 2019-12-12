@@ -19,10 +19,23 @@ $session = new SpotifyWebAPI\Session(
 
 $options = [
     'scope' => [
+        'ugc-image-upload',
+        'user-read-playback-state',
         'user-modify-playback-state',
-        'playlist-read-private',
+        'streaming',
+        'app-remote-control',
+        'user-read-email',
         'user-read-private',
-        'streaming'
+        'playlist-read-collaborative',
+        'playlist-modify-public',
+        'playlist-read-private',
+        'playlist-modify-private',
+        'user-library-modify',
+        'user-library-read',
+        'user-top-read',
+        'user-read-recently-played',
+        'user-follow-read',
+        'user-follow-modify'
     ],
 ];
 
