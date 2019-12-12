@@ -68,6 +68,7 @@ export class HostComponent implements OnInit {
 
   authenticate() {
     window.location.href = this.redirect_uri;
+  }
 
   showProfileOptions(){
     if (this.showLogout){
