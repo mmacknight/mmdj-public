@@ -11,18 +11,17 @@ import { User } from '@classes/user';
 })
 export class UserService {
   private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
-  private device_id_Subject: BehaviorSubject<String>;
-  public device_id: Observable<String>;
-  numb = 0;
+  public currentUser: Observable<User>;  numb = 0;
+  public tokenRefresh$: Observable<any>;
+  public tokenRefreshSubject: BehaviorSubject<string>;
   SPOTIFY_API = `https://api.spotify.com/v1/me`;
 
   constructor(private httpClient: HttpClient) {
     console.log("MAKING USER SERVICE");
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
-    this.device_id_Subject = new BehaviorSubject<String>(localStorage.getItem('currentUser'));
-    this.device_id = this.device_id_Subject.asObservable();
+    this.tokenRefresh$ = new Observable<any>();
+
   }
 
   public get currentUserValue(): User {
@@ -35,15 +34,19 @@ export class UserService {
       this.currentUserSubject.next(user);
   }
 
-  setDeviceID(my_device_id: string) {
-    localStorage.setItem('device_id', my_device_id);
-    this.device_id_Subject.next(my_device_id);
-}
 
   updateUser(user) {
     user.authdata = window.btoa(user.username + ':' + user.password);
     localStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUserSubject.next(user);
+ }
+
+ updateTokenUser(user_id: number) {
+   this.tokenRefreshSubject.next(String(user_id));
+ }
+
+ getToken() {
+   return this.tokenRefresh$;
  }
 
   logout() {

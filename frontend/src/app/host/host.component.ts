@@ -5,6 +5,7 @@ import { UserService } from '../user.service';
 import { Event } from '@classes/event';
 import { Router } from '@angular/router';
 import { User } from '@classes/user';
+import { Observable, BehaviorSubject, timer } from 'rxjs';
 
 @Component({
   selector: 'app-host',
@@ -16,6 +17,8 @@ export class HostComponent implements OnInit {
   public partyForm: FormGroup;
   public currentUser: User;
   public event: Event;
+  has_token$: Observable<any>;
+  redirect_uri: string = '';
 
   constructor(fb: FormBuilder, public apiService: ApiService, public userService: UserService, private router: Router) {
 
@@ -25,12 +28,21 @@ export class HostComponent implements OnInit {
       genre: ''
     });
     this.userService.currentUser.subscribe(
-      user => this.currentUser = user
-    )
+      user => {
+        this.currentUser = user;
+        this.has_token$ = this.apiService.get_token(user.user_id);
+        this.redirect_uri = `http://db.cse.nd.edu/cse30246/tutorial/dom/auth.php/?id=${user.user_id}`;
+      }
+    );
   }
   ngOnInit() {
   }
-
+  convertBoolean(x) {
+    if (x) {
+      return x.length;
+    }
+    return 0;
+  }
   createParty() {
     this.event = new Event();
     this.event.event_name = this.partyForm.controls.name.value;
@@ -52,5 +64,8 @@ export class HostComponent implements OnInit {
     )
   }
 
+  authenticate() {
+    window.location.href = this.redirect_uri;
+  }
 
 }

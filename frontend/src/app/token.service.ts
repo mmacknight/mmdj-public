@@ -13,16 +13,16 @@ export class TokenService {
   CLIENT_ID = "c7d322da32444b989421f7cc942c64a3";
   REDIRECT_URI = "http://localhost:4200/callback";
 
-  public tokenSubject: BehaviorSubject<string>;
+  // public tokenSubject: BehaviorSubject<string>;
   public tokenRefresh$: Observable<any>;
   public tokenRefreshSubject: BehaviorSubject<string>;
-  public token: Observable<string>;
+  // public token: Observable<string>;
 
   constructor() {
     console.log("BUILD THE REFRESH");
     this.tokenRefresh$ = new Observable<any>();
-    this.tokenSubject = new BehaviorSubject<string>(localStorage.getItem('token'));
-    this.token = this.tokenSubject.asObservable();
+    // this.tokenSubject = new BehaviorSubject<string>(localStorage.getItem('token'));
+    // this.token = this.tokenSubject.asObservable();
 
   }
 
@@ -35,25 +35,25 @@ export class TokenService {
   }
 
 
-  public get tokenValue(): string {
-    return this.tokenSubject.value;
-  }
+  // public get tokenValue(): string {
+  //   return this.tokenSubject.value;
+  // }
 
-  setToken(token: string) {
-    console.log(token);
-    localStorage.setItem('token', token);
-    this.tokenSubject.next(token);
-  }
+  // setToken(token: string) {
+  //   console.log(token);
+  //   localStorage.setItem('token', token);
+  //   this.tokenSubject.next(token);
+  // }
+  //
+  // updateToken(token: string) {
+  //   localStorage.setItem('token', token);
+  //   this.tokenSubject.next(token);
+  //  }
 
-  updateToken(token: string) {
-    localStorage.setItem('token', token);
-    this.tokenSubject.next(token);
-   }
-
-  removeToken() {
-    localStorage.removeItem('token');
-    this.tokenSubject.next(null);
-  }
+  // removeToken() {
+  //   localStorage.removeItem('token');
+  //   this.tokenSubject.next(null);
+  // }
 
   updateUser(user_id: number) {
     this.tokenRefreshSubject.next(String(user_id));
