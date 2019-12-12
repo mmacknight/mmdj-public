@@ -203,16 +203,20 @@ mat-card-subtitle {
   color: red;
   opacity: 50%;
   position: absolute;
-  bottom: 25%;
+  top: 65%;
   left: 25%;
 }
 
 .votes-text{
   color: white;
   position: absolute;
-  bottom: 13%;
+  top: 71.5%;
   left: 35%;
   font-size: 2vw;
+}
+
+.tv-button {
+  background-color: primary;
 }
 
 /* mat-button {

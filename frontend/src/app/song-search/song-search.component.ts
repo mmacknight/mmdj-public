@@ -10,6 +10,7 @@ import { Youtube } from '@classes/youtube';
 import { Soundcloud } from '@classes/soundcloud';
 import { QueuedSong } from '@classes/queuedSong';
 import { TokenService } from '../token.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 // import { platform } from 'os';
 
 
@@ -42,7 +43,7 @@ export class SongSearchComponent implements OnInit {
   public displayedColumnsYoutube = ['Results'];
   public s: Soundcloud[];
 
-  constructor(private songSearchService: SongSearchService, private apiService: ApiService, private tokenService: TokenService) {
+  constructor(private songSearchService: SongSearchService, private apiService: ApiService, private tokenService: TokenService, private snackBar: MatSnackBar) {
     // this.songSearchService.searchSpotify('kesha').subscribe(
     //   data => {
     //     console.log('here');
@@ -122,6 +123,8 @@ export class SongSearchComponent implements OnInit {
           // call put
 
           this.addSongToQueue(newSong.song_id, newSong.platform);
+          // show toast
+          let snackBarRef = this.snackBar.open('"' + newSong.title + '" ' +'was added to the queue', 'DISMISS');
 
         }
         else {

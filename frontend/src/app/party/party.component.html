@@ -9,14 +9,16 @@
             {{user.username}}
           </button>
             <div>
-              <button class="btn btn-primary" mat-button (click)="logout()" *ngIf='showProfileInfo'>log out</button>
+              <button class="btn btn-primary" mat-button (click)="logout()" *ngIf='showProfileInfo && showInfoText'>log out</button>
             </div>
-            <button class="btn-outline-danger" mat-button (click)="onEndPartyClick()" *ngIf='showProfileInfo'>end party</button>
+            <button class="btn-outline-danger" mat-button (click)="onEndPartyClick()" *ngIf='showProfileInfo && showInfoText'>end party</button>
         </mat-card-content>
 
         <mat-card-subtitle *ngIf='showInfoText'>{{event.description}}</mat-card-subtitle>
         <mat-card-content *ngIf='showInfoText'>To add songs to the queue and vote on your favorites,
-            go to db.cse.nd.edu/cse30246/mmdj and enter event code: {{event.event_id}}</mat-card-content>
+            go to db.cse.nd.edu/cse30246/mmdj and enter event code: {{event.event_id}}
+            <button class="btn btn-primary tv-button" mat-button (click)="goFullscreen()" *ngIf='showInfoText'>TV Mode</button>
+        </mat-card-content>
         <mat-icon class='arrow-icon-button' (click)='hideText()'>{{matIconArrowLabel}}</mat-icon>
         <mat-card-title class='bottom-text'>Coming up next...</mat-card-title>
 
