@@ -19,7 +19,6 @@ export class TokenService {
   public token: Observable<string>;
 
   constructor() {
-    console.log("BUILD THE REFRESH");
     this.tokenRefresh$ = new Observable<any>();
     this.tokenSubject = new BehaviorSubject<string>(localStorage.getItem('token'));
     this.token = this.tokenSubject.asObservable();
@@ -31,7 +30,7 @@ export class TokenService {
     var LINK = `https://accounts.spotify.com/authorize?client_id=${this.CLIENT_ID}&response_type=token&redirect_uri=${this.REDIRECT_URI}&scope=streaming&state=${party}`;
 
     window.location.href = LINK;
-    // return this.httpClient.get(`https://accounts.spotify.com/authorize?client_id=${this.CLIENT_ID}&response_type=code&redirect_uri=${this.REDIRECT_URI}&scope=user-read-private%20user-read-email&state=34fFs29kd09`,headers).pipe(catchError(this.errorHandler));
+  
   }
 
 
@@ -40,7 +39,6 @@ export class TokenService {
   }
 
   setToken(token: string) {
-    console.log(token);
     localStorage.setItem('token', token);
     this.tokenSubject.next(token);
   }

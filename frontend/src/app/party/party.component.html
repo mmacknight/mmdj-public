@@ -12,7 +12,14 @@
               <button class="btn btn-primary" mat-button (click)="logout()" *ngIf='showProfileInfo && showInfoText'>log out</button>
             </div>
             <button class="btn-outline-danger" mat-button (click)="onEndPartyClick()" *ngIf='showProfileInfo && showInfoText'>end party</button>
-        </mat-card-content>
+        
+            <div *ngIf='showProfileInfo && showInfoText && showOptions'>
+              Are you sure?
+              <button class="btn-outline-danger" mat-button (click)="onEndPartyYESClick()" >YES</button>
+              <button class="btn btn-primary" mat-button (click)="onEndPartyNOClick()" >NO</button>
+            </div>
+        
+          </mat-card-content>
 
         <mat-card-subtitle *ngIf='showInfoText'>{{event.description}}</mat-card-subtitle>
         <mat-card-content *ngIf='showInfoText'>To add songs to the queue and vote on your favorites,
@@ -20,6 +27,7 @@
             <button class="btn btn-primary tv-button" mat-button (click)="goFullscreen()" *ngIf='showInfoText'>TV Mode</button>
         </mat-card-content>
         <mat-icon class='arrow-icon-button' (click)='hideText()'>{{matIconArrowLabel}}</mat-icon>
+        <button class="btn btn-primary" mat-button >SKIP</button>
         <mat-card-title class='bottom-text'>Coming up next...</mat-card-title>
 
       </mat-card>
@@ -56,10 +64,32 @@
 
 <div class='party-container rounded'>
     <div *ngIf="display[1]">
-      <app-song-search [inp]=event></app-song-search>
+      <app-song-search [inp]=event (click)=onSongSearch()></app-song-search>
+      <button class="btn btn-primary" mat-button (click)=getRecommendations()>Get Recommendations</button>
+      <table *ngIf='showRecommendationsTable' mat-table [dataSource]='recommendations' class="mat-elevation-z8">
+         <ng-container matColumnDef="Songs">
+             <th mat-header-cell *matHeaderCellDef>Songs</th>
+             <td class="spotify-td" style="padding-left: 0" mat-cell *matCellDef="let element;" (click)='addSong(element)'>
+                
+                   <img *ngIf="element.artwork" class="spotify-artowrk" src={{element.artwork}}>
+                <img *ngIf="!element.artwork" class="spotify-artowrk" src="/assets/media/spotify.png">
+                <div class="spotfy-row text-left" style="padding-top: 1%; margin-left: 2.5%;">
+                  <div class="spotify-title">
+                    {{element.title}}
+                  </div>
+                  <div class="spotify-artist">
+                    <small>{{element.artist}}</small>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsRecommendations"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsRecommendations;"></tr>
+
+      </table>
     </div>
-    <div *ngIf="display[0]" class="queue" >
-      <table [class.d-none]="!(queuedSongs$ | async)" mat-table [dataSource]="queuedSongs$ | async" [trackBy]="trackByFunction" class="mat-elevation-z8">
+    <div *ngIf="display[0]" class='display-div'>
+      <table [class.d-none]="!(queuedSongs$ | async)" mat-table [dataSource]="queuedSongs$ | async" [trackBy]="trackByFunction" class="mat-elevation-z8 queue-table">
 
         <ng-container matColumnDef="Songs">
           <th mat-header-cell *matHeaderCellDef>Songs</th>
@@ -85,18 +115,18 @@
           <ng-container matColumnDef="Vote" >
               <th mat-header-cell *matHeaderCellDef> Vote </th>
               <td *matCellDef="let element" class='buttons-right' style="margin: 0; padding-right: 4px;">
-                <!-- <div > -->
+
                   <mat-icon aria-hidden="false" class="arrow-button" [class.arrow-button-up-voted]="element.vote == '1'" (click)="upvote(element.order_num, element.song_id, element.platform, element.vote)">add_circle</mat-icon>
-                <!-- </div> -->
-                <!-- <div > -->
+
                   <mat-icon aria-hidden="false" class="arrow-button" [class.arrow-button-down-voted]="element.vote == '-1'" (click)="downvote(element.order_num, element.song_id, element.platform, element.vote)">remove_circle</mat-icon>
-                <!-- </div> -->
+
               </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+        
       </div>
       <div *ngIf="display[2]" class="account-party">
         <div class="account text-center">
@@ -109,7 +139,7 @@
         <h6>Party Code: {{event.event_id}}</h6>
         <p>{{event.description | lowercase}}</p>
         <button class="btn btn-primary" (click)="leaveParty()">Leave Party</button>
-        <button class="btn btn-outline-danger end-party-button" (click)="onEndPartyClick()" *ngIf="event.user_id==user.user_id">End Party</button>
+        <button class="btn btn-outline-danger end-party-button" (click)="onEndPartyYESClick()" *ngIf="event.user_id==user.user_id">End Party</button>
       </div>
 </div>
 <app-mobile-navbar [inp]="display" (toggle)="toggleDisplay($event)"></app-mobile-navbar>

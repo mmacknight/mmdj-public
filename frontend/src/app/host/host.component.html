@@ -1,3 +1,13 @@
+<div class='profile-div'>
+    <button class="btn btn-primary" mat-button (click)=showProfileOptions()>
+      <mat-icon>person</mat-icon>
+        {{currentUser.username}}
+    </button>
+    <div>
+      <button class="btn btn-primary" mat-button (click)="logout()" *ngIf='showLogout'>log out</button>
+    </div>
+</div>
+
 <div class="example-container">
 
   <h1>Create a Party</h1>

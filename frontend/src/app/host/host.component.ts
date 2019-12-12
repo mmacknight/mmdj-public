@@ -16,9 +16,10 @@ export class HostComponent implements OnInit {
   public partyForm: FormGroup;
   public currentUser: User;
   public event: Event;
+  public showLogout: Boolean;
 
   constructor(fb: FormBuilder, public apiService: ApiService, public userService: UserService, private router: Router) {
-
+    this.showLogout = false;
     this.partyForm = fb.group({
       name: '',
       description: '',
@@ -52,5 +53,18 @@ export class HostComponent implements OnInit {
     )
   }
 
+  showProfileOptions(){
+    if (this.showLogout){
+      this.showLogout = false;
+    }
+    else {
+      this.showLogout = true;
+    }
+  }
+
+  logout() {
+    this.userService.logout();
+    this.router.navigate(['']);
+  }
 
 }

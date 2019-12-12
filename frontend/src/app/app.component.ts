@@ -31,7 +31,6 @@ export class AppComponent {
   public track:any;
 
   constructor(private deviceDetectorService: DeviceDetectorService, private userService: UserService, private router:Router, private apiService: ApiService, private tokenService: TokenService) {
-    console.log("Desktop", this.deviceDetectorService.isDesktop());
     this.REFRESH_TIME = (this.REFRESH_MINUTES * 60 +  this.REFRESH_SECONDS) * 1000;
     this.tokenRefreshSubject = new BehaviorSubject<any>(null);
     this.tokenRefresh$ = timer(0,this.REFRESH_TIME).pipe(
@@ -57,7 +56,6 @@ export class AppComponent {
         this.tokenService.updateUser(this.user.user_id);
         this.tokenService.getToken().subscribe(
             token => {
-            console.log(token);
             if (token.length) {
               this.tokenService.setToken(token[0]["spotify_access"]);
             } else {
@@ -81,8 +79,6 @@ export class AppComponent {
       token => this.token = token
     )
     window['onSpotifyWebPlaybackSDKReady'] = () => {
-
-      console.log('2');
 
       const player = new Spotify.Player({
         name: 'Web Playback SDK Quick Start Player',
