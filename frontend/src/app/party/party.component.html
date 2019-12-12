@@ -37,19 +37,19 @@
 
     <div *ngFor='let song of queuedSongs$ | async; let i=index; trackBy: trackByFunction'>
       <div *ngIf='i<5'>
-          <mat-grid-tile colspan='1'>
+          <mat-grid-tile colspan='1' [style.background]="'rgba(0,0,0,0.5)'">
+            <!-- <mat-card [style.background]="'url(/assets/media/'+song.platform+'.png)'"  [style.background-size]="'180%'" [style.backgroundPosition]="'center'"> -->
             <mat-card>
-                 <div class='card-header-info'>
-                  <mat-card-title class='my-mat-card-title'>{{song.title}}</mat-card-title>
-                  <mat-card-subtitle class='my-mat-card-subtitle'>{{song.artist}} </mat-card-subtitle>
-                </div>
-                <img mat-card-image [src]='song.artwork'>
-                <mat-card-content class='votes-card'>
-                  <mat-icon class='votes-icon'>favorite</mat-icon>
-                  <div class='votes-text'>{{song.popularity}}</div>
-                </mat-card-content>
-
-              </mat-card>
+               <div class='card-header-info'>
+                <mat-card-title class='my-mat-card-title'>{{song.title}}</mat-card-title>
+                <mat-card-subtitle class='my-mat-card-subtitle'>{{song.artist}} </mat-card-subtitle>
+              </div>
+              <img mat-card-image [src]='song.artwork'>
+              <mat-card-content class='votes-card'>
+                <mat-icon class='votes-icon'>favorite</mat-icon>
+                <div class='votes-text'>{{song.popularity}}</div>
+              </mat-card-content>
+            </mat-card>
           </mat-grid-tile>
 
       </div>

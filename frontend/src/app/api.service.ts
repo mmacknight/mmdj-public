@@ -18,6 +18,7 @@ import { Vote } from "@classes/vote";
 
 export class ApiService {
 PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/mmdj/backend/api";
+// PHP_API_SERVER_DOM = "http://db.cse.nd.edu/cse30246/mmdj/backend/api";
 PHP_API_SERVER_DOM = "http://db.cse.nd.edu/cse30246/tutorial/dom";
 // PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/tutorial/dom";
 constructor(private httpClient: HttpClient) {}
@@ -104,7 +105,7 @@ constructor(private httpClient: HttpClient) {}
         }
 
             refresh_token(user_id: number): Observable<any> {
-                return this.httpClient.get(`${this.PHP_API_SERVER_DOM}/refresh_user1.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
+                return this.httpClient.get(`${this.PHP_API_SERVER_DOM}/refresh_user.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
 
         }
 

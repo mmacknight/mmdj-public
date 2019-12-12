@@ -3,6 +3,7 @@ import { User } from '@classes/user';
 import { Song } from '@classes/song';
 import { QueuedSong } from '@classes/queuedSong';
 import { ApiService } from '../api.service';
+import { SpotifyPlaybackService } from '../spotify-playback.service';
 import { UserService } from '../user.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Observable, interval, timer  } from 'rxjs';
@@ -29,6 +30,8 @@ export class CurrentSongComponent implements OnInit {
   height: number =0;
   yoffset: number = 0;
   song_padding: number = 0;
+  empty: boolean = true;
+  spotify_next$: Observable<number>;
 
   @Input()
   set event(input) {
@@ -45,8 +48,12 @@ export class CurrentSongComponent implements OnInit {
     );
     this.currentSong$.subscribe(
       data => {
-        if (data.order_num != this.song.order_num) {
+        if (data && (data.order_num != this.song.order_num || !this.song)) {
+          this.empty = false;
           this.setCurrentSong();
+        } else if (this.empty) {
+          console.log("SKIPPERR");
+          this.skipSong();
         }
       }
     )
@@ -59,8 +66,9 @@ export class CurrentSongComponent implements OnInit {
   //   this.platform = input;
   // }
 
-  constructor(private apiService: ApiService, private userService: UserService, private deviceService: DeviceDetectorService) {
+  constructor(private apiService: ApiService, private userService: UserService, private spotifyPlaybackService: SpotifyPlaybackService, private deviceService: DeviceDetectorService) {
     this.DESKTOP = this.deviceService.isDesktop();
+    this.spotify_next$ = this.spotifyPlaybackService.nextSong;
     this.userService.currentUser.subscribe(
       user => {
         this.user = user;
@@ -69,9 +77,7 @@ export class CurrentSongComponent implements OnInit {
         }
       }
     )
-    this.userService.device_id.subscribe(
-      device_id => this.device_id = device_id
-    )
+
     this.width = window.innerWidth;
     this.height = window.innerHeight *2/3;
     this.yoffset = window.pageYOffset;
@@ -91,16 +97,34 @@ export class CurrentSongComponent implements OnInit {
     )
   }
 
-  skipSong(){
-    this.apiService.get_queuedSongs(this.event_id).subscribe(
-      data => {
-        if (data[0]) {
-          this.apiService.put_current_song(this.event_id, data[0]['order_num']).subscribe()
+  skipSong() {
+    if (this.HOST) {
+      this.pauseSpotify();
+      this.apiService.get_queuedSongs(this.event_id).subscribe(
+        data => {
+          if (data[0]) {
+            this.empty = false;
+            this.apiService.put_current_song(this.event_id, data[0]['order_num']).subscribe()
+          } else {
+            this.empty = true;
+            this.song = new Song();
+          }
         }
-      }
-    )
-
+      )
+    }
   }
+
+pauseSpotify() {
+  this.userService.currentUser.subscribe(
+    user => {
+      this.apiService.get_token(user.user_id).subscribe(
+        token =>  {
+          this.spotifyPlaybackService.pauseSong(token[0]['spotify_access']);
+        }
+      )
+    }
+  )
+}
 
 
   @HostListener('window:scroll', ['$event'])

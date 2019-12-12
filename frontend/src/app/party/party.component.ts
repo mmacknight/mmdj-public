@@ -73,6 +73,7 @@ export class PartyComponent implements OnInit {
           token => {
             this.userService.getProfile(token[0]['spotify_access']).subscribe(
               data => {
+                console.log(data);
                 this.spotifyUserInfo = data;
               },
               error => {

@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Song } from '@classes/song';
-import { TokenService } from '../token.service';
+import { ApiService } from '../api.service';
+import { UserService } from '../user.service';
+import { SpotifyPlaybackService } from '../spotify-playback.service';
 // import { my_device_id } from '../app.component';
 
 
@@ -13,25 +15,28 @@ import { TokenService } from '../token.service';
 export class SpotifyComponent implements OnInit {
   public token: string;
   public track_id: string;
-  //public device_id: string
-  public device_id : any;
+  public device_id: string = '';
   public song: Song;
 
 
   @Input()
   set inp(input) {
-    console.log("INNNN SPOTIFY", input);
-   // console.log('THIS', window.onSpotifyWebPlaybackSDKReady);
-      console.log('input', input);
-     this.track_id = input[0]['song_id'];
-     this.device_id = input[1];
+     this.track_id = input['song_id'];
      this.song = input;
-     console.log("track_id", this.track_id);
-     console.log('dev', this.device_id);
 
-      if(this.track_id && this.device_id ){
-        console.log("PLAYYYING", this.track_id);
-        this.play(this.device_id, this.track_id);
+    if(this.track_id){
+      console.log("PLAYYYING", this.track_id);
+      this.playSong(this.track_id);
+
+    }
+  }
+
+  @Input()
+  set nextSong(input) {
+    console.log(input);
+    if (input[0] != 0 && input[1]) {
+      this.spotifyPlaybackService.nextOff();
+      this.callParent();
     }
   }
 
@@ -39,13 +44,11 @@ export class SpotifyComponent implements OnInit {
 
   }
 
-  constructor(private tokenService: TokenService) {
+  constructor(private apiService: ApiService, private userService: UserService, private spotifyPlaybackService: SpotifyPlaybackService) {
 
 
     //this.device_id = my_device_id;
-    this.tokenService.getToken().subscribe(
-      token => this.token = token[0]['spotify_access']
-    )
+
     // console.log('1');
     // window['onSpotifyWebPlaybackSDKReady'] = () => {
 
@@ -101,19 +104,33 @@ export class SpotifyComponent implements OnInit {
 
   }
 
-  play(device_id: any, current_track: string) {
-    console.log('here');
-    var spotify_uri:string = 'spotify:track:' + current_track;
-    //var spotify_uri:string = 'spotify:track:0jdny0dhgjUwoIp5GkqEaA';
-    fetch(`https://api.spotify.com/v1/me/player/play?device_id=${device_id}`, {
-        method: 'PUT',
-         body: JSON.stringify({ uris: [spotify_uri] }),
-         headers: {
-           'Content-Type': 'application/json',
-           'Authorization': `Bearer ${this.token}`
-         }
-        });
+  playSong(track_id: string) {
+    this.userService.currentUser.subscribe(
+      user => {
+        this.apiService.get_token(user.user_id).subscribe(
+          token =>  {
+            console.log("WE PLAYING", track_id, token[0]['spotify_access']);
+            this.spotifyPlaybackService.playSong(track_id, token[0]['spotify_access']);
+          }
+        )
+      }
+    )
   }
+
+
+  // play(device_id: any, current_track: string) {
+  //   console.log('here');
+  //   var spotify_uri:string = 'spotify:track:' + current_track;
+  //   //var spotify_uri:string = 'spotify:track:0jdny0dhgjUwoIp5GkqEaA';
+  //   fetch(`https://api.spotify.com/v1/me/player/play?device_id=${device_id}`, {
+  //       method: 'PUT',
+  //        body: JSON.stringify({ uris: [spotify_uri] }),
+  //        headers: {
+  //          'Content-Type': 'application/json',
+  //          'Authorization': `Bearer ${this.token}`
+  //        }
+  //       });
+  // }
 
   @Output() myEvent = new EventEmitter<string>();
   callParent() {
