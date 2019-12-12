@@ -294,5 +294,9 @@ export class PartyComponent implements OnInit {
     this.padding = window.pageYOffset/window.innerHeight;
   }
 
+  goFullscreen(){
+    document.body.requestFullscreen();
+  }
+
 
 }

@@ -16,6 +16,7 @@ import {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  public started = false;
 
   public user: User = null;
   public token: string;
@@ -27,6 +28,7 @@ export class AppComponent {
   REFRESH_MINUTES: number = 30;
   REFRESH_SECONDS: number = 0;
   REFRESH_TIME: number = 0;
+  public track:any;
 
   constructor(private deviceDetectorService: DeviceDetectorService, private userService: UserService, private router:Router, private apiService: ApiService, private tokenService: TokenService) {
     console.log("Desktop", this.deviceDetectorService.isDesktop());
@@ -93,16 +95,46 @@ export class AppComponent {
       player.addListener('account_error', ({ message }) => { console.error(message); });
       player.addListener('playback_error', ({ message }) => { console.error(message); });
 
+
+      player.addListener('player_state_changed', (state) => {
+        console.log(state);
+
+        if (!this.track || this.track && this.track != state.track_window.current_track['id'])
+        {
+          this.track = state.track_window.current_track['id'];
+          this.started = false;
+          console.log("morgan");
+        }
+        
+        if (
+          state
+          && state.track_window.previous_tracks.find(x => x.id === state.track_window.current_track.id) 
+          && state.paused 
+          && state.position == 0 
+          && this.started){
+            console.log("ended");
+            /*Mitch space*/
+          }
+
+        if (this.started == false && state.position >= 0){
+          console.log("set flag");
+          this.started = true;
+        }
+      });
+
+
+
+
       // Playback status updates
-      player.addListener('player_state_changed', state => {
-        console.log(state)
+      /*player.addListener('player_state_changed', state => {
+        //console.log(state)
         if (state.position >= state.duration){
 
         }
         // if (this.song.duration && (state.duration >= this.song.duration)){
         //   this.callParent();
         // }
-      });
+      });*/
 
       // Ready
       player.addListener('ready', ({ device_id }) => {
