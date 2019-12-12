@@ -1,4 +1,4 @@
-<div *ngIf='DESKTOP'>
+<div *ngIf='DESKTOP' class='desktop'>
   <mat-grid-list cols="5" [rowHeight]="height/3 + 'px'">
     <mat-grid-tile colspan='1' rowspan='2'>
       <mat-card  class='left-align-card'>
@@ -27,13 +27,26 @@
             <button class="btn btn-primary tv-button" mat-button (click)="goFullscreen()" *ngIf='showInfoText'>TV Mode</button>
         </mat-card-content>
         <mat-icon class='arrow-icon-button' (click)='hideText()'>{{matIconArrowLabel}}</mat-icon>
-        <button class="btn btn-primary" mat-button >SKIP</button>
+        <button class="btn btn-primary skip-button" mat-button (click)=currentSong.skipSong()>
+          Skip
+          <mat-icon>skip_next</mat-icon>
+        </button>
         <mat-card-title class='bottom-text'>Coming up next...</mat-card-title>
 
       </mat-card>
 
     </mat-grid-tile>
-    <mat-grid-tile colspan ='4' rowspan='2'><app-current-song [event]=event></app-current-song></mat-grid-tile>
+    <mat-grid-tile colspan ='4' rowspan='2'><app-current-song #currentSong [event]=event></app-current-song></mat-grid-tile>
+   
+    <mat-grid-tile colspan='1' *ngIf='!convertBoolean(queuedSongs$ | async)'>
+        <mat-card>
+             <div class='card-header-info'>
+              <mat-card-title class='my-mat-card-title'></mat-card-title>
+              <mat-card-subtitle class='my-mat-card-subtitle'></mat-card-subtitle>
+            </div>
+           
+          </mat-card>
+      </mat-grid-tile>
 
     <div *ngFor='let song of queuedSongs$ | async; let i=index; trackBy: trackByFunction'>
       <div *ngIf='i<5'>

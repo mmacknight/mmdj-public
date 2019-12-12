@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { Event } from '@classes/event';
 import { Song } from '@classes/song';
 import { User } from '@classes/user';
@@ -47,6 +47,7 @@ export class PartyComponent implements OnInit {
   public recommendations: any;
   public qs: QueuedSong;
   public showOptions: Boolean;
+  @ViewChild('currentSong', {static: false}) currentSong;
 
   constructor(private songSearchService: SongSearchService, private apiService: ApiService, private router: Router,
     private route: ActivatedRoute, private snackBar: MatSnackBar, private userService: UserService, private tokenService: TokenService, private deviceService: DeviceDetectorService) {
@@ -223,6 +224,7 @@ export class PartyComponent implements OnInit {
     this.display[index] = 1;
   }
 
+  
   trackByFunction(index, item) {
     if (!item) return null;
     return index;
@@ -326,6 +328,42 @@ export class PartyComponent implements OnInit {
         }
       }
     )
+   }
+
+  //  skipSong() {
+  //   if (this.HOST) {
+  //     this.pauseSpotify();
+  //     this.apiService.get_queuedSongs(this.event.event_id).subscribe(
+  //       data => {
+  //         if (data[0]) {
+  //           this.empty = false;
+  //           this.apiService.put_current_song(this.event.event_id, data[0]['order_num']).subscribe()
+  //         } else {
+  //           this.empty = true;
+  //           this.song = new Song();
+  //         }
+  //       }
+  //     )
+  //   }
+  // }
+
+  // pauseSpotify() {
+  //   this.userService.currentUser.subscribe(
+  //     user => {
+  //       this.apiService.get_token(user.user_id).subscribe(
+  //         token =>  {
+  //           this.spotifyPlaybackService.pauseSong(token[0]['spotify_access']);
+  //         }
+  //       )
+  //     }
+  //   )
+  // }
+
+  convertBoolean(x){
+    if (x) {
+      return x.length;
+    }
+    return 0;
   }
 
 }

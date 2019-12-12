@@ -227,3 +227,19 @@ mat-card-subtitle {
 .queue-table {
   margin-bottom: 10%;
 }
+.skip-button{
+  color: white;
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  background-color: #FF4081
+}
+
+.desktop {
+  background-color: black;
+}
+
+/* mat-button {
+  background-color: black;
+  color: white;
+} */
