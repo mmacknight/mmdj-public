@@ -17,3 +17,8 @@
 .form-container > * {
   width: 100%;
 }
+
+.profile-div {
+  padding-left: 85%;
+  padding-top: 3%;
+}

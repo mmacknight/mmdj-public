@@ -1,5 +1,13 @@
+<div class='profile-div'>
+  <button class="btn btn-primary" mat-button (click)=showProfileOptions()>
+    <mat-icon>person</mat-icon>
+      {{user.username}}
+  </button>
+  <div>
+    <button class="btn btn-primary" mat-button (click)="logout()" *ngIf='showLogout'>log out</button>
+  </div>
+</div>
 <div class="example-container rounded">
-
   <form class="form-container text-center" [formGroup]="joinForm" (ngSubmit)="joinParty()">
     <mat-form-field>
       <input matInput formControlName="eventID" placeholder="Enter Event ID">
