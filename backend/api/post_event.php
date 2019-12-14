@@ -30,24 +30,34 @@ if(isset($postdata) && !empty($postdata))
 
   // Create.
   $sql = "INSERT INTO `events`(`user_id`,`event_name`, `description`, `population`, `current_song`, `is_active`) VALUES ('{$user_id}','{$event_name}', '{$description}', '{$population}', '{$current_song}', '{$is_active}' )";
+  if ($stmt = mysqli_prepare($con, "INSERT INTO `events`(`user_id`,`event_name`, `description`, `population`, `current_song`, `is_active`) VALUES ( ?, ?, ?, ?, ?, ? )")){
+    /* bind parameters for markers */
+    mysqli_stmt_bind_param($stmt, "issiii", $user_id, $event_name, $description, $population, $current_song, $is_active);
+    
+    /* execute query */
+    mysqli_stmt_execute($stmt);
 
-  if(mysqli_query($con,$sql))
-  {
-    http_response_code(201);
-    $event = [
-      'event_id'    => mysqli_insert_id($con),
-      'user_id' => $user_id,
-      'event_name' => $event_name,
-      'description' => $description,
-      'population' => $population,
-      'current_song' => $current_song,
-      'is_active' => $is_active
-    ];
-    echo json_encode($event);
+    $rows = mysqli_stmt_affected_rows($stmt);
+
+    mysqli_stmt_close($stmt);
+
+    if ($rows === -1){
+      //error
+      http_response_code(422);
+    } else {
+      $event = [
+        'event_id'    => mysqli_insert_id($con),
+        'user_id' => $user_id,
+        'event_name' => $event_name,
+        'description' => $description,
+        'population' => $population,
+        'current_song' => $current_song,
+        'is_active' => $is_active
+      ];
+      echo json_encode($event);
+      http_response_code(201);
+    }
   }
-  else
-  {
-    http_response_code(422);
-  }
+
 }
 ?>

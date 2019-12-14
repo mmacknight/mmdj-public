@@ -30,22 +30,34 @@ if(isset($postdata) && !empty($postdata))
   // Create.
   $sql = "INSERT INTO `new_songs` VALUES ('{$song_id}','{$platform}', '{$title}', '{$artist}', '{$artwork}', '{$duration}' )";
 
-  if(mysqli_query($con,$sql))
-  {
-    http_response_code(201);
-    $song = [
-      'song_id'    => $song_id,
-      'platform' => $platform,
-      'title' => $title,
-      'artist' => $artist,
-      'artwork' => $artwork,
-      'duration' => $duration
-    ];
-    echo json_encode($song);
+  if ($stmt = mysqli_prepare($con, "INSERT INTO `new_songs` VALUES (?, ?, ?, ?, ?, ?)")){
+    /* bind parameters for markers */
+    mysqli_stmt_bind_param($stmt, "sssssi", $song_id, $platform, $title, $artist, $artwork, $duration);
+
+    /* execute query */
+    mysqli_stmt_execute($stmt);
+    
+    $rows = mysqli_stmt_affected_rows($stmt);
+
+    mysqli_stmt_close($stmt);
+
+    if ($rows === -1){
+      //error
+      http_response_code(422);
+    } else {
+      $song = [
+            'song_id'    => $song_id,
+            'platform' => $platform,
+            'title' => $title,
+            'artist' => $artist,
+            'artwork' => $artwork,
+            'duration' => $duration
+       ];
+      echo json_encode($song);
+      http_response_code(201);
+    }
+
   }
-  else
-  {
-    http_response_code(422);
-  }
+
 }
 ?>
