@@ -45,7 +45,6 @@ export class AppComponent {
       )
     )
 
-
     this.userService.tokenRefreshSubject = this.tokenRefreshSubject;
     this.userService.tokenRefresh$ = this.tokenRefresh$;
 
@@ -55,7 +54,7 @@ export class AppComponent {
     this.userService.currentUser.subscribe(
       user =>  {
         user ? this.user = user : this.router.navigate(['']),
-
+        this.tokenRefresh$.subscribe();
         this.initializeSpotifyPlayer(String(user.user_id));
         this.userService.updateTokenUser(this.user.user_id);
         this.redirect_uri = `http://db.cse.nd.edu/cse30246/tutorial/dom/auth0.php/?id=${user.user_id}`;

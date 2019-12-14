@@ -9,14 +9,16 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 export class MobileNavbarComponent implements OnInit {
 
   public display = [];
-  public DESKTOP: any;
+  public DESKTOP: boolean = false;;
 
   @Input()
   set inp(input) {
+    console.log("INP",input);
     this.display = input;
   }
 
-  constructor(private deviceService: DeviceDetectorService) { 
+  constructor(private deviceService: DeviceDetectorService) {
+
     this.DESKTOP = this.deviceService.isDesktop();
   }
 

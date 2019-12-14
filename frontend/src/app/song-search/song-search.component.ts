@@ -114,6 +114,11 @@ export class SongSearchComponent implements OnInit {
     this.myEvent.emit('eventDesc');
   }
 
+  @Output() hideRec = new EventEmitter<string>();
+  callRec() {
+    this.hideRec.emit('eventDesc');
+  }
+
   addSong(newSong: Song) {
     this.searching_term = '';
     console.log(newSong);
@@ -124,7 +129,7 @@ export class SongSearchComponent implements OnInit {
 
           this.addSongToQueue(newSong.song_id, newSong.platform);
           // show toast
-          let snackBarRef = this.snackBar.open('"' + newSong.title + '" ' +'was added to the queue', 'DISMISS');
+          let snackBarRef = this.snackBar.open('"' + newSong.title + '" ' +'was added to the queue', 'OK', {duration: 1500});
 
         }
         else {
@@ -197,6 +202,7 @@ export class SongSearchComponent implements OnInit {
 
 
   onButtonClick(index) {
+    this.callRec();
     this.searchOptions = [0, 0, 0];
     this.searchOptions[index] = 1;
     if (index == 0) {
