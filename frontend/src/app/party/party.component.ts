@@ -40,6 +40,7 @@ export class PartyComponent implements OnInit {
   public display = [1, 0, 0, 0];
   public spotifyUserInfo = {};
   public DESKTOP: any;
+  public HOST: boolean = false;
   public showProfileInfo: Boolean;
   public showInfoText: Boolean;
   public matIconArrowLabel: string;
@@ -88,6 +89,7 @@ export class PartyComponent implements OnInit {
           data  => {
             if (data) {
               this.event = data[0];
+              this.HOST = this.event.user_id == this.user.user_id;
               this.queuedSongs$ = timer(0,500).pipe(
 
                 distinctUntilChanged(),
@@ -202,12 +204,12 @@ export class PartyComponent implements OnInit {
 
   onEndPartyYESClick(){
 
+    this.router.navigate(['/']);
     this.apiService.delete_Event(this.event.event_id).subscribe(
       data => {
         let snackBarRef = this.snackBar.open('Your event was successfully deleted', 'DISMISS');
-        snackBarRef.onAction().subscribe(() => {
-          this.router.navigate(['/']);
-        });
+        // snackBarRef.onAction().subscribe(() => {
+        // });
       },
       error => {
         console.log(error);
@@ -224,7 +226,7 @@ export class PartyComponent implements OnInit {
     this.display[index] = 1;
   }
 
-  
+
   trackByFunction(index, item) {
     if (!item) return null;
     return index;
@@ -294,9 +296,9 @@ export class PartyComponent implements OnInit {
   addSong(newSong: any) {
     this.apiService.get_song(newSong.song_id, newSong.platform).subscribe(
       data => {
-        if (data){   
+        if (data){
           this.addSongToQueue(newSong.song_id, newSong.platform);
-          let snackBarRef = this.snackBar.open('"' + newSong.title + '" ' +'was added to the queue', 'DISMISS');
+          let snackBarRef = this.snackBar.open('"' + newSong.title + '" ' +'was added to the queue', 'OK', {duration: 1500});
 
         }
         else {
@@ -320,7 +322,7 @@ export class PartyComponent implements OnInit {
 
     this.apiService.post_QueuedSong(this.qs).subscribe(
       data => {
-       
+
       },
       error => {
         if ( error.status >= 400) {

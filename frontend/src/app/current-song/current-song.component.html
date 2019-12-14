@@ -39,4 +39,23 @@
 
     </div>
   </div>
+  <div *ngIf="!song || !song.song_id" class="current-song current-song-empty">
+
+    <div class="song" [class.song-normal]="DESKTOP || song_padding != 0"  [style.padding-top]="DESKTOP || song_padding != 0 ? 2.5 + song_padding+'%' : 0" [style.padding-bottom]="width > 600 || song_padding != 0 ? 27.5 + song_padding+'%' : 0">
+
+      <div *ngIf="song_padding == 0" class="banner">
+        <div class="text-banner-empty">
+          Add songs to start!
+        </div>
+      </div>
+
+      <div *ngIf="DESKTOP || song_padding != 0" class="normal">
+          <div class="text-normal">
+            Add songs to start!
+          </div>
+        </div>
+
+    </div>
+  </div>
+
 </div>

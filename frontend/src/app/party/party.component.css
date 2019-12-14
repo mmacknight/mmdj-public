@@ -27,7 +27,11 @@ table {
   /* background-color: #4285F4; */
   /* border-style: solid; */
   /* border-color: #4285F4; */
-  font-size: 7vw;
+  /* font-size: 7vw; */
+  padding-top: 15%;
+  padding-bottom: 15%;
+  /* padding-right: 15%; */
+  transform: scale(1.25);
   margin: 0%;
   width: 100%;
   color: #4285F4;
@@ -80,28 +84,17 @@ table {
 .spotify-title {
   color: #606060;
   width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .spotify-artist {
   color: darkgray;
   width: 100%;
-}
-
-.profile-icon {
-  width: 25%;
-  border-style: solid;
-  border-width: 4px;
-  border-color: #95a3b3;
-}
-
-.account {
-  margin-left: 5%;
-  display: inline-flex;
-}
-.username {
-  font-size: 6vw;
-  padding-top: 6%;
-  margin-left: 2%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .mat-column-select {
@@ -199,24 +192,54 @@ mat-card-subtitle {
 }
 
 .votes-card {
+  position: absolute;
+  top: 20%;
+  width: 100%;
+  height: 75%;
+  left: 0;
+  padding: 16px;
+}
+
+.vote-contain {
+  /* width: 90%; */
+  text-align: center;
+  /* margin-left: 25%;
+  margin-right: 25%; */
+  overflow: visible;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.vote-icon-contain {
+  height: 25%;
+  width: 25%;
+  position: absolute;
+  bottom: 15%;
+  left: 15%;
 
 }
 
+.votes-contain > img {
+  /* width: 90%; */
+  height: 100% !important;
+}
+
 .votes-icon {
-  font-size: 5vw;
-  color: red;
-  opacity: 50%;
+  transform: scale(4.5);
+  color: #ff4081;
+  opacity: 75%;
   position: absolute;
-  top: 65%;
-  left: 25%;
+  bottom: 20%;
+  left: 15%;
 }
 
 .votes-text{
   color: white;
   position: absolute;
-  top: 71.5%;
-  left: 35%;
-  font-size: 2vw;
+  top: 1%;
+  left: 15%;
+  font-size: 5vh;
 }
 
 .tv-button {
@@ -226,6 +249,7 @@ mat-card-subtitle {
 
 .queue-table {
   margin-bottom: 10%;
+  font-family: Roboto;
 }
 .skip-button{
   color: white;
@@ -239,6 +263,125 @@ mat-card-subtitle {
   background-color: black;
 }
 
+.account-user {
+  margin-left: 2%;
+  margin-right: 2%;
+}
+.account-buttons {
+  margin: 3%;
+  width: 75%;
+  border-radius: 15px;
+}
+.account-party-info {
+  text-align: left;
+}
+.account-box {
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 15%;
+  width: 100%;
+}
+
+.profile-icon {
+  width: 30%;
+  border-style: solid;
+  border-width: 4px;
+  border-color: #95a3b3;
+}
+
+.username {
+  font-size: 6vw;
+  padding-top: 9%;
+  margin-left: 2%;
+}
+
+.queue-table {
+  width: 100%;
+  display: block;
+  padding-bottom: 5%;
+}
+
+.queue-table-row {
+  width: 100%;
+  display: inline-flex;
+  height: 5%;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: lightgray;
+}
+
+.artwork {
+  /* height: 100%; */
+  width: 19%;
+  display: block;
+  background-color: black;
+}
+
+.artwork > img {
+  object-fit: contain;
+  width: 100%;;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.song-info {
+  padding-top: 3%;
+  font-size: 3.5vw;
+  width: 63%;
+  padding-left: 2%;
+}
+
+.votes {
+  width: 18%;
+  display: inline-flex;
+}
+
+.vote-pop {
+  /* position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 25%; */
+  width: 40%;
+}
+
+.vote-pop > mat-icon {
+  color: #ff4081;
+  opacity: 75%;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%) scale(1.45);
+  /* transform: scale(1.25); */
+}
+
+.vote-pop  > b {
+  color: white;
+  position: relative;
+  top: -7%;
+  /* transform: translateY(-50%); */
+}
+
+
+.vote-buttons {
+  width: 60%;
+  height: 100%;
+  display: block;
+  overflow: hidden
+}
+
+.vote-buttons > mat-icon {
+  width: 100% !important;
+}
+
+.queue-header {
+  padding-left: 5%;
+  color: #606060;
+  /* color: darkgray; */
+  padding-top: 2%;
+  padding-bottom: 2%;
+  font-size: 4vw;
+  /* border-bottom-style: none !important; */
+}
 /* mat-button {
   background-color: black;
   color: white;
