@@ -7,7 +7,7 @@ require 'post_token.php';
 // NEEDS user ID
 $user_id = $_SESSION['user_id'];
 
-$uri = 'http://db.cse.nd.edu/cse30246/tutorial/dom/callback.php';
+$uri = 'http://db.cse.nd.edu/cse30246/mmdj/backend/api/callback.php';
 
 $session = new SpotifyWebAPI\Session(
     'a252d232b64e4182a2e3a491efa29e4b',

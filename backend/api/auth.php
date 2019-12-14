@@ -9,7 +9,7 @@ $user_id = ($_GET['id'] !== null && (int)$_GET['id'] > 0)? mysqli_real_escape_st
 
 $_SESSION['user_id'] = $user_id;
 
-$redirect = 'http://db.cse.nd.edu/cse30246/tutorial/dom/callback.php';
+$redirect = 'http://db.cse.nd.edu/cse30246/mmdj/backend/api/callback.php';
 
 $session = new SpotifyWebAPI\Session(
     'a252d232b64e4182a2e3a491efa29e4b',

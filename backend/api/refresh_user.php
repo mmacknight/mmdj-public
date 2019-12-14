@@ -21,13 +21,6 @@ if($result = mysqli_query($con,$sql))
     $token[$i]['spotify_refresh'] = $row['spotify_refresh'];
     $i++;
   }
-  
-//   if ($i === 0){
-//     $redirect = 'http://db.cse.nd.edu/cse30246/tutorial/dom/auth.php/?id=13';
-//     header("Location: {$redirect}");
-//     echo json_encode($sql);
-//     die();
-//   }
 
   echo json_encode($token);
 

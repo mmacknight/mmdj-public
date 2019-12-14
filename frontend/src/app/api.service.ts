@@ -19,7 +19,7 @@ import { Vote } from "@classes/vote";
 export class ApiService {
 PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/mmdj/backend/api";
 // PHP_API_SERVER_DOM = "http://db.cse.nd.edu/cse30246/mmdj/backend/api";
-PHP_API_SERVER_DOM = "http://db.cse.nd.edu/cse30246/tutorial/dom";
+// PHP_API_SERVER_DOM = "http://db.cse.nd.edu/cse30246/tutorial/dom";
 // PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/tutorial/dom";
 constructor(private httpClient: HttpClient) {}
 
@@ -51,7 +51,7 @@ constructor(private httpClient: HttpClient) {}
 
         // get all songs in queue for an event, in order with user votes
         get_queuedSongsVotes(event_id: number, user_id: number):Observable<Song[]>{
-            return this.httpClient.get<Song[]>(`${this.PHP_API_SERVER_DOM}/get_queuedSongsVotes.php/?event_id=${event_id}&user_id=${user_id}"`).pipe(catchError(this.errorHandler));
+            return this.httpClient.get<Song[]>(`${this.PHP_API_SERVER}/get_queuedSongsVotes.php/?event_id=${event_id}&user_id=${user_id}"`).pipe(catchError(this.errorHandler));
         }
 
     // songs Table
@@ -94,18 +94,18 @@ constructor(private httpClient: HttpClient) {}
         }
 
         get_recommendations(event_id:number){
-            return this.httpClient.get(`${this.PHP_API_SERVER_DOM}/get_recommendations_new.php/?id=${event_id}`).pipe(catchError(this.errorHandler));
+            return this.httpClient.get(`${this.PHP_API_SERVER}/get_recommendations_new.php/?id=${event_id}`).pipe(catchError(this.errorHandler));
         }
 
     //Spotify Token Handling
 
             get_token(user_id: number): Observable<any>{
-                return this.httpClient.get(`${this.PHP_API_SERVER_DOM}/get_token.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
+                return this.httpClient.get(`${this.PHP_API_SERVER}/get_token.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
 
         }
 
             refresh_token(user_id: number): Observable<any> {
-                return this.httpClient.get(`${this.PHP_API_SERVER_DOM}/refresh_user.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
+                return this.httpClient.get(`${this.PHP_API_SERVER}/refresh_user.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
 
         }
 

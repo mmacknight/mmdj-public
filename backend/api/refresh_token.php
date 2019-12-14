@@ -39,9 +39,6 @@ function refresh_token_for_user($con, $user_id){
 
     $accessToken = $session->getAccessToken();
 
-    // Set our new access token on the API wrapper and continue to use the API as usual
-    // $api->setAccessToken($accessToken);
-
     //update access token in database
     post_update_token($con, $user_id, $accessToken, $refresh);
     
