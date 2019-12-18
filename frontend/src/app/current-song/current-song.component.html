@@ -1,15 +1,15 @@
-<div *ngIf=DESKTOP class='current-song-outer-desktop'>
-  <div *ngIf="song.song_id" class="current-song-desktop">
+<div *ngIf=DESKTOP class='current-song-outer-desktop' [style.height]="height+'px'" [style.width]="0.8*width+'px'" >
+  <div *ngIf="song.song_id" class="current-song-desktop" [class.soundcloud]="song.platform == 'soundcloud'">
   <!-- <div *ngIf="song.song_id" class="current-song-desktop" [style.backgroundImage]="'url('+ song.artwork +')'"> -->
       <mat-card *ngIf="song.platform == 'spotify'" class='song-info-card'>
-        <mat-card-title>{{song.title}}</mat-card-title>
-        <mat-card-subtitle>{{song.artist}}</mat-card-subtitle>
+        <mat-card-title class="album-title">{{song.title}}</mat-card-title>
+        <mat-card-subtitle class="album-artist">{{song.artist}}</mat-card-subtitle>
       </mat-card>
-      <img *ngIf="song.platform == 'spotify'" src={{song.artwork}} alt="album art" [style.height]="height+'px'" >
+      <img *ngIf="song.platform == 'spotify'" src={{song.artwork}} alt="album art" class="album-art" [style.height]="0.88 * height+'px'" >
 
-      <app-spotify *ngIf="HOST && song.platform == 'spotify'" [inp]="song" [nextSong]="[spotify_next$ | async, spotifyPlaybackService.device_id | async]" (myEvent)='skipSong()'></app-spotify>
-      <app-soundcloud *ngIf="HOST && song.platform == 'soundcloud'" [inp]="song.song_id" (endSong)=skipSong()></app-soundcloud>
-      <app-youtube-player *ngIf="HOST && song.platform == 'youtube'" [inp]="song.song_id" (endSong)=skipSong()></app-youtube-player>
+      <app-spotify *ngIf="HOST && song.platform == 'spotify'" [inp]="[song, host_id, spotifyPlaybackService.device_id | async]" (myEvent)='skipSong()'></app-spotify>
+      <app-soundcloud *ngIf="HOST && song.platform == 'soundcloud'" [inp]="[song.song_id, host_id]" (endSong)=skipSong()></app-soundcloud>
+      <app-youtube-player *ngIf="HOST && song.platform == 'youtube'" [inp]="[song.song_id, host_id]" (endSong)=skipSong()></app-youtube-player>
 
     </div>
 

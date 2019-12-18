@@ -188,7 +188,12 @@ mat-card-subtitle {
 
 .arrow-icon-button {
   color: white;
+  cursor: pointer;
+}
 
+.arrow-icon-button:hover {
+  background-color: gray;
+  opacity: 50%;
 }
 
 .votes-card {
@@ -284,6 +289,7 @@ mat-card-subtitle {
 
 .profile-icon {
   width: 30%;
+  height: 100%;
   border-style: solid;
   border-width: 4px;
   border-color: #95a3b3;
@@ -382,6 +388,12 @@ mat-card-subtitle {
   font-size: 4vw;
   /* border-bottom-style: none !important; */
 }
+
+.description {
+  position: relative;
+  bottom: 0;
+}
+
 /* mat-button {
   background-color: black;
   color: white;

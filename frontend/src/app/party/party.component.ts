@@ -56,7 +56,7 @@ export class PartyComponent implements OnInit {
     this.showInfoText = true;
     this.showOptions = false;
     this.showRecommendationsTable = false;
-    this.matIconArrowLabel = 'keyboard_arrow_left';
+    this.matIconArrowLabel = 'keyboard_arrow_down';
     this.showProfileInfo = false;
     this.recommendations = [];
 
@@ -250,11 +250,11 @@ export class PartyComponent implements OnInit {
   hideText(){
     if (this.showInfoText){
       this.showInfoText = false;
-      this.matIconArrowLabel = 'keyboard_arrow_right'
+      this.matIconArrowLabel = 'keyboard_arrow_up'
     }
     else {
       this.showInfoText = true;
-      this.matIconArrowLabel = 'keyboard_arrow_left'
+      this.matIconArrowLabel = 'keyboard_arrow_down'
     }
   }
 
@@ -273,7 +273,43 @@ export class PartyComponent implements OnInit {
   }
 
   goFullscreen(){
-    document.body.requestFullscreen();
+    // this.openFullscreen();
+    console.log(screen.width, window.innerWidth);
+    if(window.innerWidth == screen.width && window.innerHeight == screen.height) {
+      this.closeFullscreen();
+    } else {
+      this.openFullscreen();
+    }
+    // document.body.requestFullscreen();
+  }
+  openFullscreen() {
+    var elem = document.documentElement;
+    // console.log(elem);
+    if (document.body['requestFullscreen']) {
+      document.body.requestFullscreen();
+    }
+    // else if (elem['mozRequestFullScreen']) {
+    //   elem.mozRequestFullScreen();
+    // } else if (elem['webkitRequestFullscreen']) {
+    //   elem.webkitRequestFullscreen();
+    // } else if (elem['msRequestFullscreen']) {
+    //   elem.msRequestFullscreen();
+    // }
+  }
+
+  /* Close fullscreen */
+  closeFullscreen() {
+    var elem = document.documentElement;
+    if (document['exitFullscreen']) {
+      document.exitFullscreen();
+    }
+    //  else if (elem['mozCancelFullScreen']) {
+    //   elem.mozCancelFullScreen();
+    // } else if (elem['webkitExitFullscreen']) {
+    //   elem.webkitExitFullscreen();
+    // } else if (elem['msExitFullscreen']) {
+    //   elem.msExitFullscreen();
+    // }
   }
 
   getRecommendations(){

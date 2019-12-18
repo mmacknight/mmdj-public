@@ -29,7 +29,7 @@ export class UserService {
 
   login(user) {
       this.tokenRefresh$.subscribe();
-      user.authdata = window.btoa(user.username + ':' + user.password);
+      // user.authdata = window.btoa(user.username + ':' + user.password);
       localStorage.setItem('currentUser', JSON.stringify(user));
       this.currentUserSubject.next(user);
   }

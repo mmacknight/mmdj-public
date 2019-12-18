@@ -15,30 +15,44 @@ import { SpotifyPlaybackService } from '../spotify-playback.service';
 export class SpotifyComponent implements OnInit {
   public token: string;
   public track_id: string;
+  public host_id: string;
   public device_id: string = '';
   public song: Song;
-
+  public player: any = null;
+  public started: boolean = false;
+  public finished: boolean = false;
 
   @Input()
   set inp(input) {
-     this.track_id = input['song_id'];
-     this.song = input;
+    // console.log("SPOT THOSE FISSS",input);
+     this.track_id = input[0]['song_id'];
+     this.song = input[0];
+     this.host_id = input[1];
 
-    if(this.track_id){
-      console.log("PLAYYYING", this.track_id);
+    if(this.track_id && input[2]){
+      console.log("RESETING START");
+      this.started = false;
+      this.finished = false;
+      if (this.player == null) {
+        this.player = this.spotifyPlaybackService.player;
+        this.initializeSpotifyPlayer();
+      }
+      // console.log("PLAY");
+      // console.log("PLAYYYING", this.track_id);
       this.playSong(this.track_id);
 
     }
   }
 
-  @Input()
-  set nextSong(input) {
-    console.log(input);
-    if (input[0] != 0 && input[1]) {
-      this.spotifyPlaybackService.nextOff();
-      this.callParent();
-    }
-  }
+  // @Input()
+  // set nextSong(input) {
+  //   console.log("HEYYYYY",input);
+  //   if (input[0] != 0 && input[1]) {
+  //     console.log("HEYYYOO");
+  //     this.spotifyPlaybackService.nextOff();
+  //     this.callParent();
+  //   }
+  // }
 
   ngOnInit(){
 
@@ -46,7 +60,7 @@ export class SpotifyComponent implements OnInit {
 
   constructor(private apiService: ApiService, private userService: UserService, private spotifyPlaybackService: SpotifyPlaybackService) {
 
-
+    console.log(this.spotifyPlaybackService.player);
     //this.device_id = my_device_id;
 
     // console.log('1');
@@ -105,19 +119,38 @@ export class SpotifyComponent implements OnInit {
   }
 
   playSong(track_id: string) {
-    this.userService.currentUser.subscribe(
-      user => {
-        this.apiService.get_token(user.user_id).subscribe(
-          token =>  {
-            console.log("WE PLAYING", track_id, token[0]['spotify_access']);
-            this.spotifyPlaybackService.playSong(track_id, token[0]['spotify_access']);
-          }
-        )
+    // console.log("HHHHOST",parseInt(this.host_id) );
+    this.apiService.get_token(parseInt(this.host_id)).subscribe(
+      token =>  {
+        // console.log("WE PLAYING", track_id, token[0]['spotify_access']);
+        this.spotifyPlaybackService.playSong(track_id, token[0]['spotify_access']);
       }
     )
   }
+  async initializeSpotifyPlayer() {
+    this.player.addListener('player_state_changed', (state) => {
+      if (!this.finished) {
+        if (state.position === 0 && state.duration > 0 && state.paused === false) {
+          this.started = true;
+          console.log("START is TRUE");
+          // console.log(state);
+        }
+        if (this.started && state.position === 0 && state.paused === true) {
+          this.finished = true;
+          console.log("SKIP FROM END SONG");
+          this.callParent();
+        }
+      }
+    });
+  }
 
-
+  ngOnDestroy() {
+    this.apiService.get_token(parseInt(this.host_id)).subscribe(
+      token =>  {
+        this.spotifyPlaybackService.pauseSong(token[0]['spotify_access']);
+      }
+    )
+  }
   // play(device_id: any, current_track: string) {
   //   console.log('here');
   //   var spotify_uri:string = 'spotify:track:' + current_track;

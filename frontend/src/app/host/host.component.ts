@@ -32,7 +32,7 @@ export class HostComponent implements OnInit {
       user => {
         this.currentUser = user;
         this.has_token$ = this.apiService.get_token(user.user_id);
-        this.redirect_uri = `http://db.cse.nd.edu/cse30246/tutorial/dom/auth.php/?id=${user.user_id}`;
+        this.redirect_uri = `http://db.cse.nd.edu/cse30246/mmdj/backend/api/auth.php/?id=${user.user_id}`;
       }
     );
   }

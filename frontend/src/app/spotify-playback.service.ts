@@ -12,23 +12,24 @@ export class SpotifyPlaybackService {
   public ready: boolean = false;
   private nextSong_Subject: BehaviorSubject<number>;
   public nextSong: Observable<number>;
+  public player: any = null;
 
   constructor() {
-    this.device_id_Subject = new BehaviorSubject<String>(localStorage.getItem('device_id') || '');
+    this.device_id_Subject = new BehaviorSubject<String>('');
     this.device_id = this.device_id_Subject.asObservable();
     this.nextSong_Subject = new BehaviorSubject<number>(0);
     this.nextSong = this.nextSong_Subject.asObservable();
   }
 
   setDeviceID(my_device_id: string) {
-    console.log("MYYYYY",my_device_id)
+    // console.log("MYYYYY",my_device_id)
     this.ready = true;
-    localStorage.setItem('device_id', my_device_id);
+    // localStorage.setItem('device_id', my_device_id);
     this.device_id_Subject.next(my_device_id);
   }
 
   playSong(song_id: string, token: string) {
-    console.log("IN THE SERVICE", song_id, token);
+    // console.log("IN THE SERVICE", song_id, token, this.ready);
     // setTimeout( () => {
     //   while (1) {
         if (this.ready) {
@@ -49,7 +50,7 @@ export class SpotifyPlaybackService {
   }
 
   play(device_id: any, current_track: string, token: string) {
-    console.log('here and PLAAAYIN',token);
+    // console.log('here and PLAAAYIN',token, device_id);
     var spotify_uri:string = 'spotify:track:' + current_track;
     fetch(`https://api.spotify.com/v1/me/player/play?device_id=${device_id}`, {
       method: 'PUT',
@@ -62,7 +63,7 @@ export class SpotifyPlaybackService {
   }
 
   pause(device_id: any, token: string) {
-    console.log('here and PAUSIN',token);
+    // console.log('here and PAUSIN',token);
     fetch(`https://api.spotify.com/v1/me/player/pause?device_id=${device_id}`, {
       method: 'PUT',
       headers: {
@@ -73,10 +74,14 @@ export class SpotifyPlaybackService {
   }
 
   nextOn() {
+    console.log("OOOOOOOOOONNNN");
     this.nextSong_Subject.next(1);
   }
 
   nextOff() {
+    console.log("FFFOFFFF");
     this.nextSong_Subject.next(0);
   }
+
+
 }

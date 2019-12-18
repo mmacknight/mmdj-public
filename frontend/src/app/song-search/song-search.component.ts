@@ -120,7 +120,7 @@ export class SongSearchComponent implements OnInit {
   }
 
   addSong(newSong: Song) {
-    this.searching_term = '';
+    // this.searching_term = '';
     console.log(newSong);
     this.apiService.get_song(newSong.song_id, newSong.platform).subscribe(
       data => {

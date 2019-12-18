@@ -1,4 +1,7 @@
 import { Component, OnInit, HostListener, Input, Output, EventEmitter } from '@angular/core';
+import { ApiService } from '../api.service';
+import { SpotifyPlaybackService } from '../spotify-playback.service';
+
 
 @Component({
   selector: 'app-youtube-player',
@@ -18,12 +21,17 @@ export class YoutubePlayerComponent implements OnInit {
 
   @Input()
   set inp(input) {
-    if (this.videos[0] && this.videos[0] != input) {
-      this.videos[0] = input;
+    this.apiService.get_token(input[1]).subscribe(
+      token =>  {
+        this.spotifyPlaybackService.pauseSong(token[0]['spotify_access']);
+      }
+    )
+    if (this.videos[0] && this.videos[0] != input[0]) {
+      this.videos[0] = input[0];
     }
-    this.videos[0] = input;
+    this.videos[0] = input[0];
   }
-  constructor() {
+  constructor(public apiService: ApiService, public spotifyPlaybackService: SpotifyPlaybackService) {
     this.height = window.innerHeight *2/3;
     this.width = this.height *16/9;
     this.onResize();
