@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, HostListener } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from '../api.service';
 import { UserService } from '../user.service';
@@ -22,6 +22,7 @@ export class AuthComponent implements OnInit {
   public invalid: Boolean;
   public nextPage: string;
   DESKTOP: boolean = false;
+  public homepage: string = window.location.href;
 
   constructor(fb: FormBuilder, public apiService: ApiService, public userService: UserService, public router: Router, private deviceService: DeviceDetectorService) {
     this.DESKTOP = deviceService.isDesktop();
@@ -67,14 +68,18 @@ export class AuthComponent implements OnInit {
         this.userService.login(user),
         this.invalid = false,
         this.userService.updateTokenUser(user.user_id),
-
         this.apiService.get_events_by_user(user.user_id).subscribe(
           data => {
-            if (data.length) {
-              this.router.navigate(['party',data[0].event_id]);
+            if (this.DESKTOP) {
+              window.location.href = this.homepage;
             } else {
-              this.router.navigate([this.nextPage]);
+              if (data.length) {
+                this.router.navigate(['party',data[0].event_id]);
+              } else {
+                this.router.navigate([this.nextPage]);
+              }
             }
+              // window.location.href = window.location.href.split('login')[0];
           }
         )
       },
@@ -108,7 +113,7 @@ export class AuthComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event?) {
-    this.nextPage = this.DESKTOP ? 'host': 'join';
+    this.nextPage = this.DESKTOP ? 'host' : 'join';
   }
 
 }

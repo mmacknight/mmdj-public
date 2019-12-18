@@ -29,13 +29,20 @@
 }
 
 .current-song-desktop {
-  text-align: center;
+
   /* object-fit: contain; */
-  height: 66.66%;
+  /* height: 66.66%; */
 }
 
 .current-song-outer-desktop {
-  height: 66.666% !important;
+    background: rgba(0, 0, 0, 0.35);
+    text-align: center;
+    background-position: center;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+  /* height: 66.666% !important; */
 }
 
 .song {
@@ -133,11 +140,42 @@ mat-icon {
 }
 
 .album-art {
-  height: 66.6%;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  /* padding: 2%; */
   /* width: 30px; */
+}
+
+mat-card {
+  background-color: black;
+  color: white !important;
+  padding: 1%;
+  width: 100%;
 }
 
 .song-info-card {
   position: absolute;
-  left: 0;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.soundcloud {
+  height: 50%;
+  width: 70%;
+  padding: 5%;
+  margin-left: 15%;
+  margin-top: 15%;
+  border-radius: 15px;
+  background-image: linear-gradient(#FF9533, #FF7F34, #FE6D35, #FF5836, #FF4137);
+}
+
+.album-title {
+  margin: 0;
+}
+
+.album-artist {
+  color: white;
 }

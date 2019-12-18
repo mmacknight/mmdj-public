@@ -2,31 +2,34 @@
   <mat-grid-list cols="5" [rowHeight]="height/3 + 'px'">
     <mat-grid-tile colspan='1' rowspan='2'>
       <mat-card  class='left-align-card'>
-        <mat-card-title *ngIf='showInfoText'>{{event.event_name}}</mat-card-title>
+        <mat-card-title ><h2>{{event.event_name}}</h2></mat-card-title>
+        <mat-card-content>
+          <h3>event code: <b>{{event.event_id}}</b></h3>
+        </mat-card-content>
+        <mat-card-subtitle>{{event.description}}</mat-card-subtitle>
+        <mat-icon class='arrow-icon-button rounded-circle' (click)='hideText()'>{{matIconArrowLabel}}</mat-icon>
         <mat-card-content>
           <button class="btn btn-primary" mat-button *ngIf='showInfoText' (click)=showProfileOptions()>
             <mat-icon>person</mat-icon>
             {{user.username}}
           </button>
-            <div>
-              <button class="btn btn-primary" mat-button (click)="logout()" *ngIf='showProfileInfo && showInfoText'>log out</button>
-            </div>
-            <button class="btn-outline-danger" mat-button (click)="onEndPartyClick()" *ngIf='showProfileInfo && showInfoText'>end party</button>
+          <button class="btn btn-primary tv-button" mat-button (click)="goFullscreen()" *ngIf='showInfoText'>TV Mode</button>
+          <div>
+            <button class="btn btn-primary" mat-button (click)="logout()" *ngIf='showProfileInfo && showInfoText'>log out</button>
+          </div>
+          <button class="btn-outline-danger" mat-button (click)="onEndPartyClick()" *ngIf='showProfileInfo && showInfoText'>end party</button>
 
-            <div *ngIf='showProfileInfo && showInfoText && showOptions'>
-              Are you sure?
-              <button class="btn-outline-danger" mat-button (click)="onEndPartyYESClick()" >YES</button>
-              <button class="btn btn-primary" mat-button (click)="onEndPartyNOClick()" >NO</button>
-            </div>
+          <div *ngIf='showProfileInfo && showInfoText && showOptions'>
+            Are you sure?
+            <button class="btn-outline-danger" mat-button (click)="onEndPartyYESClick()" >YES</button>
+            <button class="btn btn-primary" mat-button (click)="onEndPartyNOClick()" >NO</button>
+          </div>
 
-          </mat-card-content>
-
-        <mat-card-subtitle *ngIf='showInfoText'>{{event.description}}</mat-card-subtitle>
-        <mat-card-content *ngIf='showInfoText'>To add songs to the queue and vote on your favorites,
-            go to db.cse.nd.edu/cse30246/mmdj and enter event code: {{event.event_id}}
-            <button class="btn btn-primary tv-button" mat-button (click)="goFullscreen()" *ngIf='showInfoText'>TV Mode</button>
         </mat-card-content>
-        <mat-icon class='arrow-icon-button' (click)='hideText()'>{{matIconArrowLabel}}</mat-icon>
+
+        <mat-card-content *ngIf='showInfoText'>To add songs to the queue and vote on your favorites,
+            go to db.cse.nd.edu/cse30246/mmdj<br>
+        </mat-card-content>
         <button class="btn btn-primary skip-button" mat-button (click)=currentSong.skipSong()>
           Skip
           <mat-icon>skip_next</mat-icon>
@@ -36,7 +39,7 @@
       </mat-card>
 
     </mat-grid-tile>
-    <mat-grid-tile colspan ='4' rowspan='2'><app-current-song #currentSong [event]=event></app-current-song></mat-grid-tile>
+    <mat-grid-tile colspan ='4' rowspan='2' ><app-current-song #currentSong [event]=event></app-current-song></mat-grid-tile>
 
     <mat-grid-tile colspan='1' *ngIf='!convertBoolean(queuedSongs$ | async)'>
         <mat-card>

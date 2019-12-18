@@ -48,12 +48,13 @@ export class CurrentSongComponent implements OnInit {
     );
     this.currentSong$.subscribe(
       data => {
-        if (data && (data.order_num != this.song.order_num || !this.song)) {
-          this.empty = false;
-          this.setCurrentSong();
-        } else if (this.empty) {
-          console.log("SKIPPERR");
+        if (this.empty) {
+          this.song = new Song();
+          console.log("SKIPPING FROM SCRAPER");
           this.skipSong();
+        } else if (data && (data.order_num != this.song.order_num || !this.song)) {
+          // this.empty = false;
+          this.setCurrentSong();
         }
       }
     )
@@ -89,25 +90,34 @@ export class CurrentSongComponent implements OnInit {
   }
 
   setCurrentSong() {
-    this.apiService.get_event_current_song(this.event_id).subscribe(
-      data => {
-        this.song = data
-      },
-      error => console.log(error)
-    )
+    // if (this.HOST) {
+    //   this.pauseSpotify();
+    // }
+    // if (!this.empty) {
+      this.apiService.get_event_current_song(this.event_id).subscribe(
+        data => {
+          this.song = data
+        },
+        error => console.log(error)
+      )
+    // }
   }
 
   skipSong() {
     if (this.HOST) {
-      this.pauseSpotify();
+      // this.pauseSpotify();
+      console.log("SKIP");
       this.apiService.get_queuedSongs(this.event_id).subscribe(
         data => {
+          // console.log("DATA", data);
           if (data[0]) {
+            // console.log("in here", data[0])
             this.empty = false;
             this.apiService.put_current_song(this.event_id, data[0]['order_num']).subscribe()
           } else {
+            // console.log("here");
             this.empty = true;
-            this.song = new Song();
+            // this.song = new Song();
           }
         }
       )
@@ -115,15 +125,13 @@ export class CurrentSongComponent implements OnInit {
   }
 
 pauseSpotify() {
-  this.userService.currentUser.subscribe(
-    user => {
-      this.apiService.get_token(user.user_id).subscribe(
-        token =>  {
-          this.spotifyPlaybackService.pauseSong(token[0]['spotify_access']);
-        }
-      )
-    }
-  )
+  console.log("BIG PAUSE");
+    this.apiService.get_token(this.host_id).subscribe(
+      token =>  {
+        this.spotifyPlaybackService.pauseSong(token[0]['spotify_access']);
+      }
+    )
+
 }
 
 
@@ -141,6 +149,8 @@ pauseSpotify() {
     this.DESKTOP = this.deviceService.isDesktop();
     this.width = window.innerWidth;
   }
+
+
 
 
 }

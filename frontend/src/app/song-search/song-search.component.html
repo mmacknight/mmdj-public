@@ -16,7 +16,8 @@
     <table *ngIf="searchBox.value" mat-table [dataSource]="convertJSON(spotifySongs$ | async)" [trackBy]="trackByFunction" class="mat-elevation-z8">
       <ng-container matColumnDef="Results">
         <!-- <th [class.d-none]="1" mat-header-cell *matHeaderCellDef></th> -->
-        <td class="spotify-td" style="padding-left: 0" mat-cell *matCellDef="let element" (click)="addSong(element)" (click)="searchBox.value = ''">
+        <!-- (click)="searchBox.value = ''" -->
+        <td class="spotify-td" style="padding-left: 0" mat-cell *matCellDef="let element" (click)="addSong(element)" >
           <img *ngIf="element.artwork" class="spotify-artowrk" src={{element.artwork}}>
           <img *ngIf="!element.artwork" class="spotify-artowrk" src="/assets/media/spotify.png">
           <div class="spotfy-row text-left" style="padding-top: 1%; margin-left: 2.5%;">
@@ -39,7 +40,8 @@
     <table *ngIf="searchBoxSoundcloud.value" class="soundcloud" mat-table [dataSource]="soundcloud$ | async" class="mat-elevation-z8">
       <ng-container matColumnDef="Results">
         <!-- <th [class.d-none]="1" mat-header-cell *matHeaderCellDef></th> -->
-        <td class="spotify-td" style="padding-left: 0" mat-cell *matCellDef="let element" (click)="addSong(convertSoundcloud(element))" (click)="searchBoxSoundcloud.value = ''">
+        <!-- (click)="searchBoxSoundcloud.value = ''" -->
+        <td class="spotify-td" style="padding-left: 0" mat-cell *matCellDef="let element" (click)="addSong(convertSoundcloud(element))" >
           <img *ngIf="element.artwork_url" class="spotify-artowrk" src={{element.artwork_url}}>
           <img *ngIf="!element.artwork_url && element.user.avatar_url" class="spotify-artowrk" src={{element.user.avatar_url}}>
           <img *ngIf="!element.artwork_url && !element.user.avatar_url" class="spotify-artowrk" src="/assets/media/soundcloud.png">
@@ -63,7 +65,8 @@
     <table *ngIf="searchBoxYoutube.value" mat-table [dataSource]="youtubes$ | async" class="mat-elevation-z8">
       <ng-container matColumnDef="Results">
         <!-- <th [class.d-none]="1" mat-header-cell *matHeaderCellDef></th> -->
-        <td class="youtube-td" style="padding-left: 0" mat-cell *matCellDef="let element" (click)="addSong(convertYoutube(element))" (click)="searchBoxYoutube.value = ''"> <img *ngIf="element.artwork" src={{element.artwork}}> <img *ngIf="!element.artwork" src="assets/media/youtube.png"> <div class="youtube-title">{{element.title}}</div> </td>
+        <!-- (click)="searchBoxYoutube.value = ''" -->
+        <td class="youtube-td" style="padding-left: 0" mat-cell *matCellDef="let element" (click)="addSong(convertYoutube(element))" > <img *ngIf="element.artwork" src={{element.artwork}}> <img *ngIf="!element.artwork" src="assets/media/youtube.png"> <div class="youtube-title">{{element.title}}</div> </td>
       </ng-container>
 
       <!-- <tr mat-header-row *matHeaderRowDef="displayedColumnsYoutube"></tr> -->
