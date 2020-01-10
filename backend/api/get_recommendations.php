@@ -1,23 +1,23 @@
 <?php
 /**
  * queries database for recommendation seeds
- * 
+ *
  * requires input of event_id
- * 
+ *
  * some seed values come from most popular genres in an event (1-2)
  * one seed value comes from most voted for song in an event
  * 2 seeds come from most liked songs from a history generated of all users in an event
- * 
+ *
  * if event is empty, we will generate recommendations based on user liked songs
- * 
+ *
  * if this is users first event, we will generate based on most popular songs in our DB
- * 
+ *
  */
 require 'vendor/autoload.php';
 require 'database.php';
 
 // Extract, validate and sanitize the id.
-$event_id = ($_GET['id'] !== null && (int)$_GET['id'] > 0)? mysqli_real_escape_string($con, (int)$_GET['id']) : false;
+$event_id = ($_GET['id'] !== null && (int)$_GET['id'] > -1)? mysqli_real_escape_string($con, (int)$_GET['id']) : false;
 
 
 /**
@@ -85,20 +85,20 @@ if($result = mysqli_query($con,$sql1))
         $sql3 =  "SELECT distinct song_id, platform from " .
 
             "(Select song_id, platform, sum(vote) from votes, " .
-            
+
             "(select user_id, sum(vote) from votes where (song_id = '{$track_seeds[0]['song_id']}' or song_id='{$track_seeds[1]['song_id']}' or song_id='{$track_seeds[2]['song_id']}' or song_id='{$track_seeds[3]['song_id']}' or song_id='{$track_seeds[4]['song_id']}' ) and vote = 1 group by user_id order by sum(vote) desc) top_users " .
-            
+
             "Where votes.user_id = top_users.user_id " .
-            
+
             "Group by song_id, platform " .
-            
+
             "Order by sum(vote) desc) recs " .
-                    
-            "Where NOT EXISTS " . 
-            
+
+            "Where NOT EXISTS " .
+
             "(SELECT NULL from (select distinct song_id, platform from votes where event_id = {$event_id}) event_songs " .
             "Where recs.song_id = event_songs.song_id and recs.platform = event_songs.platform) " .
-            
+
             " Limit 10 " ;
 
         $recs = [];
@@ -113,7 +113,7 @@ if($result = mysqli_query($con,$sql1))
             }
 
             echo json_encode($recs);
-        
+
             http_response_code(200);
 
         }
@@ -137,6 +137,3 @@ else
 }
 
 ?>
-
-
-

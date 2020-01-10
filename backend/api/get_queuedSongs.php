@@ -5,7 +5,7 @@
 require 'database.php';
 
 // Extract, validate and sanitize the id.
-$event_id = ($_GET['id'] !== null && (int)$_GET['id'] > 0)? mysqli_real_escape_string($con, (int)$_GET['id']) : false;
+$event_id = ($_GET['id'] !== null && (int)$_GET['id'] > -1)? mysqli_real_escape_string($con, (int)$_GET['id']) : false;
 
 $songs = [];
 //$sql = "SELECT songs.* , queuedSongs.popularity as qpop, queuedSongs.playability FROM songs, queuedSongs where queuedSongs.event_id = {$event_id} and songs.song_id = queuedSongs.queuedSongs_id and playability = true ORDER BY queuedSongs.popularity desc, queuedSongs.order_num";

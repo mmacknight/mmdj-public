@@ -17,7 +17,8 @@ import { Vote } from "@classes/vote";
 })
 
 export class ApiService {
-PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/mmdj/backend/api";
+  // PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/mmdj/backend/api";
+  PHP_API_SERVER = "http://ec2-3-15-21-28.us-east-2.compute.amazonaws.com/backend/api";
 // PHP_API_SERVER_DOM = "http://db.cse.nd.edu/cse30246/mmdj/backend/api";
 // PHP_API_SERVER_DOM = "http://db.cse.nd.edu/cse30246/tutorial/dom";
 // PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/tutorial/dom";
@@ -32,15 +33,15 @@ constructor(private httpClient: HttpClient) {}
 
     // events Table
         get_event(id: number){
-            return this.httpClient.get<Event[]>(`${this.PHP_API_SERVER}/get_event.php/?id=${id}"`).pipe(catchError(this.errorHandler));
+            return this.httpClient.get<Event[]>(`${this.PHP_API_SERVER}/get_event.php/?id=${id}`).pipe(catchError(this.errorHandler));
         }
 
         get_events_by_user(user_id: number){
-            return this.httpClient.get<Event[]>(`${this.PHP_API_SERVER}/get_events_by_user.php/?id=${user_id}"`).pipe(catchError(this.errorHandler));
+            return this.httpClient.get<Event[]>(`${this.PHP_API_SERVER}/get_events_by_user.php/?id=${user_id}`).pipe(catchError(this.errorHandler));
         }
 
         get_event_current_song(event_id: number){
-            return this.httpClient.get<Song>(`${this.PHP_API_SERVER}/get_event_current_song.php/?id=${event_id}"`).pipe(catchError(this.errorHandler));
+            return this.httpClient.get<Song>(`${this.PHP_API_SERVER}/get_event_current_song.php/?id=${event_id}`).pipe(catchError(this.errorHandler));
         }
 
     // queuedSongs Table
@@ -115,7 +116,7 @@ constructor(private httpClient: HttpClient) {}
         }
 
         get_user(username: string, password: string){
-            return this.httpClient.get<User>(`${this.PHP_API_SERVER}/get_single_user.php/?username=${username}&password=${password}&table="users"`).pipe(catchError(this.errorHandler));
+            return this.httpClient.get<User>(`${this.PHP_API_SERVER}/get_single_user.php/?username=${username}&password=${password}&table=users`).pipe(catchError(this.errorHandler));
         }
 
 // Post

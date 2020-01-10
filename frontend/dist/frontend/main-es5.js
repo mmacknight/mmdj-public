@@ -74,7 +74,7 @@ module.exports = "<div *ngIf=DESKTOP class='current-song-outer-desktop' [style.h
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-join></app-join>\n<app-auth></app-auth>\n"
+module.exports = "<app-join></app-join>\r\n<app-auth></app-auth>\r\n"
 
 /***/ }),
 
@@ -335,7 +335,8 @@ var ApiService = /** @class */ (function () {
     // PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/tutorial/dom";
     function ApiService(httpClient) {
         this.httpClient = httpClient;
-        this.PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/mmdj/backend/api";
+        // PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/mmdj/backend/api";
+        this.PHP_API_SERVER = "http://ec2-3-15-21-28.us-east-2.compute.amazonaws.com/backend/api";
     }
     // Get
     // Spotify API
@@ -344,13 +345,13 @@ var ApiService = /** @class */ (function () {
     };
     // events Table
     ApiService.prototype.get_event = function (id) {
-        return this.httpClient.get(this.PHP_API_SERVER + "/get_event.php/?id=" + id + "\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.get(this.PHP_API_SERVER + "/get_event.php/?id=" + id).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     ApiService.prototype.get_events_by_user = function (user_id) {
-        return this.httpClient.get(this.PHP_API_SERVER + "/get_events_by_user.php/?id=" + user_id + "\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.get(this.PHP_API_SERVER + "/get_events_by_user.php/?id=" + user_id).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     ApiService.prototype.get_event_current_song = function (event_id) {
-        return this.httpClient.get(this.PHP_API_SERVER + "/get_event_current_song.php/?id=" + event_id + "\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.get(this.PHP_API_SERVER + "/get_event_current_song.php/?id=" + event_id).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     // queuedSongs Table
     // get all songs in queue for an event, in order
@@ -405,7 +406,7 @@ var ApiService = /** @class */ (function () {
         return this.httpClient.get(this.PHP_API_SERVER + "/get_all_users.php");
     };
     ApiService.prototype.get_user = function (username, password) {
-        return this.httpClient.get(this.PHP_API_SERVER + "/get_single_user.php/?username=" + username + "&password=" + password + "&table=\"users\"").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
+        return this.httpClient.get(this.PHP_API_SERVER + "/get_single_user.php/?username=" + username + "&password=" + password + "&table=users").pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.errorHandler));
     };
     // Post
     // events Table
@@ -1412,7 +1413,7 @@ var HostComponent = /** @class */ (function () {
         this.userService.currentUser.subscribe(function (user) {
             _this.currentUser = user;
             _this.has_token$ = _this.apiService.get_token(user.user_id);
-            _this.redirect_uri = "http://db.cse.nd.edu/cse30246/mmdj/backend/api/auth.php/?id=" + user.user_id;
+            _this.redirect_uri = "http://3.15.21.28/backend/api/auth.php/?id=" + user.user_id;
         });
     }
     HostComponent.prototype.ngOnInit = function () {
@@ -2144,7 +2145,8 @@ var SongSearchService = /** @class */ (function () {
     function SongSearchService(httpClient) {
         this.httpClient = httpClient;
         this.ITUNES_API = 'https://itunes.apple.com/search?term=';
-        this.PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/mmdj/backend/api";
+        // PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/mmdj/backend/api";
+        this.PHP_API_SERVER = "http://ec2-3-15-21-28.us-east-2.compute.amazonaws.com/backend/api";
         this.YOUTUBE_API = this.PHP_API_SERVER + "/youtube.php";
         this.CLIENT_ID = 'UW9ajvMgVdMMW3cdeBi8lPfN6dvOVGji';
         this.SOUNDCLOUD_API = "https://api.soundcloud.com/tracks/?client_id=" + this.CLIENT_ID;
@@ -3471,7 +3473,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_2__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Mitch\mmdj\frontend\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Users\Mitch\mmdj-public\frontend\src\main.ts */"./src/main.ts");
 
 
 /***/ })

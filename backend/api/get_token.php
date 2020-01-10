@@ -6,7 +6,7 @@ require 'database.php';
 require 'refresh_token.php';
 
 // Extract, validate and sanitize the id.
-$user_id = ($_GET['id'] !== null && (int)$_GET['id'] > 0)? mysqli_real_escape_string($con, (int)$_GET['id']) : false;
+$user_id = ($_GET['id'] !== null && (int)$_GET['id'] > -1)? mysqli_real_escape_string($con, (int)$_GET['id']) : false;
 
 $token = [];
 $sql = "SELECT * FROM tokens where user_id = {$user_id}";
@@ -25,8 +25,8 @@ if($result = mysqli_query($con,$sql))
   echo json_encode($token);
 
   http_response_code(200);
-  
-  
+
+
 }
 else
 {

@@ -12,7 +12,8 @@ import { Soundcloud } from '@classes/soundcloud';
 export class SongSearchService {
 
   ITUNES_API = 'https://itunes.apple.com/search?term=';
-  PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/mmdj/backend/api";
+  // PHP_API_SERVER = "http://db.cse.nd.edu/cse30246/mmdj/backend/api";
+  PHP_API_SERVER = "http://ec2-3-15-21-28.us-east-2.compute.amazonaws.com/backend/api";
   YOUTUBE_API = `${this.PHP_API_SERVER}/youtube.php`;
   CLIENT_ID = 'UW9ajvMgVdMMW3cdeBi8lPfN6dvOVGji';
   SOUNDCLOUD_API = `https://api.soundcloud.com/tracks/?client_id=${this.CLIENT_ID}`;

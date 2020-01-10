@@ -5,7 +5,7 @@
 require 'database.php';
 
 // Extract, validate and sanitize the id.
-$user_id = ($_GET['id'] !== null && (int)$_GET['id'] > 0)? mysqli_real_escape_string($con, (int)$_GET['id']) : false;
+$user_id = ($_GET['id'] !== null && (int)$_GET['id'] > -1)? mysqli_real_escape_string($con, (int)$_GET['id']) : false;
 
 $events = [];
 $sql = "SELECT event_id, user_id, event_name, description, current_song, is_active FROM events where events.user_id = {$user_id} and is_active=1 limit 1";
@@ -23,12 +23,12 @@ if($result = mysqli_query($con,$sql))
     $events[$i]['is_active'] = $row['is_active'];
     $i++;
   }
-  
+
   echo json_encode($events);
-  
+
   http_response_code(200);
-  
-  
+
+
 }
 else
 {

@@ -1,24 +1,24 @@
 <?php
 /**
  * queries database for recommendation seeds
- * 
+ *
  * requires input of event_id
- * 
+ *
  * some seed values come from most popular genres in an event (1-2)
  * one seed value comes from most voted for song in an event
  * 2 seeds come from most liked songs from a history generated of all users in an event
- * 
+ *
  * if event is empty, we will generate recommendations based on user liked songs
- * 
+ *
  * if this is users first event, we will generate based on most popular songs in our DB
- * 
+ *
  */
 require 'vendor/autoload.php';
 require 'database.php';
 require 'rec_helper.php';
 
 // Extract, validate and sanitize the id.
-$event_id = ($_GET['id'] !== null && (int)$_GET['id'] > 0)? mysqli_real_escape_string($con, (int)$_GET['id']) : false;
+$event_id = ($_GET['id'] !== null && (int)$_GET['id'] > -1)? mysqli_real_escape_string($con, (int)$_GET['id']) : false;
 
 /**
    * Get historical songs to default onto
@@ -87,7 +87,7 @@ if($result = mysqli_query($con,$sql1))
             'Content-Type: application/json',
             'Authorization: Bearer '. $accessToken,
         ];
-        
+
         shuffle($track_seeds);
         $usable_seeds=[];
         $j = 0;
@@ -102,22 +102,22 @@ if($result = mysqli_query($con,$sql1))
         $ct = 0;
         for ($i=0; $i<2; $i++){
             $curl = curl_init();
-            
+
             $url = 'https://api.spotify.com/v1/recommendations?limit=' . strval(10) . '&seed_tracks=' . $usable_seeds;
-        
+
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
             $ans = curl_exec($curl);
             $response = json_decode($ans, true);
-            
+
             curl_close($curl);
             if ( $response['error']['status'] != 400){
                 break;
             }
             $ct++;
         }
-        
+
         $raw_recs = $response['tracks'];
         $recs = [];
         $ct =0;
@@ -137,7 +137,7 @@ if($result = mysqli_query($con,$sql1))
         echo json_encode($final_recs , JSON_UNESCAPED_SLASHES);
         http_response_code(200);
 
-        
+
     }
     else
     {
@@ -155,6 +155,3 @@ else
 
 
 ?>
-
-
-

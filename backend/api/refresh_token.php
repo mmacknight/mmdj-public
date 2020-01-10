@@ -4,18 +4,19 @@ require "post_token.php";
 
 function refresh_token_for_user($con, $user_id){
     $session = new SpotifyWebAPI\Session(
-        'a252d232b64e4182a2e3a491efa29e4b',
-        '84add67aa0d440ccb65e6a865de224e4',
-        'http://localhost:4200/'
+        'c7d322da32444b989421f7cc942c64a3',
+        'bbf11a8863f54322ae199bc122106ab6',
+        'http://3.15.21.28/'
+        // 'http://localhost:4200/'
     );
 
     // Fetch the refresh token from database
     $token = [];
     $sql = "SELECT * FROM tokens where user_id = {$user_id}";
-    
+
     if($result = mysqli_query($con,$sql))
     {
-        
+
         $i = 0;
         while($row = mysqli_fetch_assoc($result))
         {
@@ -32,7 +33,7 @@ function refresh_token_for_user($con, $user_id){
         http_response_code(404);
         die();
     }
-    
+
     $refresh = $token[0]['spotify_refresh'];
     $session->setRefreshToken($refresh);
     $session->refreshAccessToken();
@@ -41,7 +42,7 @@ function refresh_token_for_user($con, $user_id){
 
     //update access token in database
     post_update_token($con, $user_id, $accessToken, $refresh);
-    
+
 }
 
 ?>

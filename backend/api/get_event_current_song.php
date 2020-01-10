@@ -5,7 +5,7 @@
 require 'database.php';
 
 // Extract, validate and sanitize the id.
-$event_id = ($_GET['id'] !== null && (int)$_GET['id'] > 0)? mysqli_real_escape_string($con, (int)$_GET['id']) : false;
+$event_id = ($_GET['id'] !== null && (int)$_GET['id'] > -1)? mysqli_real_escape_string($con, (int)$_GET['id']) : false;
 
 $songs = [];
 
